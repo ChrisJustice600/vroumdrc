@@ -1,15 +1,12 @@
 "use client";
 
-import { useAuthContext } from "@/components/AuthProvider";
 import Image from "next/image";
 
 export default function Home() {
-  const { user, isAuthenticated, isLoading } = useAuthContext();
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative h-screen flex flex-col overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -20,73 +17,34 @@ export default function Home() {
             className="object-cover"
             sizes="100vw"
           />
-          {/* Overlay pour améliorer la lisibilité */}
-          <div className="absolute inset-0 bg-black/50"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-transparent"></div>
+          {/* Overlay léger pour la lisibilité */}
+          <div className="absolute inset-0 bg-black/30"></div>
         </div>
 
-        {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight fade-in-up">
-              Trouvez votre
-              <span className="block text-blue-400">voiture parfaite</span>
+        {/* Content et Boutons en bas - alignés à gauche */}
+        <div className="relative z-10 flex-1 flex items-end justify-start">
+          <div className="max-w-4xl px-4 sm:px-6 lg:px-8 text-left text-white pb-12">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              Acheter une voiture :
+              <span className="block text-blue-300">C'est Parti !</span>
             </h1>
-            <p
-              className="text-xl md:text-2xl mb-8 text-gray-200 leading-relaxed fade-in-up"
-              style={{ animationDelay: "0.2s" }}
-            >
-              Achetez et vendez des voitures neuves et d'occasion en toute
-              simplicité. Plus de 10 000 véhicules disponibles.
+            <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed max-w-2xl">
+              Trouvez votre voiture idéale ou vendez la vôtre en toute
+              simplicité
             </p>
 
-            {/* Debug info - masqué en production
-            {process.env.NODE_ENV === "development" && (
-              <div className="mb-8 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-                <h3 className="text-lg font-semibold mb-2">
-                  État de l'authentification :
-                </h3>
-                <p className="text-sm">
-                  {isLoading
-                    ? "Chargement..."
-                    : isAuthenticated
-                      ? `Connecté en tant que : ${user?.name}`
-                      : "Non connecté"}
-                </p>
-              </div>
-            )} */}
-
-            {/* CTA Buttons */}
-            <div
-              className="flex flex-col sm:flex-row gap-4 justify-center mb-12 fade-in-up"
-              style={{ animationDelay: "0.4s" }}
-            >
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                🚗 Acheter une voiture
+            {/* Boutons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-start">
+              {/* Bouton Orange - Acheter */}
+              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Acheter une voiture
               </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 backdrop-blur-sm">
-                💰 Vendre ma voiture
+
+              {/* Bouton Bleu foncé - Vendre */}
+              <button className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Vendre ma voiture
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
-          <div className="animate-bounce">
-            <svg
-              className="w-6 h-6 text-white"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"
-              />
-            </svg>
           </div>
         </div>
       </section>
