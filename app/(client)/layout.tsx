@@ -2,13 +2,13 @@ import "@/app/globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import Footer from "@/components/Footer";
 import { Navbar } from "@/components/navbar/navbar";
-import { Lato } from "next/font/google";
+// import { Lato } from "next/font/google";
 
-const lato = Lato({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "700", "900"],
-  variable: "--font-lato",
-});
+// const lato = Lato({
+//   subsets: ["latin"],
+//   weight: ["100", "300", "400", "700", "900"],
+//   variable: "--font-lato",
+// });
 
 export const metadata = {
   title: "Auto-connect",
@@ -21,7 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning className={lato.variable}>
+    <html lang="fr" suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
         <AuthProvider>
           <Navbar />

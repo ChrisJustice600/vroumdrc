@@ -1,53 +1,10 @@
-"use client";
-
-import Image from "next/image";
+import { HeroSection } from "@/components/HeroSection";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="relative h-screen flex flex-col overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/banner.png"
-            alt="Voitures de luxe"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          {/* Overlay léger pour la lisibilité */}
-          <div className="absolute inset-0 bg-black/30"></div>
-        </div>
-
-        {/* Content et Boutons en bas - alignés à gauche */}
-        <div className="relative z-10 flex-1 flex items-end justify-start">
-          <div className="max-w-4xl px-4 sm:px-6 lg:px-8 text-left text-white pb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Acheter une voiture :
-              <span className="block text-blue-300">C'est Parti !</span>
-            </h1>
-            <p className="text-lg md:text-xl mb-8 text-gray-100 leading-relaxed max-w-2xl">
-              Trouvez votre voiture idéale ou vendez la vôtre en toute
-              simplicité
-            </p>
-
-            {/* Boutons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-start">
-              {/* Bouton Orange - Acheter */}
-              <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Acheter une voiture
-              </button>
-
-              {/* Bouton Bleu foncé - Vendre */}
-              <button className="bg-blue-900 hover:bg-blue-800 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Vendre ma voiture
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* Features Section */}
       <section className="py-16">
