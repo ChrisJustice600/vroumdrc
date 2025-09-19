@@ -1,3 +1,4 @@
+import { CarSearch } from "@/components/CardResearch";
 import { HeroSection } from "@/components/HeroSection";
 
 export default function Home() {
@@ -5,6 +6,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <HeroSection />
+      <CarSearch />
 
       {/* Features Section */}
       <section className="py-16">
