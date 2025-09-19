@@ -1,7 +1,7 @@
 import "@/app/globals.css";
 import AuthProvider from "@/components/AuthProvider";
 import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
+import { Navbar } from "@/components/navbar/navbar";
 import { Lato } from "next/font/google";
 
 const lato = Lato({

@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-helvetica",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "AutoConnect - Acheter et vendre des voitures",
@@ -16,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
-      <body className={inter.className}>{children}</body>
+    <html lang="fr" className={inter.variable}>
+      <body className="font-helvetica">{children}</body>
     </html>
   );
 }
