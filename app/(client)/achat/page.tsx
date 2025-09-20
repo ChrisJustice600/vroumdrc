@@ -1,174 +1,277 @@
 "use client";
 
-import CarCard from "@/components/CarCard";
-import SearchBar from "@/components/SearchBar";
+import { CarGridCard } from "@/components/car-grid-card";
+import { CarListCard } from "@/components/car-list-card";
+import { FiltersSidebar } from "@/components/filters-sidebar";
+import { HeroAchat } from "@/components/hero-achat";
+import { Navbar } from "@/components/navbar/navbar";
 import { Button } from "@/components/ui/button";
-import { Car, api } from "@/lib/mockData";
-import { Filter, Grid, List } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Grid3X3, List } from "lucide-react";
+import { useState } from "react";
 
-export default function BuyPage() {
-  const searchParams = useSearchParams();
-  const [cars, setCars] = useState<Car[]>([]);
-  const [loading, setLoading] = useState(true);
+const cars = [
+  {
+    id: "1",
+    brand: "Kia",
+    model: "Sportage",
+    year: 2024,
+    price: 20800,
+    mileage: 750,
+    fuel: "Diesel",
+    transmission: "Manual",
+    image: "/car-service.png",
+    category: "Convertible",
+    condition: "sans-plaque" as const,
+    addedDate: "2024-01-15",
+  },
+  {
+    id: "2",
+    brand: "Honda",
+    model: "Civic",
+    year: 2023,
+    price: 20800,
+    mileage: 750,
+    fuel: "Diesel",
+    transmission: "Manual",
+    image: "/car-service.png",
+    category: "Convertible",
+    condition: "occasion" as const,
+    addedDate: "2024-01-14",
+  },
+  {
+    id: "3",
+    brand: "Kia",
+    model: "Optima",
+    year: 2023,
+    price: 20800,
+    mileage: 750,
+    fuel: "Diesel",
+    transmission: "Manual",
+    image: "/car-service.png",
+    category: "Convertible",
+    condition: "occasion" as const,
+    addedDate: "2024-01-13",
+  },
+  {
+    id: "4",
+    brand: "Nissan",
+    model: "GT-R",
+    year: 2024,
+    price: 21800,
+    mileage: 500,
+    fuel: "Petrol",
+    transmission: "Automatic",
+    image: "/car-service.png",
+    category: "Coupe",
+    condition: "sans-plaque" as const,
+    addedDate: "2024-01-12",
+  },
+  {
+    id: "5",
+    brand: "BMW",
+    model: "Série 3",
+    year: 2022,
+    price: 35000,
+    mileage: 15000,
+    fuel: "Essence",
+    transmission: "Automatic",
+    image: "/car-service.png",
+    category: "Sedan",
+    condition: "occasion" as const,
+    addedDate: "2024-01-11",
+  },
+  {
+    id: "6",
+    brand: "Audi",
+    model: "A4",
+    year: 2021,
+    price: 28000,
+    mileage: 25000,
+    fuel: "Diesel",
+    transmission: "Manual",
+    image: "/car-service.png",
+    category: "SUV",
+    condition: "occasion" as const,
+    addedDate: "2024-01-10",
+  },
+];
+
+export default function Achat() {
+  const [priceRange, setPriceRange] = useState([10000, 100000]);
+  const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState("newest");
+  const [filters, setFilters] = useState<{
+    searchQuery: string;
+    brand: string;
+    model: string;
+    year: string;
+    fuel: string;
+    transmission: string;
+    condition: string;
+    mileageRange: string;
+    priceRange: [number, number];
+    bodyTypes: string[];
+  }>({
+    searchQuery: "",
+    brand: "",
+    model: "",
+    year: "",
+    fuel: "",
+    transmission: "",
+    condition: "",
+    mileageRange: "",
+    priceRange: [10000, 100000],
+    bodyTypes: [],
+  });
 
-  useEffect(() => {
-    const loadCars = async () => {
-      try {
-        // Get filters from URL params
-        const filters: any = {};
-        if (searchParams.get("brand"))
-          filters.brand = searchParams.get("brand");
-        if (searchParams.get("model"))
-          filters.model = searchParams.get("model");
-        if (searchParams.get("location"))
-          filters.location = searchParams.get("location");
-        if (searchParams.get("minPrice"))
-          filters.minPrice = parseInt(searchParams.get("minPrice")!);
-        if (searchParams.get("maxPrice"))
-          filters.maxPrice = parseInt(searchParams.get("maxPrice")!);
+  const handleBodyTypeChange = (bodyType: string, checked: boolean) => {
+    if (checked) {
+      setSelectedBodyTypes([...selectedBodyTypes, bodyType]);
+    } else {
+      setSelectedBodyTypes(
+        selectedBodyTypes.filter((type) => type !== bodyType)
+      );
+    }
+  };
 
-        const carsData = await api.getCars(filters);
-        setCars(carsData);
-      } catch (error) {
-        console.error("Erreur lors du chargement des voitures:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
+    }).format(price);
+  };
 
-    loadCars();
-  }, [searchParams]);
+  const formatMileage = (mileage: number) => {
+    return new Intl.NumberFormat("en-US").format(mileage) + " km";
+  };
 
-  const handleSearch = (filters: any) => {
-    setLoading(true);
-
-    // Update URL with new filters
-    const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
-      if (value && value !== "") {
-        params.append(key, value as string);
-      }
-    });
-
-    // Update URL without page reload
-    const newUrl = `/buy${params.toString() ? `?${params.toString()}` : ""}`;
-    window.history.pushState({}, "", newUrl);
-
-    // Load cars with new filters
-    const searchFilters: any = {};
-    if (filters.brand) searchFilters.brand = filters.brand;
-    if (filters.model) searchFilters.model = filters.model;
-    if (filters.location) searchFilters.location = filters.location;
-    if (filters.minPrice) searchFilters.minPrice = parseInt(filters.minPrice);
-    if (filters.maxPrice) searchFilters.maxPrice = parseInt(filters.maxPrice);
-
-    api.getCars(searchFilters).then((carsData) => {
-      setCars(carsData);
-      setLoading(false);
-    });
+  const getDaysAgo = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays === 1 ? "Hier" : `Il y a ${diffDays} jours`;
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-            Parcourir les voitures
-          </h1>
-          <p className="text-lg text-gray-600">
-            Trouvez votre voiture parfaite parmi nos vendeurs vérifiés
-          </p>
-        </div>
-      </div>
+      <Navbar />
+      <HeroAchat />
 
-      {/* Search Bar */}
-      <div className="px-4 sm:px-6 lg:px-8 py-6">
-        <SearchBar onSearch={handleSearch} />
-      </div>
+      <div className="pt-8">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex gap-8">
+            {/* Sidebar Filters */}
+            <FiltersSidebar
+              priceRange={priceRange}
+              onPriceRangeChange={setPriceRange}
+              selectedBodyTypes={selectedBodyTypes}
+              onBodyTypeChange={handleBodyTypeChange}
+              onFiltersChange={setFilters}
+            />
 
-      {/* Results Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-900">
-              {loading ? "Chargement..." : `${cars.length} voitures trouvées`}
-            </h2>
-          </div>
+            {/* Main Content */}
+            <div className="flex-1">
+              {/* Header */}
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-gray-600">
+                  Affichage de 1 - {cars.length} sur {cars.length} résultats
+                  {Object.keys(filters).length > 0 && (
+                    <span className="ml-2 text-red-600 font-medium">
+                      (Filtrés)
+                    </span>
+                  )}
+                </p>
 
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="outline"
-              onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden"
-            >
-              <Filter className="h-4 w-4 mr-2" />
-              Filtres
-            </Button>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-600">Trier par :</span>
+                    <Select value={sortBy} onValueChange={setSortBy}>
+                      <SelectTrigger className="w-48">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="newest">
+                          Date : plus récent
+                        </SelectItem>
+                        <SelectItem value="oldest">
+                          Date : plus ancien
+                        </SelectItem>
+                        <SelectItem value="price-low">
+                          Prix : croissant
+                        </SelectItem>
+                        <SelectItem value="price-high">
+                          Prix : décroissant
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
 
-            <div className="flex items-center border border-gray-300 rounded-lg">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-2 ${
+                  <div className="flex border rounded-lg overflow-hidden">
+                    <Button
+                      variant={viewMode === "grid" ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => setViewMode("grid")}
+                      className={
+                        viewMode === "grid" ? "bg-red-500 hover:bg-red-600" : ""
+                      }
+                    >
+                      <Grid3X3 className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant={viewMode === "list" ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => setViewMode("list")}
+                      className={
+                        viewMode === "list" ? "bg-red-500 hover:bg-red-600" : ""
+                      }
+                    >
+                      <List className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Car Grid/List */}
+              <div
+                className={
                   viewMode === "grid"
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600"
-                }`}
+                    ? "grid grid-cols-1 md:grid-cols-2 gap-6"
+                    : "space-y-4"
+                }
               >
-                <Grid className="h-5 w-5" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-2 ${
-                  viewMode === "list"
-                    ? "bg-blue-50 text-blue-600"
-                    : "text-gray-600"
-                }`}
-              >
-                <List className="h-5 w-5" />
-              </button>
+                {cars.map((car) =>
+                  viewMode === "grid" ? (
+                    <CarGridCard
+                      key={car.id}
+                      car={car}
+                      formatPrice={formatPrice}
+                      formatMileage={formatMileage}
+                      getDaysAgo={getDaysAgo}
+                    />
+                  ) : (
+                    <CarListCard
+                      key={car.id}
+                      car={car}
+                      formatPrice={formatPrice}
+                      formatMileage={formatMileage}
+                      getDaysAgo={getDaysAgo}
+                    />
+                  )
+                )}
+              </div>
             </div>
           </div>
         </div>
-
-        {/* Cars Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div
-                key={i}
-                className="bg-white rounded-lg shadow-lg h-80 animate-pulse"
-              ></div>
-            ))}
-          </div>
-        ) : cars.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">🚗</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Aucune voiture trouvée
-            </h3>
-            <p className="text-gray-600">
-              Essayez d'ajuster vos filtres de recherche pour voir plus de
-              résultats.
-            </p>
-          </div>
-        ) : (
-          <div
-            className={`grid gap-6 ${
-              viewMode === "grid"
-                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                : "grid-cols-1 lg:grid-cols-2"
-            }`}
-          >
-            {cars.map((car) => (
-              <CarCard key={car.id} car={car} />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
