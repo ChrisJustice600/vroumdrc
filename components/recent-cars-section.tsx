@@ -182,7 +182,10 @@ export function RecentCarsSection() {
 
               {/* View Details Button - Full width, touching bottom */}
               <div className="mt-auto">
-                <Button className="w-full bg-gray-100 hover:bg-red-600 hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center">
+                <Button
+                  className="w-full bg-gray-100 hover:bg-red-600 hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center"
+                  onClick={() => (window.location.href = `/car/${car.id}`)}
+                >
                   VOIR LES DETAILS
                   <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
