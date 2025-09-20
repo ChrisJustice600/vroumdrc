@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navItems = [
-  { name: "Accueil", href: "/", active: true },
-  { name: "Acheter", href: "/(client)/achat" },
+  { name: "Accueil", href: "/" },
+  { name: "Acheter", href: "/achat" },
   { name: "Vendre", href: "/vendre" },
   { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
@@ -16,6 +17,14 @@ const navItems = [
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   return (
     <nav className="fixed uppercase font-bold top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm">
@@ -40,13 +49,19 @@ export function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`px-6 h-full flex items-center text-sm font-medium transition-colors ${
-                    item.active
+                  className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                    isActive(item.href)
                       ? "bg-red-600 text-white"
                       : "text-white hover:bg-white/10"
                   }`}
                 >
                   {item.name}
+                  {/* Underline animation */}
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                      isActive(item.href) ? "w-full" : "group-hover:w-full"
+                    }`}
+                  />
                 </Link>
               ))}
               <Link href="/auth/signin" className="ml-6">
@@ -85,13 +100,20 @@ export function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`block px-3 py-2 text-sm font-medium transition-colors ${
-                    item.active
+                  className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                    isActive(item.href)
                       ? "bg-red-600 text-white"
                       : "text-white hover:bg-white/10"
                   }`}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
+                  {/* Underline animation */}
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                      isActive(item.href) ? "w-full" : "group-hover:w-full"
+                    }`}
+                  />
                 </Link>
               ))}
               <div className="pt-4 border-t border-white/20">
