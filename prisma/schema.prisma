@@ -15,69 +15,33 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  role          Role      @default(TRANSLATOR_EN)
+  id           String   @id @default(cuid())
+  phoneNumber  String   @unique @map("phone_number")
+  fullName     String?  @map("full_name")
+  verified     Boolean  @default(false)
+  isRegistered Boolean  @default(false) @map("is_registered")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
-  @@unique([email])
-  @@map("user")
+  // Relations
+  otpCodes OtpCode[]
+
+  @@map("users")
 }
 
-model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model OtpCode {
+  id          String   @id @default(cuid())
+  code        String
+  phoneNumber String   @map("phone_number")
+  expiresAt   DateTime @map("expires_at")
+  verified    Boolean  @default(false)
+  attempts    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
 
-  @@unique([token])
-  @@map("session")
-}
+  // Relations
+  user User @relation(fields: [phoneNumber], references: [phoneNumber], onDelete: Cascade)
 
-model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime
-  updatedAt             DateTime
-
-  @@map("account")
-}
-
-model Verification {
-  id         String    @id
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime?
-  updatedAt  DateTime?
-
-  @@map("verification")
-}
-
-enum Role {
-  ADMIN
-  TRANSLATOR_ES
-  TRANSLATOR_EN
-  USER
+  @@index([phoneNumber])
+  @@index([code])
+  @@map("otp_codes")
 }

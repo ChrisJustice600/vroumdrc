@@ -1,5 +1,6 @@
 "use client";
 
+import { LoginModal } from "@/components/auth/login-modal";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -17,6 +18,7 @@ const navItems = [
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const pathname = usePathname();
 
   const isActive = (href: string) => {
@@ -64,14 +66,13 @@ export function Navbar() {
                   />
                 </Link>
               ))}
-              <Link href="/auth/signin" className="ml-6">
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-6 py-2 rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
-                >
-                  Se connecter
-                </Button>
-              </Link>
+              <Button
+                size="sm"
+                onClick={() => setIsLoginModalOpen(true)}
+                className="ml-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-6 py-2 rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+              >
+                Se connecter
+              </Button>
             </div>
           </div>
 
@@ -117,19 +118,27 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-white/20">
-                <Link href="/auth/signin" className="block">
-                  <Button
-                    size="sm"
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-sm font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
-                  >
-                    Se connecter
-                  </Button>
-                </Link>
+                <Button
+                  size="sm"
+                  onClick={() => {
+                    setIsLoginModalOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-sm font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                >
+                  Se connecter
+                </Button>
               </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </nav>
   );
 }
