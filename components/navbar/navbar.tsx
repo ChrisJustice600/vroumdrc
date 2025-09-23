@@ -63,8 +63,10 @@ export function Navbar() {
     try {
       await clearSessionCookie();
     } catch {}
-    // Forcer une actualisation pour recharger la session côté client
-    if (typeof window !== "undefined") window.location.reload();
+    // Notifier pour rafraîchir la session/ navbar sans reload
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("session:updated"));
+    }
   };
 
   return (

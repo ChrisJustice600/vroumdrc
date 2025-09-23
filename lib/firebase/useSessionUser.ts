@@ -15,25 +15,30 @@ export function useSessionUser() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const refresh = async () => {
+    try {
+      const res = await fetch("/api/session", { cache: "no-store" });
+      if (!res.ok) throw new Error("Échec récupération session");
+      const data = (await res.json()) as SessionUser;
+      setUser(data);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Erreur session");
+    }
+  };
+
   useEffect(() => {
     let mounted = true;
     (async () => {
-      try {
-        const res = await fetch("/api/session", { cache: "no-store" });
-        if (!res.ok) throw new Error("Échec récupération session");
-        const data = (await res.json()) as SessionUser;
-        if (mounted) setUser(data);
-      } catch (e) {
-        if (mounted)
-          setError(e instanceof Error ? e.message : "Erreur session");
-      } finally {
-        if (mounted) setLoading(false);
-      }
+      await refresh();
+      if (mounted) setLoading(false);
     })();
+    const onUpdate = () => refresh();
+    window.addEventListener("session:updated", onUpdate);
     return () => {
       mounted = false;
+      window.removeEventListener("session:updated", onUpdate);
     };
   }, []);
 
-  return { user, loading, error } as const;
+  return { user, loading, error, refresh } as const;
 }

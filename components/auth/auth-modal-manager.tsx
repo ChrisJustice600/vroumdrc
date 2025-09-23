@@ -34,7 +34,7 @@ export function AuthModalManager({ isOpen, onClose }: AuthModalManagerProps) {
   const [confirmation, setConfirmation] = useState<ConfirmationResult | null>(
     null
   );
-  useSessionUser();
+  const { refresh } = useSessionUser();
 
   const buttonId = useMemo(() => "sign-in-button", []);
   const recaptchaReadyRef = useRef(false);
@@ -90,7 +90,8 @@ export function AuthModalManager({ isOpen, onClose }: AuthModalManagerProps) {
 
       const existing = await fetchUserByPhone(phone);
       if (!existing) {
-        setInfo("Aucun compte trouvé, vous pouvez créer un compte.");
+        setError("Compte non trouvé. Veuillez vous inscrire.");
+        return;
       }
 
       ensureInvisibleRecaptcha();
@@ -203,6 +204,11 @@ export function AuthModalManager({ isOpen, onClose }: AuthModalManagerProps) {
       setInfo("Connecté avec succès");
       setConfirmation(null);
       handleClose();
+      // notifier la navbar/session
+      try {
+        await refresh();
+        window.dispatchEvent(new Event("session:updated"));
+      } catch {}
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : "Code invalide";
       setError(msg);
