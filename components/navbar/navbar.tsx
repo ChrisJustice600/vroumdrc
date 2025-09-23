@@ -88,25 +88,27 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-1 h-24">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
-                    isActive(item.href)
-                      ? "bg-red-600 text-white"
-                      : "text-white hover:bg-white/10"
-                  }`}
-                >
-                  {item.name}
-                  {/* Underline animation */}
-                  <span
-                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
-                      isActive(item.href) ? "w-full" : "group-hover:w-full"
+              {navItems
+                .concat([{ name: "Favoris", href: "/favoris" }])
+                .map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                      isActive(item.href)
+                        ? "bg-red-600 text-white"
+                        : "text-white hover:bg-white/10"
                     }`}
-                  />
-                </Link>
-              ))}
+                  >
+                    {item.name}
+                    {/* Underline animation */}
+                    <span
+                      className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                        isActive(item.href) ? "w-full" : "group-hover:w-full"
+                      }`}
+                    />
+                  </Link>
+                ))}
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

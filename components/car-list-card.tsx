@@ -1,5 +1,6 @@
 "use client";
 
+import { useFavoritesStore } from "@/lib/stores/favoritesStore";
 import {
   ArrowRight,
   Fuel,
@@ -39,6 +40,8 @@ export function CarListCard({
   formatMileage,
   getDaysAgo,
 }: CarListCardProps) {
+  const { has, toggle } = useFavoritesStore();
+  const isFav = has(car.id);
   return (
     <div
       className="bg-white rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-row h-64 cursor-pointer"
@@ -67,10 +70,24 @@ export function CarListCard({
         {/* Action Icons */}
         <div className="absolute bottom-3 right-3 flex gap-2">
           <button
-            className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
-            onClick={(e) => e.stopPropagation()}
+            className={`w-8 h-8 ${isFav ? "bg-red-500" : "bg-red-100"} rounded-full flex items-center justify-center hover:bg-red-200 transition-colors`}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggle({
+                id: car.id,
+                brand: car.brand,
+                model: car.model,
+                year: car.year,
+                price: car.price,
+                image: car.image,
+              });
+            }}
+            aria-label="Ajouter aux favoris"
+            title={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
           >
-            <Heart className="w-4 h-4 text-red-500" />
+            <Heart
+              className={`w-4 h-4 ${isFav ? "text-white" : "text-red-500"}`}
+            />
           </button>
           <button
             className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"

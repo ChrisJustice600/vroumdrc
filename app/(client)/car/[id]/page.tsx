@@ -3,6 +3,7 @@
 import { Navbar } from "@/components/navbar/navbar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useFavoritesStore } from "@/lib/stores/favoritesStore";
 import {
   Calendar,
   ChevronLeft,
@@ -70,7 +71,7 @@ const fallbackCar: CarData = {
 export default function CarSinglePage() {
   const params = useParams<{ id: string }>();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { has, toggle } = useFavoritesStore();
   const thumbnailRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [carData, setCarData] = useState<CarData>(fallbackCar);
@@ -371,12 +372,31 @@ export default function CarSinglePage() {
                         <Share2 className="w-4 h-4" />
                       </button>
                       <button
-                        onClick={() => setIsFavorite(!isFavorite)}
+                        onClick={() =>
+                          toggle({
+                            id: carData.id,
+                            brand: carData.brand,
+                            model: carData.model,
+                            year: carData.year,
+                            price: carData.price,
+                            image: carData.images?.[0] || "/car-service.png",
+                          })
+                        }
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                          isFavorite
+                          has(carData.id)
                             ? "bg-white text-red-500"
                             : "bg-white/20 hover:bg-white/30"
                         }`}
+                        aria-label={
+                          has(carData.id)
+                            ? "Retirer des favoris"
+                            : "Ajouter aux favoris"
+                        }
+                        title={
+                          has(carData.id)
+                            ? "Retirer des favoris"
+                            : "Ajouter aux favoris"
+                        }
                       >
                         <Heart className="w-4 h-4" />
                       </button>
