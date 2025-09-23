@@ -126,6 +126,10 @@ export function Navbar() {
                       {user.displayName || user.phoneNumber}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/mes-annonces">Mes annonces</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={handleLogout}
                       className="text-red-600 focus:text-red-700"
