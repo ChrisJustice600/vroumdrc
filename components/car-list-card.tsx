@@ -40,7 +40,10 @@ export function CarListCard({
   getDaysAgo,
 }: CarListCardProps) {
   return (
-    <div className="bg-white rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-row h-64">
+    <div
+      className="bg-white rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-row h-64 cursor-pointer"
+      onClick={() => (window.location.href = `/car/${car.id}`)}
+    >
       {/* Image Section - 50% width, touches top, bottom, left */}
       <div className="relative w-1/2 h-full bg-gray-100">
         <Image
@@ -63,10 +66,16 @@ export function CarListCard({
         </div>
         {/* Action Icons */}
         <div className="absolute bottom-3 right-3 flex gap-2">
-          <button className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors">
+          <button
+            className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Heart className="w-4 h-4 text-red-500" />
           </button>
-          <button className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors">
+          <button
+            className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
+            onClick={(e) => e.stopPropagation()}
+          >
             <RotateCcw className="w-4 h-4 text-red-500" />
           </button>
         </div>

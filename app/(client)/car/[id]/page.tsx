@@ -2,6 +2,7 @@
 
 import { Navbar } from "@/components/navbar/navbar";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Calendar,
   ChevronLeft,
@@ -18,63 +19,90 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
-// Données mockées pour la voiture
-const carData = {
+type CarData = {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  mileage: number;
+  fuel: string | null;
+  transmission: string | null;
+  category?: string | null;
+  condition: string | null;
+  createdAt: string;
+  location?: string | null;
+  engineSize?: string | null;
+  doors?: number | null;
+  cylinders?: number | null;
+  color?: string | null;
+  description?: string | null;
+  whatsappNumber?: string | null;
+  images: string[];
+};
+
+// Valeur par défaut pendant chargement
+const fallbackCar: CarData = {
   id: "1",
   brand: "Kia",
   model: "Sportage",
   year: 2024,
   price: 20800,
   mileage: 750,
-  fuel: "Diesel",
-  transmission: "Manual",
-  image: "/car-service.png",
-  category: "Convertible",
-  condition: "New Cars",
-  addedDate: "2024-07-19",
-  location: "20 Cooper Square, New York, NY 10003, USA",
-  engineSize: "2.0 Turbo",
-  doors: 4,
-  cylinders: 4,
-  color: "Black, White",
-  description:
-    "Kia Sportage 2024 Hybrid Advanced Edition en excellent état. Véhicule hybride moderne avec toutes les options. Intérieur et extérieur en parfait état.",
-  features: [
-    "Climatisation",
-    "Direction assistée",
-    "Vitres électriques",
-    "Régulateur de vitesse",
-    "Radio CD",
-    "Airbags frontaux et latéraux",
-    "ABS",
-    "ESP",
-  ],
-  seller: {
-    name: "Aaron Jerry",
-    rating: 4.8,
-    reviews: 127,
-    phone: "+88 562 9873",
-    location: "5612 Oakland, California",
-    memberSince: "2020",
-  },
-  images: [
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-    "/car-service.png",
-  ],
+  fuel: null,
+  transmission: null,
+  category: null,
+  condition: null,
+  createdAt: new Date().toISOString(),
+  location: null,
+  engineSize: null,
+  doors: null,
+  cylinders: null,
+  color: null,
+  description: null,
+  whatsappNumber: null,
+  images: ["/car-service.png"],
 };
 
 export default function CarSinglePage() {
+  const params = useParams<{ id: string }>();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
   const thumbnailRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [carData, setCarData] = useState<CarData>(fallbackCar);
+
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(`/api/cars/${params.id}`, {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Car non trouvée");
+        const data = (await res.json()) as CarData;
+        if (!active) return;
+        setCarData({
+          ...data,
+          images:
+            data.images && data.images.length > 0
+              ? data.images
+              : ["/car-service.png"],
+        });
+      } catch (e) {
+        // garder fallback
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+    return () => {
+      active = false;
+    };
+  }, [params.id]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-US", {
@@ -125,7 +153,13 @@ export default function CarSinglePage() {
             </Link>
             <span>/</span>
             <span className="text-gray-900">
-              {carData.brand} {carData.model}
+              {loading ? (
+                <Skeleton className="h-5 w-40 inline-block align-middle" />
+              ) : (
+                <>
+                  {carData.brand} {carData.model}
+                </>
+              )}
             </span>
           </div>
 
@@ -135,10 +169,21 @@ export default function CarSinglePage() {
               {/* Title and Location */}
               <div className="mb-6">
                 <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                  {carData.brand} {carData.model} {carData.year} Hybrid Advanced
-                  Edition
+                  {loading ? (
+                    <Skeleton className="h-8 w-80" />
+                  ) : (
+                    <>
+                      {carData.brand} {carData.model} {carData.year}
+                    </>
+                  )}
                 </h1>
-                <p className="text-gray-600">{carData.location}</p>
+                <p className="text-gray-600">
+                  {loading ? (
+                    <Skeleton className="h-4 w-64" />
+                  ) : (
+                    carData.location || ""
+                  )}
+                </p>
               </div>
 
               {/* Quick Details Strip */}
@@ -151,7 +196,11 @@ export default function CarSinglePage() {
                         Date de publication
                       </div>
                       <div className="text-sm font-medium">
-                        {formatDate(carData.addedDate)}
+                        {loading ? (
+                          <Skeleton className="h-4 w-24" />
+                        ) : (
+                          new Date(carData.createdAt).toLocaleDateString()
+                        )}
                       </div>
                     </div>
                   </div>
@@ -161,7 +210,13 @@ export default function CarSinglePage() {
                       <div className="text-xs text-gray-500">
                         Type de carburant
                       </div>
-                      <div className="text-sm font-medium">{carData.fuel}</div>
+                      <div className="text-sm font-medium">
+                        {loading ? (
+                          <Skeleton className="h-4 w-16" />
+                        ) : (
+                          carData.fuel || "-"
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
@@ -169,7 +224,11 @@ export default function CarSinglePage() {
                     <div>
                       <div className="text-xs text-gray-500">Kilométrage</div>
                       <div className="text-sm font-medium">
-                        {formatMileage(carData.mileage)}
+                        {loading ? (
+                          <Skeleton className="h-4 w-16" />
+                        ) : (
+                          formatMileage(carData.mileage)
+                        )}
                       </div>
                     </div>
                   </div>
@@ -178,7 +237,11 @@ export default function CarSinglePage() {
                     <div>
                       <div className="text-xs text-gray-500">Transmission</div>
                       <div className="text-sm font-medium">
-                        {carData.transmission}
+                        {loading ? (
+                          <Skeleton className="h-4 w-16" />
+                        ) : (
+                          carData.transmission || "-"
+                        )}
                       </div>
                     </div>
                   </div>
@@ -304,19 +367,19 @@ export default function CarSinglePage() {
                   </h3>
                   <div className="flex items-center space-x-4 mb-4">
                     <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                      {carData.seller.name.charAt(0)}
+                      {carData.brand.charAt(0)}
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900">
-                        {carData.seller.name}
+                        {carData.brand} {carData.model}
                       </h4>
                       <div className="flex items-center space-x-1 text-sm text-gray-500">
                         <MapPin className="w-4 h-4" />
-                        <span>{carData.seller.location}</span>
+                        <span>{carData.location || ""}</span>
                       </div>
                       <div className="flex items-center space-x-1 text-sm text-gray-500">
                         <Phone className="w-4 h-4" />
-                        <span>{carData.seller.phone}</span>
+                        <span>{carData.whatsappNumber || ""}</span>
                       </div>
                     </div>
                   </div>
