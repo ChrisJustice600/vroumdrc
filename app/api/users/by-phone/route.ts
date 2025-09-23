@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
       where: { phoneNumber: phone },
     });
     return new Response(JSON.stringify(user), { status: 200 });
-  } catch (e) {
+  } catch {
     return new Response(JSON.stringify({ error: "Erreur serveur" }), {
       status: 500,
     });

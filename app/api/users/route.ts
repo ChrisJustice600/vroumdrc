@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
       create: { id, phoneNumber, displayName: displayName ?? undefined },
     });
     return new Response(JSON.stringify(user), { status: 200 });
-  } catch (e) {
+  } catch {
     return new Response(JSON.stringify({ error: "Erreur serveur" }), {
       status: 500,
     });
