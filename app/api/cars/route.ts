@@ -141,7 +141,7 @@ export async function GET(req: NextRequest) {
     const bodyType = searchParams.get("bodyType");
     const condition = searchParams.get("condition");
 
-    const where: any = { isActive: true };
+    const where: Record<string, unknown> = { status: "ACTIVE" };
     if (brand) where.brand = { contains: brand, mode: "insensitive" };
     if (model) where.model = { contains: model, mode: "insensitive" };
     if (location) where.location = { contains: location, mode: "insensitive" };
@@ -156,7 +156,7 @@ export async function GET(req: NextRequest) {
     if (condition) where.condition = normalizeEnum(condition);
 
     const sortBy = searchParams.get("sortBy");
-    let orderBy: any = { createdAt: "desc" };
+    let orderBy: Record<string, "asc" | "desc"> = { createdAt: "desc" };
     if (sortBy === "price-low") orderBy = { price: "asc" };
     else if (sortBy === "price-high") orderBy = { price: "desc" };
     else if (sortBy === "oldest") orderBy = { createdAt: "asc" };

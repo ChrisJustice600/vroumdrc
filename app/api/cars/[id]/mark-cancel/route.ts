@@ -14,7 +14,6 @@ export async function POST(
       });
     }
 
-    // Vérifier ownership
     const car = await prisma.car.findUnique({ where: { id } });
     if (!car || car.sellerId !== uid) {
       return new Response(JSON.stringify({ error: "Accès refusé" }), {
@@ -24,7 +23,7 @@ export async function POST(
 
     const updated = await prisma.car.update({
       where: { id },
-      data: { status: "SOLD", isActive: false },
+      data: { status: "CANCELLED", isActive: false },
     });
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {

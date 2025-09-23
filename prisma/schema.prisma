@@ -73,6 +73,12 @@ enum PlanType {
 
 // ========================= Models =========================
 
+enum CarStatus {
+  ACTIVE
+  SOLD
+  CANCELLED
+}
+
 model Car {
   id       String @id @default(cuid())
   sellerId String
@@ -95,12 +101,12 @@ model Car {
   bodyType     BodyType?
   condition    ConditionType?
 
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
+  // Statut de l'annonce
+  status    CarStatus @default(ACTIVE)
+  createdAt DateTime  @default(now())
 
   @@index([brand])
   @@index([model])
-  @@index([isActive])
   @@index([price])
 }
 
