@@ -1,6 +1,7 @@
 import "@/app/globals.css";
 import Footer from "@/components/Footer";
 import { Navbar } from "@/components/navbar/navbar";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -42,6 +43,7 @@ export default async function RootLayout({
         <Navbar />
         <main className="flex-grow pt-16">{children}</main>
         <Footer />
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

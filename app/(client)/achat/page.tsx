@@ -13,101 +13,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Grid3X3, List } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const cars = [
-  {
-    id: "1",
-    brand: "Kia",
-    model: "Sportage",
-    year: 2024,
-    price: 20800,
-    mileage: 750,
-    fuel: "Diesel",
-    transmission: "Manual",
-    image: "/car-service.png",
-    category: "Convertible",
-    condition: "sans-plaque" as const,
-    addedDate: "2024-01-15",
-  },
-  {
-    id: "2",
-    brand: "Honda",
-    model: "Civic",
-    year: 2023,
-    price: 20800,
-    mileage: 750,
-    fuel: "Diesel",
-    transmission: "Manual",
-    image: "/car-service.png",
-    category: "Convertible",
-    condition: "occasion" as const,
-    addedDate: "2024-01-14",
-  },
-  {
-    id: "3",
-    brand: "Kia",
-    model: "Optima",
-    year: 2023,
-    price: 20800,
-    mileage: 750,
-    fuel: "Diesel",
-    transmission: "Manual",
-    image: "/car-service.png",
-    category: "Convertible",
-    condition: "occasion" as const,
-    addedDate: "2024-01-13",
-  },
-  {
-    id: "4",
-    brand: "Nissan",
-    model: "GT-R",
-    year: 2024,
-    price: 21800,
-    mileage: 500,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    image: "/car-service.png",
-    category: "Coupe",
-    condition: "sans-plaque" as const,
-    addedDate: "2024-01-12",
-  },
-  {
-    id: "5",
-    brand: "BMW",
-    model: "Série 3",
-    year: 2022,
-    price: 35000,
-    mileage: 15000,
-    fuel: "Essence",
-    transmission: "Automatic",
-    image: "/car-service.png",
-    category: "Sedan",
-    condition: "occasion" as const,
-    addedDate: "2024-01-11",
-  },
-  {
-    id: "6",
-    brand: "Audi",
-    model: "A4",
-    year: 2021,
-    price: 28000,
-    mileage: 25000,
-    fuel: "Diesel",
-    transmission: "Manual",
-    image: "/car-service.png",
-    category: "SUV",
-    condition: "occasion" as const,
-    addedDate: "2024-01-10",
-  },
-];
+type DbCar = {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  mileage: number;
+  fuel: string | null;
+  transmission: string | null;
+  images: string[];
+  condition: string | null;
+  createdAt: string;
+};
 
 export default function Achat() {
-  const [priceRange, setPriceRange] = useState([10000, 100000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([500, 100000]);
   const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("newest");
+  const [loading, setLoading] = useState(false);
+  const [cars, setCars] = useState<DbCar[]>([]);
+  const [initialLoad, setInitialLoad] = useState(true);
   const [filters, setFilters] = useState<{
     searchQuery: string;
     brand: string;
@@ -131,6 +62,46 @@ export default function Achat() {
     priceRange: [10000, 100000],
     bodyTypes: [],
   });
+
+  // Charger les voitures selon les filtres/tri
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchCars = async () => {
+      try {
+        setLoading(true);
+        const params = new URLSearchParams();
+        if (filters.brand) params.set("brand", filters.brand);
+        if (filters.model) params.set("model", filters.model);
+        if (filters.year) params.set("year", filters.year);
+        if (filters.fuel) params.set("fuel", filters.fuel);
+        if (filters.transmission)
+          params.set("transmission", filters.transmission);
+        if (filters.condition) params.set("condition", filters.condition);
+        if (filters.priceRange?.[0])
+          params.set("minPrice", String(filters.priceRange[0]));
+        if (filters.priceRange?.[1])
+          params.set("maxPrice", String(filters.priceRange[1]));
+        // bodyTypes pourrait mapper sur bodyType unique côté API
+        if (selectedBodyTypes[0]) params.set("bodyType", selectedBodyTypes[0]);
+        if (sortBy) params.set("sortBy", sortBy);
+
+        const res = await fetch(`/api/cars?${params.toString()}`, {
+          signal: controller.signal,
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Échec chargement voitures");
+        const data = (await res.json()) as DbCar[];
+        setCars(data);
+      } catch (e) {
+        if ((e as any).name !== "AbortError") console.error(e);
+      } finally {
+        setLoading(false);
+        setInitialLoad(false);
+      }
+    };
+    fetchCars();
+    return () => controller.abort();
+  }, [filters, selectedBodyTypes, sortBy]);
 
   const handleBodyTypeChange = (bodyType: string, checked: boolean) => {
     if (checked) {
@@ -184,7 +155,9 @@ export default function Achat() {
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <p className="text-gray-600">
-                  Affichage de 1 - {cars.length} sur {cars.length} résultats
+                  {loading
+                    ? "Chargement..."
+                    : `Affichage de 1 - ${cars.length} sur ${cars.length} résultats`}
                   {Object.keys(filters).length > 0 && (
                     <span className="ml-2 text-red-600 font-medium">
                       (Filtrés)
@@ -242,33 +215,118 @@ export default function Achat() {
               </div>
 
               {/* Car Grid/List */}
-              <div
-                className={
-                  viewMode === "grid"
-                    ? "grid grid-cols-1 md:grid-cols-2 gap-6"
-                    : "space-y-4"
-                }
-              >
-                {cars.map((car) =>
-                  viewMode === "grid" ? (
-                    <CarGridCard
-                      key={car.id}
-                      car={car}
-                      formatPrice={formatPrice}
-                      formatMileage={formatMileage}
-                      getDaysAgo={getDaysAgo}
-                    />
-                  ) : (
-                    <CarListCard
-                      key={car.id}
-                      car={car}
-                      formatPrice={formatPrice}
-                      formatMileage={formatMileage}
-                      getDaysAgo={getDaysAgo}
-                    />
-                  )
-                )}
-              </div>
+              {loading && initialLoad ? (
+                <div
+                  className={
+                    viewMode === "grid"
+                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
+                      : "space-y-4"
+                  }
+                >
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden"
+                    >
+                      <Skeleton className="h-64 w-full" />
+                      <div className="p-4 space-y-3">
+                        <Skeleton className="h-6 w-32" />
+                        <Skeleton className="h-4 w-24" />
+                        <div className="grid grid-cols-3 gap-4">
+                          <Skeleton className="h-10 w-full" />
+                          <Skeleton className="h-10 w-full" />
+                          <Skeleton className="h-10 w-full" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : loading ? (
+                <div
+                  className={
+                    viewMode === "grid"
+                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
+                      : "space-y-4"
+                  }
+                >
+                  {Array.from({ length: Math.max(cars.length, 3) }).map(
+                    (_, i) => (
+                      <div
+                        key={i}
+                        className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden"
+                      >
+                        <Skeleton className="h-64 w-full" />
+                        <div className="p-4 space-y-3">
+                          <Skeleton className="h-6 w-28" />
+                          <Skeleton className="h-4 w-20" />
+                        </div>
+                      </div>
+                    )
+                  )}
+                </div>
+              ) : cars.length === 0 ? (
+                <div className="text-center py-16 text-gray-600">
+                  Aucun résultat pour ces filtres.
+                </div>
+              ) : (
+                <div
+                  className={
+                    viewMode === "grid"
+                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
+                      : "space-y-4"
+                  }
+                >
+                  {cars.map((car) =>
+                    viewMode === "grid" ? (
+                      <CarGridCard
+                        key={car.id}
+                        car={{
+                          id: car.id,
+                          brand: car.brand,
+                          model: car.model,
+                          year: car.year,
+                          price: car.price,
+                          mileage: car.mileage,
+                          fuel: car.fuel || "-",
+                          transmission: car.transmission || "-",
+                          image: car.images?.[0] || "/car-service.png",
+                          category: "",
+                          condition: (car.condition === "OCCASION"
+                            ? "occasion"
+                            : "sans-plaque") as any,
+                          addedDate: car.createdAt,
+                        }}
+                        formatPrice={formatPrice}
+                        formatMileage={formatMileage}
+                        getDaysAgo={getDaysAgo}
+                      />
+                    ) : (
+                      <CarListCard
+                        key={car.id}
+                        car={{
+                          id: car.id,
+                          brand: car.brand,
+                          model: car.model,
+                          year: car.year,
+                          price: car.price,
+                          mileage: car.mileage,
+                          fuel: car.fuel || "-",
+                          transmission: car.transmission || "-",
+                          image: car.images?.[0] || "/car-service.png",
+                          category: "",
+                          condition: (car.condition === "OCCASION"
+                            ? "occasion"
+                            : "sans-plaque") as any,
+                          addedDate: car.createdAt,
+                        }}
+                        formatPrice={formatPrice}
+                        formatMileage={formatMileage}
+                        getDaysAgo={getDaysAgo}
+                      />
+                    )
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

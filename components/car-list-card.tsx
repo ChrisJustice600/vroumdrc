@@ -91,7 +91,7 @@ export function CarListCard({
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="flex flex-col items-center">
                 <Fuel className="w-5 h-5 text-gray-400 mb-1" />
-                <div className="text-xs text-gray-500">Type de carburant</div>
+                <div className="text-xs text-gray-500">carburant</div>
                 <div className="text-sm font-medium text-gray-900">
                   {car.fuel}
                 </div>

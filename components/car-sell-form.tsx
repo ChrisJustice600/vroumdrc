@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthModalManager } from "@/components/auth/auth-modal-manager";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,8 +13,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Camera, Car, Euro, MapPin, Settings, Upload, X } from "lucide-react";
+import { useSessionUser } from "@/lib/useSessionUser";
+import {
+  Camera,
+  Car,
+  Euro,
+  Loader2,
+  MapPin,
+  Settings,
+  Upload,
+  X,
+} from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 // Données mockées pour les options
 const mockData = {
@@ -91,6 +103,8 @@ interface CarFormData {
 }
 
 export function CarSellForm() {
+  const { user, loading } = useSessionUser();
+  const [authOpen, setAuthOpen] = useState(false);
   const [formData, setFormData] = useState<CarFormData>({
     brand: "",
     model: "",
@@ -115,6 +129,7 @@ export function CarSellForm() {
 
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 4;
+  const [submitting, setSubmitting] = useState(false);
 
   const handleInputChange = (field: keyof CarFormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -147,10 +162,61 @@ export function CarSellForm() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Données du formulaire:", formData);
-    // Ici vous ajouteriez la logique pour envoyer les données
+    if (submitting) return;
+    if (!user && !loading) {
+      toast.error("Connectez-vous via OTP avant de publier une annonce.");
+      setAuthOpen(true);
+      return;
+    }
+    setSubmitting(true);
+    const fd = new FormData();
+
+    // Champs requis backend
+    fd.append("title", `${formData.brand} ${formData.model}`.trim());
+    fd.append("description", formData.description || "");
+    fd.append("brand", formData.brand);
+    fd.append("model", formData.model);
+    fd.append("year", formData.year);
+    fd.append("mileage", formData.mileage);
+    fd.append("price", formData.price);
+    fd.append("location", formData.location);
+    fd.append("whatsappNumber", formData.phone);
+
+    // Enums optionnels
+    if (formData.fuel) fd.append("fuel", formData.fuel);
+    if (formData.transmission) fd.append("transmission", formData.transmission);
+    if (formData.bodyType) fd.append("bodyType", formData.bodyType);
+    if (formData.condition) fd.append("condition", formData.condition);
+
+    // Images
+    formData.images.forEach((img) => fd.append("images", img, img.name));
+
+    try {
+      const res = await fetch("/api/cars", {
+        method: "POST",
+        body: fd,
+      });
+
+      if (res.status === 401) {
+        toast.error("Veuillez vous connecter pour publier une annonce.");
+        return;
+      }
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: "Erreur" }));
+        toast.error(err.error || "Échec de création de l'annonce");
+        return;
+      }
+
+      const car = await res.json();
+      toast.success("Annonce publiée avec succès");
+      window.location.href = `/car/${car.id}`;
+    } catch (error) {
+      toast.error("Erreur réseau, réessayez.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const renderStepContent = () => {
@@ -541,6 +607,7 @@ export function CarSellForm() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <AuthModalManager isOpen={authOpen} onClose={() => setAuthOpen(false)} />
       <Card className="shadow-lg">
         <CardHeader className="bg-red-500 text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold text-center">
@@ -584,17 +651,45 @@ export function CarSellForm() {
                   type="button"
                   onClick={nextStep}
                   className="bg-red-500 hover:bg-red-600 text-white"
+                  disabled={submitting}
                 >
                   Suivant
                 </Button>
-              ) : (
+              ) : user ? (
                 <Button
                   type="submit"
                   className="bg-red-500 hover:bg-red-600 text-white px-8"
+                  disabled={submitting}
                 >
-                  <Euro className="w-4 h-4 mr-2" />
-                  Publier l'annonce
+                  {submitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Publication...
+                    </>
+                  ) : (
+                    <>
+                      <Euro className="w-4 h-4 mr-2" />
+                      Publier l'annonce
+                    </>
+                  )}
                 </Button>
+              ) : (
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    onClick={() => setAuthOpen(true)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-8"
+                  >
+                    Se connecter pour publier
+                  </Button>
+                  <Button
+                    type="button"
+                    className="bg-gray-200 text-gray-500 px-8"
+                    disabled
+                  >
+                    Publier l'annonce
+                  </Button>
+                </div>
               )}
             </div>
           </form>
