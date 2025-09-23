@@ -337,7 +337,37 @@ export default function CarSinglePage() {
                       {carData.category}
                     </span>
                     <div className="flex gap-2">
-                      <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                      <button
+                        className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors"
+                        onClick={async () => {
+                          try {
+                            const url =
+                              typeof window !== "undefined"
+                                ? window.location.href
+                                : "";
+                            const title = `${carData.brand} ${carData.model} ${carData.year}`;
+                            const text = `Découvrez cette annonce: ${title}`;
+                            // Web Share API si dispo
+                            if (
+                              typeof navigator !== "undefined" &&
+                              (navigator as any).share
+                            ) {
+                              await (navigator as any).share({
+                                title,
+                                text,
+                                url,
+                              });
+                            } else {
+                              await navigator.clipboard.writeText(url);
+                              alert("Lien copié dans le presse-papiers");
+                            }
+                          } catch {
+                            // ignore
+                          }
+                        }}
+                        aria-label="Partager l'annonce"
+                        title="Partager l'annonce"
+                      >
                         <Share2 className="w-4 h-4" />
                       </button>
                       <button
@@ -448,22 +478,13 @@ export default function CarSinglePage() {
                 <div className="bg-red-500 rounded-lg p-6 text-white">
                   <h3 className="text-lg font-bold mb-4">
                     Conseils de sécurité
-                  </h3>
-                  <p className="text-sm mb-4 text-red-100">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua.
-                  </p>
+                  </h3>{" "}
                   <ul className="text-sm space-y-2 mb-4">
                     <li className="flex items-start space-x-2">
                       <div className="w-1.5 h-1.5 bg-white rounded-full mt-2 flex-shrink-0"></div>
                       <span>
                         Utilisez un endroit sûr pour rencontrer le vendeur
                       </span>
-                    </li>
-                    <li className="flex items-start space-x-2">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full mt-2 flex-shrink-0"></div>
-                      <span>Évitez les transactions en espèces</span>
                     </li>
                     <li className="flex items-start space-x-2">
                       <div className="w-1.5 h-1.5 bg-white rounded-full mt-2 flex-shrink-0"></div>
