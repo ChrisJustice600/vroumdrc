@@ -94,7 +94,7 @@ export default function CarSinglePage() {
               ? data.images
               : ["/car-service.png"],
         });
-      } catch (e) {
+      } catch {
         // garder fallback
       } finally {
         if (active) setLoading(false);
@@ -115,15 +115,6 @@ export default function CarSinglePage() {
 
   const formatMileage = (mileage: number) => {
     return new Intl.NumberFormat("en-US").format(mileage) + " km";
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric",
-      year: "numeric",
-    });
   };
 
   const totalImages = carData.images.length;
@@ -349,18 +340,19 @@ export default function CarSinglePage() {
                             const title = `${carData.brand} ${carData.model} ${carData.year}`;
                             const text = `Découvrez cette annonce: ${title}`;
                             // Web Share API si dispo
-                            if (
-                              typeof navigator !== "undefined" &&
-                              (navigator as any).share
-                            ) {
-                              await (navigator as any).share({
-                                title,
-                                text,
-                                url,
-                              });
-                            } else {
-                              await navigator.clipboard.writeText(url);
-                              alert("Lien copié dans le presse-papiers");
+                            if (typeof navigator !== "undefined") {
+                              const nav = navigator as Navigator & {
+                                share?: (data: ShareData) => Promise<void>;
+                                clipboard?: {
+                                  writeText: (text: string) => Promise<void>;
+                                };
+                              };
+                              if (nav.share) {
+                                await nav.share({ title, text, url });
+                              } else if (nav.clipboard?.writeText) {
+                                await nav.clipboard.writeText(url);
+                                alert("Lien copié dans le presse-papiers");
+                              }
                             }
                           } catch {
                             // ignore

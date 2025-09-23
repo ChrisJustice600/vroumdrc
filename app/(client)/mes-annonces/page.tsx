@@ -39,9 +39,7 @@ import { toast } from "sonner";
 
 export default function MesAnnoncesPage() {
   const { user, loading: loadingUser } = useSessionUser();
-  const { cars, loading, refetch, updateCar, removeCar, setCars } =
-    useMyCarsStore();
-  const [markingId, setMarkingId] = useState<string | null>(null);
+  const { cars, loading, refetch, updateCar, removeCar } = useMyCarsStore();
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editing, setEditing] = useState<MyCar | null>(null);
@@ -52,23 +50,6 @@ export default function MesAnnoncesPage() {
       refetch();
     }
   }, [user, loadingUser, refetch]);
-
-  const markSold = async (id: string) => {
-    try {
-      setMarkingId(id);
-      const res = await fetch(`/api/cars/${id}/mark-sold`, { method: "POST" });
-      if (!res.ok) {
-        toast.error("Impossible de marquer comme vendu");
-        return;
-      }
-      toast.success("Annonce marquée comme vendue");
-      await refetch();
-    } catch {
-      toast.error("Erreur réseau");
-    } finally {
-      setMarkingId(null);
-    }
-  };
 
   const openEdit = (car: MyCar) => {
     setEditing({ ...car });
@@ -82,11 +63,12 @@ export default function MesAnnoncesPage() {
       setSaving(true);
       const payload = {
         title: editing.title,
-        description: (editing as any).description ?? null,
+        description:
+          (editing as MyCar & { description?: string }).description ?? null,
         brand: editing.brand,
         model: editing.model,
         year: Number(editing.year),
-        mileage: Number((editing as any).mileage ?? 0),
+        mileage: Number((editing as MyCar & { mileage?: number }).mileage ?? 0),
         price: Number(editing.price),
         location: editing.location ?? null,
         whatsappNumber: editing.whatsappNumber ?? null,
@@ -419,9 +401,4 @@ export default function MesAnnoncesPage() {
       </AlertDialog>
     </div>
   );
-}
-
-// Modals appended at end of file to avoid cluttering main JSX
-function Modals() {
-  return null;
 }

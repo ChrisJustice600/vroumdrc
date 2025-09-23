@@ -93,7 +93,7 @@ export default function Achat() {
         const data = (await res.json()) as DbCar[];
         setCars(data);
       } catch (e) {
-        if ((e as any).name !== "AbortError") console.error(e);
+        if (e instanceof Error && e.name !== "AbortError") console.error(e);
       } finally {
         setLoading(false);
         setInitialLoad(false);
@@ -293,7 +293,7 @@ export default function Achat() {
                           category: "",
                           condition: (car.condition === "OCCASION"
                             ? "occasion"
-                            : "sans-plaque") as any,
+                            : "sans-plaque") as "occasion" | "sans-plaque",
                           addedDate: car.createdAt,
                         }}
                         formatPrice={formatPrice}
@@ -316,7 +316,7 @@ export default function Achat() {
                           category: "",
                           condition: (car.condition === "OCCASION"
                             ? "occasion"
-                            : "sans-plaque") as any,
+                            : "sans-plaque") as "occasion" | "sans-plaque",
                           addedDate: car.createdAt,
                         }}
                         formatPrice={formatPrice}
