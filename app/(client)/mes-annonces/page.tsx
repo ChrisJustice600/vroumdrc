@@ -199,7 +199,11 @@ export default function MesAnnoncesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {cars.map((car) => (
-                <Card key={car.id} className="overflow-hidden">
+                <Card
+                  key={car.id}
+                  className="overflow-hidden cursor-pointer"
+                  onClick={() => (window.location.href = `/car/${car.id}`)}
+                >
                   <div className="relative h-48 w-full bg-gray-100">
                     <Image
                       src={car.images?.[0] || "/car-service.png"}
@@ -243,7 +247,10 @@ export default function MesAnnoncesPage() {
                         }
                         disabled={statusUpdatingId === car.id}
                       >
-                        <SelectTrigger className="w-40">
+                        <SelectTrigger
+                          className="w-40"
+                          onClick={(e) => e.stopPropagation()}
+                        >
                           <SelectValue placeholder="Statut" />
                         </SelectTrigger>
                         <SelectContent>
@@ -254,14 +261,20 @@ export default function MesAnnoncesPage() {
                       </Select>
                       <Button
                         variant="outline"
-                        onClick={() => openEdit(car)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEdit(car);
+                        }}
                         className="border-gray-300"
                       >
                         Modifier
                       </Button>
                       <Button
                         variant="outline"
-                        onClick={() => confirmDelete(car)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          confirmDelete(car);
+                        }}
                         className="border-red-200 text-red-600"
                       >
                         Supprimer
