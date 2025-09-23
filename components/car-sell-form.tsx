@@ -287,7 +287,7 @@ export function CarSellForm() {
               </div>
 
               <div>
-                <Label htmlFor="price">Prix (€) *</Label>
+                <Label htmlFor="price">Prix ($) *</Label>
                 <Input
                   id="price"
                   type="number"

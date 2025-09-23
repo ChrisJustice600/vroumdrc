@@ -222,7 +222,7 @@ export function FiltersSidebar({
           {/* Price Filter */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Prix (€)
+              Prix ($)
             </label>
             <div className="px-2">
               <Slider
@@ -234,8 +234,8 @@ export function FiltersSidebar({
                 className="mb-4"
               />
               <div className="flex justify-between text-sm text-gray-600">
-                <span>{priceRange[0].toLocaleString()} €</span>
-                <span>{priceRange[1].toLocaleString()} €</span>
+                <span>{priceRange[0].toLocaleString()} $</span>
+                <span>{priceRange[1].toLocaleString()} $</span>
               </div>
             </div>
           </div>

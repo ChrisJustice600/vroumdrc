@@ -400,6 +400,31 @@ export default function CarSinglePage() {
                     <Button
                       variant="outline"
                       className="w-full border-gray-300 text-gray-700 hover:bg-gray-50 py-3"
+                      onClick={() => {
+                        const raw = carData.whatsappNumber || "";
+                        const phone = raw.replace(/[^\d]/g, "");
+                        const text = encodeURIComponent(
+                          `Bonjour, je suis intéressé(e) par votre ${carData.brand} ${carData.model} ${carData.year}. Est-elle toujours disponible ?`
+                        );
+                        if (!phone) {
+                          alert("Numéro WhatsApp indisponible");
+                          return;
+                        }
+                        // Tente d'ouvrir l'app WhatsApp (mobile et desktop)
+                        const appUrl = `whatsapp://send?phone=${phone}&text=${text}`;
+                        const fallbackUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${text}`;
+                        const timer = setTimeout(() => {
+                          window.location.href = fallbackUrl;
+                        }, 1200);
+                        // Naviguer vers l'app; si non installée, fallback sera déclenché
+                        window.location.href = appUrl;
+                        // Annule le fallback si l'app prend la main
+                        window.addEventListener(
+                          "pagehide",
+                          () => clearTimeout(timer),
+                          { once: true }
+                        );
+                      }}
                     >
                       <svg
                         className="w-4 h-4 mr-2"

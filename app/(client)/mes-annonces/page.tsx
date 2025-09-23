@@ -33,6 +33,7 @@ import { useMyCarsStore, type MyCar } from "@/lib/stores/myCarsStore";
 import { useSessionUser } from "@/lib/useSessionUser";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -161,7 +162,7 @@ export default function MesAnnoncesPage() {
       const updated = (await res.json()) as MyCar;
       updateCar(updated);
       toast.success("Statut mis à jour");
-    } catch (e) {
+    } catch {
       toast.error("Échec mise à jour du statut");
     } finally {
       setStatusUpdatingId(null);
@@ -199,34 +200,32 @@ export default function MesAnnoncesPage() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {cars.map((car) => (
-                <Card
-                  key={car.id}
-                  className="overflow-hidden cursor-pointer"
-                  onClick={() => (window.location.href = `/car/${car.id}`)}
-                >
-                  <div className="relative h-48 w-full bg-gray-100">
-                    <Image
-                      src={car.images?.[0] || "/car-service.png"}
-                      alt={`${car.brand} ${car.model}`}
-                      fill
-                      className="object-cover"
-                    />
-                    <span
-                      className={`absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-sm ${
-                        car.status === "ACTIVE"
-                          ? "bg-green-600"
+                <Card key={car.id} className="overflow-hidden">
+                  <Link href={`/car/${car.id}`} className="block">
+                    <div className="relative h-48 w-full bg-gray-100 cursor-pointer">
+                      <Image
+                        src={car.images?.[0] || "/car-service.png"}
+                        alt={`${car.brand} ${car.model}`}
+                        fill
+                        className="object-cover"
+                      />
+                      <span
+                        className={`absolute top-3 left-3 text-white text-xs px-2 py-1 rounded-sm ${
+                          car.status === "ACTIVE"
+                            ? "bg-green-600"
+                            : car.status === "SOLD"
+                              ? "bg-red-600"
+                              : "bg-yellow-600"
+                        }`}
+                      >
+                        {car.status === "ACTIVE"
+                          ? "Activé"
                           : car.status === "SOLD"
-                            ? "bg-red-600"
-                            : "bg-yellow-600"
-                      }`}
-                    >
-                      {car.status === "ACTIVE"
-                        ? "ACTIVE"
-                        : car.status === "SOLD"
-                          ? "VENDU"
-                          : "SUSPENDU"}
-                    </span>
-                  </div>
+                            ? "Vendu"
+                            : "Suspendu"}
+                      </span>
+                    </div>
+                  </Link>
                   <CardHeader>
                     <CardTitle className="text-lg">
                       {car.title || `${car.brand} ${car.model} ${car.year}`}
@@ -234,7 +233,7 @@ export default function MesAnnoncesPage() {
                   </CardHeader>
                   <CardContent className="flex items-center justify-between gap-3">
                     <div className="text-red-600 font-bold text-xl">
-                      {new Intl.NumberFormat("fr-FR").format(car.price)} €
+                      {new Intl.NumberFormat("fr-FR").format(car.price)} $
                     </div>
                     <div className="flex gap-2 items-center">
                       <Select
@@ -254,9 +253,9 @@ export default function MesAnnoncesPage() {
                           <SelectValue placeholder="Statut" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="ACTIVE">ACTIVE</SelectItem>
-                          <SelectItem value="SOLD">SOLD</SelectItem>
-                          <SelectItem value="CANCELLED">CANCELLED</SelectItem>
+                          <SelectItem value="ACTIVE">Activé</SelectItem>
+                          <SelectItem value="SOLD">Vendu</SelectItem>
+                          <SelectItem value="CANCELLED">Suspendu</SelectItem>
                         </SelectContent>
                       </Select>
                       <Button

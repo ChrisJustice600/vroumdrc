@@ -160,7 +160,7 @@ export default function EditCarPage() {
                       />
                     </div>
                     <div>
-                      <Label>Prix (€)</Label>
+                      <Label>Prix ($)</Label>
                       <Input
                         type="number"
                         value={car.price}

@@ -17,7 +17,7 @@ export default function CarCard({ car }: CarCardProps) {
     const message = encodeURIComponent(
       `Bonjour, je suis intéressé(e) par votre ${car.year} ${car.brand} ${
         car.model
-      } au prix de ${car.price.toLocaleString()}€. Est-elle toujours disponible ?`
+      } au prix de ${car.price.toLocaleString()}$. Est-elle toujours disponible ?`
     );
     window.open(
       `https://wa.me/${car.whatsappNumber}?text=${message}`,
@@ -56,7 +56,7 @@ export default function CarCard({ car }: CarCardProps) {
         </h3>
 
         <p className="text-3xl font-bold text-blue-600 mb-4">
-          {car.price.toLocaleString()}€
+          {car.price.toLocaleString()}$
         </p>
 
         <div className="grid grid-cols-2 gap-4 mb-4 text-sm text-gray-600">
