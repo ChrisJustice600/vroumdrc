@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginModal } from "@/components/auth/login-modal";
+import { AuthModalManager } from "@/components/auth/auth-modal-manager";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -134,8 +134,8 @@ export function Navbar() {
         )}
       </div>
 
-      {/* Login Modal */}
-      <LoginModal
+      {/* Auth Modal */}
+      <AuthModalManager
         isOpen={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
       />
