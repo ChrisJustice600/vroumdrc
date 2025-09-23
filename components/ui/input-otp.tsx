@@ -10,6 +10,7 @@ const InputOTP = React.forwardRef<
     value?: string;
     onChange?: (value: string) => void;
     disabled?: boolean;
+    autoFocus?: boolean;
   }
 >(
   (
@@ -19,35 +20,53 @@ const InputOTP = React.forwardRef<
       value = "",
       onChange,
       disabled = false,
+      autoFocus = false,
       ...props
     },
     ref
-  ) => (
-    <div
-      ref={ref}
-      className={cn("flex items-center justify-center", className)}
-      {...props}
-    >
-      <input
-        type="text"
-        inputMode="numeric"
-        pattern="[0-9]*"
-        maxLength={maxLength}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
-        className="sr-only"
-        autoComplete="one-time-code"
-      />
-      {Array.from({ length: maxLength }, (_, i) => (
-        <InputOTPSlot
-          key={i}
-          index={i}
-          value={value[i] || ""}
-          disabled={disabled}
+  ) => {
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+
+    React.useEffect(() => {
+      if (autoFocus && inputRef.current) {
+        inputRef.current.focus();
+      }
+    }, [autoFocus]);
+
+    const focusHiddenInput = () => {
+      inputRef.current?.focus();
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cn("flex items-center justify-center gap-2", className)}
+        onClick={focusHiddenInput}
+        role="group"
+        {...props}
+      >
+        <input
+          ref={inputRef}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          maxLength={maxLength}
+          value={value}
+          onChange={(e) => onChange?.(e.target.value)}
+          className="sr-only"
+          autoComplete="one-time-code"
         />
-      ))}
-    </div>
-  )
+        {Array.from({ length: maxLength }, (_, i) => (
+          <InputOTPSlot
+            key={i}
+            index={i}
+            value={value[i] || ""}
+            disabled={disabled}
+          />
+        ))}
+      </div>
+    );
+  }
 );
 InputOTP.displayName = "InputOTP";
 

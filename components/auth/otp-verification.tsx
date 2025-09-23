@@ -200,6 +200,7 @@ export function OTPVerification({
                   value={otp}
                   onChange={(value) => handleOtpChange(value)}
                   disabled={isLoading}
+                  autoFocus
                 >
                   <InputOTPGroup>
                     <InputOTPSlot index={0} value={otp[0] || ""} />

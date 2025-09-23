@@ -3,7 +3,7 @@
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 // Données des slides
 const slides = [
@@ -59,6 +59,24 @@ export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Particules déterministes pour éviter les erreurs d'hydratation
+  const particles = useMemo(() => {
+    const count = 20;
+    let seed = 123456789;
+    const rand = () => {
+      // LCG: déterministe entre serveur et client
+      seed = (1664525 * seed + 1013904223) % 4294967296;
+      return seed / 4294967296;
+    };
+    return Array.from({ length: count }).map(() => {
+      const left = rand() * 100;
+      const top = rand() * 100;
+      const animationDelay = rand() * 3;
+      const animationDuration = 2 + rand() * 3;
+      return { left, top, animationDelay, animationDuration } as const;
+    });
+  }, []);
 
   // Auto-slide avec pause au hover
   useEffect(() => {
@@ -264,17 +282,17 @@ export function HeroSection() {
         <ChevronRight className="w-6 h-6 text-white" />
       </button>
 
-      {/* Effet de particules flottantes */}
+      {/* Effet de particules flottantes (déterministe SSR/CSR) */}
       <div className="absolute inset-0 pointer-events-none z-5">
-        {[...Array(20)].map((_, i) => (
+        {particles.map((p, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`,
+              left: `${p.left}%`,
+              top: `${p.top}%`,
+              animationDelay: `${p.animationDelay}s`,
+              animationDuration: `${p.animationDuration}s`,
             }}
           />
         ))}

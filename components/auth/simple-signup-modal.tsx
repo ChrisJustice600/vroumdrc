@@ -18,6 +18,10 @@ interface SimpleSignupModalProps {
   onClose: () => void;
   onSignup: (fullName: string, phone: string) => void;
   onSwitchToLogin: () => void;
+  loading?: boolean;
+  error?: string | null;
+  info?: string | null;
+  submitButtonId?: string;
 }
 
 export function SimpleSignupModal({
@@ -25,6 +29,10 @@ export function SimpleSignupModal({
   onClose,
   onSignup,
   onSwitchToLogin,
+  loading = false,
+  error = null,
+  info = null,
+  submitButtonId,
 }: SimpleSignupModalProps) {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -96,12 +104,27 @@ export function SimpleSignupModal({
             </div>
           </div>
 
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+              {error}
+            </div>
+          )}
+          {info && (
+            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+              {info}
+            </div>
+          )}
+
           <Button
             type="submit"
-            disabled={!fullName.trim() || cleanPhone(phone).length < 10}
+            id={submitButtonId}
+            disabled={
+              loading || !fullName.trim() || cleanPhone(phone).length < 10
+            }
+            aria-busy={loading}
             className="w-full bg-red-500 hover:bg-red-600 text-white"
           >
-            Créer le compte
+            {loading ? "Envoi en cours..." : "Créer le compte"}
           </Button>
         </form>
 

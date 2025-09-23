@@ -18,6 +18,10 @@ interface SimpleLoginModalProps {
   onClose: () => void;
   onLogin: (phone: string) => void;
   onSwitchToSignup: () => void;
+  loading?: boolean;
+  error?: string | null;
+  info?: string | null;
+  submitButtonId?: string;
 }
 
 export function SimpleLoginModal({
@@ -25,6 +29,10 @@ export function SimpleLoginModal({
   onClose,
   onLogin,
   onSwitchToSignup,
+  loading = false,
+  error = null,
+  info = null,
+  submitButtonId,
 }: SimpleLoginModalProps) {
   const [phone, setPhone] = useState("");
 
@@ -80,12 +88,25 @@ export function SimpleLoginModal({
             </div>
           </div>
 
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+              {error}
+            </div>
+          )}
+          {info && (
+            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+              {info}
+            </div>
+          )}
+
           <Button
             type="submit"
-            disabled={cleanPhone(phone).length < 10}
+            id={submitButtonId}
+            disabled={loading || cleanPhone(phone).length < 10}
+            aria-busy={loading}
             className="w-full bg-red-500 hover:bg-red-600 text-white"
           >
-            Se connecter
+            {loading ? "Envoi en cours..." : "Se connecter"}
           </Button>
         </form>
 

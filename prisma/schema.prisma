@@ -15,33 +15,9 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(cuid())
-  phoneNumber  String   @unique @map("phone_number")
-  fullName     String?  @map("full_name")
-  verified     Boolean  @default(false)
-  isRegistered Boolean  @default(false) @map("is_registered")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  otpCodes OtpCode[]
-
-  @@map("users")
-}
-
-model OtpCode {
-  id          String   @id @default(cuid())
-  code        String
-  phoneNumber String   @map("phone_number")
-  expiresAt   DateTime @map("expires_at")
-  verified    Boolean  @default(false)
-  attempts    Int      @default(0)
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user User @relation(fields: [phoneNumber], references: [phoneNumber], onDelete: Cascade)
-
-  @@index([phoneNumber])
-  @@index([code])
-  @@map("otp_codes")
+  id          String   @id // UID Firebase
+  phoneNumber String   @unique
+  displayName String?  @db.VarChar(255)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

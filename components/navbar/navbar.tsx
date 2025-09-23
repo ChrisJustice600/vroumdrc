@@ -1,7 +1,20 @@
 "use client";
 
 import { AuthModalManager } from "@/components/auth/auth-modal-manager";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { auth } from "@/lib/firebase";
+import { clearSessionCookie } from "@/lib/sessionClient";
+import { useSessionUser } from "@/lib/useSessionUser";
+import { signOut } from "firebase/auth";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,12 +33,38 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const pathname = usePathname();
+  const { user } = useSessionUser();
 
   const isActive = (href: string) => {
     if (href === "/") {
       return pathname === "/";
     }
     return pathname.startsWith(href);
+  };
+
+  const getInitials = (name?: string | null, phone?: string) => {
+    const n = (name || "").trim();
+    if (n) {
+      const parts = n.split(/\s+/);
+      const first = parts[0]?.[0] ?? "";
+      const last = parts[1]?.[0] ?? "";
+      return (first + last).toUpperCase() || first.toUpperCase();
+    }
+    if (phone) {
+      return phone.replace(/\D/g, "").slice(-2);
+    }
+    return "U";
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch {}
+    try {
+      await clearSessionCookie();
+    } catch {}
+    // Forcer une actualisation pour recharger la session côté client
+    if (typeof window !== "undefined") window.location.reload();
   };
 
   return (
@@ -66,13 +105,42 @@ export function Navbar() {
                   />
                 </Link>
               ))}
-              <Button
-                size="sm"
-                onClick={() => setIsLoginModalOpen(true)}
-                className="ml-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-6 py-2 rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
-              >
-                Se connecter
-              </Button>
+              {user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button className="ml-6 inline-flex items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/40">
+                      <Avatar className="h-9 w-9 border border-white/40">
+                        <AvatarFallback className="bg-white/90 text-black text-xs font-bold">
+                          {getInitials(
+                            user.displayName ?? null,
+                            user.phoneNumber
+                          )}
+                        </AvatarFallback>
+                      </Avatar>
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <DropdownMenuLabel>
+                      {user.displayName || user.phoneNumber}
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleLogout}
+                      className="text-red-600 focus:text-red-700"
+                    >
+                      Se déconnecter
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Button
+                  size="sm"
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="ml-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-6 py-2 rounded-sm shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                >
+                  Se connecter
+                </Button>
+              )}
             </div>
           </div>
 
@@ -118,16 +186,44 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="pt-4 border-t border-white/20">
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    setIsLoginModalOpen(true);
-                    setIsMenuOpen(false);
-                  }}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-sm font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
-                >
-                  Se connecter
-                </Button>
+                {user ? (
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 text-white">
+                      <Avatar className="h-8 w-8 border border-white/40">
+                        <AvatarFallback className="bg-white/90 text-black text-xs font-bold">
+                          {getInitials(
+                            user.displayName ?? null,
+                            user.phoneNumber
+                          )}
+                        </AvatarFallback>
+                      </Avatar>
+                      <span className="text-sm">
+                        {user.displayName || user.phoneNumber}
+                      </span>
+                    </div>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        handleLogout();
+                      }}
+                      className="bg-red-600 hover:bg-red-700 text-white rounded-sm"
+                    >
+                      Se déconnecter
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      setIsLoginModalOpen(true);
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-sm font-semibold px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border-0"
+                  >
+                    Se connecter
+                  </Button>
+                )}
               </div>
             </div>
           </div>

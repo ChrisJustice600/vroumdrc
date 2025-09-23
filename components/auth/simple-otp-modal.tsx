@@ -24,6 +24,9 @@ interface SimpleOTPModalProps {
   onResend: () => void;
   phoneNumber: string;
   isSignup?: boolean;
+  loading?: boolean;
+  error?: string | null;
+  info?: string | null;
 }
 
 export function SimpleOTPModal({
@@ -34,6 +37,9 @@ export function SimpleOTPModal({
   onResend,
   phoneNumber,
   isSignup = false,
+  loading = false,
+  error = null,
+  info = null,
 }: SimpleOTPModalProps) {
   const [otp, setOtp] = useState("");
   const [isResending, setIsResending] = useState(false);
@@ -87,6 +93,16 @@ export function SimpleOTPModal({
         </DialogHeader>
 
         <div className="space-y-6">
+          {error && (
+            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+              {error}
+            </div>
+          )}
+          {info && (
+            <div className="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+              {info}
+            </div>
+          )}
           <div className="flex justify-center">
             <InputOTP
               maxLength={6}
@@ -106,10 +122,15 @@ export function SimpleOTPModal({
 
           <Button
             onClick={handleVerify}
-            disabled={otp.length !== 6}
+            disabled={loading || otp.length !== 6}
+            aria-busy={loading}
             className="w-full bg-red-500 hover:bg-red-600 text-white"
           >
-            {isSignup ? "Créer le compte" : "Se connecter"}
+            {loading
+              ? "Vérification..."
+              : isSignup
+                ? "Créer le compte"
+                : "Se connecter"}
           </Button>
 
           <div className="text-center">
