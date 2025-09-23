@@ -15,9 +15,107 @@ datasource db {
 }
 
 model User {
-  id          String   @id // UID Firebase
-  phoneNumber String   @unique
-  displayName String?  @db.VarChar(255)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                 String    @id // UID Firebase
+  phoneNumber        String    @unique
+  displayName        String?   @db.VarChar(255)
+  email              String?   @unique
+  whatsapp           String?
+  isActive           Boolean   @default(false)
+  subscriptionExpiry DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  // Relations
+  cars          Car[]
+  subscriptions Subscription[]
+}
+
+// ========================= Enums =========================
+
+enum FuelType {
+  ESSENCE
+  DIESEL
+  HYBRIDE
+  ELECTRIQUE
+  GPL
+  PETROL
+}
+
+enum TransmissionType {
+  MANUAL
+  AUTOMATIC
+  SEMI_AUTOMATIC
+}
+
+enum BodyType {
+  BERLINE
+  SUV
+  BREAK
+  COUPE
+  CABRIOLET
+  MONOSPACE
+  PICK_UP
+  UTILITAIRE
+  CONVERTIBLE
+  SEDAN
+}
+
+enum ConditionType {
+  OCCASION
+  SANS_PLAQUE
+  RECONDITIONNE
+  NEUF
+}
+
+enum PlanType {
+  MONTHLY
+}
+
+// ========================= Models =========================
+
+model Car {
+  id       String @id @default(cuid())
+  sellerId String
+  seller   User   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+
+  title       String
+  description String
+  brand       String
+  model       String
+  year        Int
+  mileage     Int
+  price       Int
+  location    String
+  images      String[]
+
+  whatsappNumber String
+
+  fuel         FuelType?
+  transmission TransmissionType?
+  bodyType     BodyType?
+  condition    ConditionType?
+
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@index([brand])
+  @@index([model])
+  @@index([isActive])
+  @@index([price])
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  planType  PlanType
+  amount    Decimal  @db.Decimal(10, 2)
+  startDate DateTime
+  endDate   DateTime
+  isActive  Boolean  @default(false)
+  paymentId String   @unique
+  createdAt DateTime @default(now())
+
+  @@index([userId, isActive])
 }
