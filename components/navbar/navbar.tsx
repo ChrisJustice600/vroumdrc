@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { auth } from "@/lib/firebase";
 import { clearSessionCookie } from "@/lib/sessionClient";
+import { useFavoritesStore } from "@/lib/stores/favoritesStore";
 import { useSessionUser } from "@/lib/useSessionUser";
 import { signOut } from "firebase/auth";
 import { Menu, X } from "lucide-react";
@@ -33,6 +34,7 @@ export function Navbar() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const pathname = usePathname();
   const { user } = useSessionUser();
+  const favoritesCount = useFavoritesStore((s) => s.items.length);
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -88,11 +90,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-1 h-24">
               {navItems
-                .concat([
-                  { name: "Favoris", href: "/favoris" },
-                  { name: "Abonnement", href: "/abonnement" },
-                  { name: "Mon abonnement", href: "/mon-abonnement" },
-                ])
+                .concat([{ name: "Favoris", href: "/favoris" }])
                 .map((item) => (
                   <Link
                     key={item.name}
@@ -103,7 +101,9 @@ export function Navbar() {
                         : "text-white hover:bg-white/10"
                     }`}
                   >
-                    {item.name}
+                    {item.name === "Favoris"
+                      ? `Favoris (${favoritesCount})`
+                      : item.name}
                     {/* Underline animation */}
                     <span
                       className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
@@ -133,6 +133,12 @@ export function Navbar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link href="/mes-annonces">Mes annonces</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/abonnement">Abonnement</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/mon-abonnement">Mon abonnement</Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -177,11 +183,7 @@ export function Navbar() {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm">
               {navItems
-                .concat([
-                  { name: "Favoris", href: "/favoris" },
-                  { name: "Abonnement", href: "/abonnement" },
-                  { name: "Mon abonnement", href: "/mon-abonnement" },
-                ])
+                .concat([{ name: "Favoris", href: "/favoris" }])
                 .map((item) => (
                   <Link
                     key={item.name}
@@ -193,7 +195,9 @@ export function Navbar() {
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item.name}
+                    {item.name === "Favoris"
+                      ? `Favoris (${favoritesCount})`
+                      : item.name}
                     {/* Underline animation */}
                     <span
                       className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
@@ -218,6 +222,25 @@ export function Navbar() {
                         {user.displayName || user.phoneNumber}
                       </span>
                     </div>
+                    <div className="flex-1" />
+                  </div>
+                ) : null}
+                {user ? (
+                  <div className="grid grid-cols-1 gap-2 mt-3">
+                    <Link
+                      href="/abonnement"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full px-3 py-2 rounded-sm bg-white/10 text-white text-sm text-center"
+                    >
+                      Abonnement
+                    </Link>
+                    <Link
+                      href="/mon-abonnement"
+                      onClick={() => setIsMenuOpen(false)}
+                      className="block w-full px-3 py-2 rounded-sm bg-white/10 text-white text-sm text-center"
+                    >
+                      Mon abonnement
+                    </Link>
                     <Button
                       size="sm"
                       onClick={() => {

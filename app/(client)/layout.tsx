@@ -3,6 +3,13 @@ import Footer from "@/components/Footer";
 import { Navbar } from "@/components/navbar/navbar";
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["Helvetica", "Arial", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   title: "VroomKin",
@@ -39,7 +46,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="flex flex-col min-h-screen font-sans-helvetica">
+      <body className={`${inter.className} flex flex-col min-h-screen`}>
         <Navbar />
         <main className="flex-grow pt-16">{children}</main>
         <Footer />

@@ -1,16 +1,20 @@
 "use client";
 
-import { useAuthContext } from "@/components/AuthProvider";
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/firebase";
+import { clearSessionCookie } from "@/lib/sessionClient";
+import { useSessionUser } from "@/lib/useSessionUser";
+import { signOut } from "firebase/auth";
 import { AnimatePresence, motion } from "framer-motion";
 import { Car, LogOut, Menu, X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, isLoading, logout } = useAuthContext();
+  const { user, loading } = useSessionUser();
+  const isAuthenticated = !!user;
+  const isLoading = loading;
 
   const navLinks = [
     { href: "/achat", label: "Acheter une voiture" },
@@ -31,14 +35,22 @@ export default function Navbar() {
 
   // Fonction de déconnexion
   const handleLogout = async () => {
-    await logout();
+    try {
+      await signOut(auth);
+    } catch {}
+    try {
+      await clearSessionCookie();
+    } catch {}
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event("session:updated"));
+    }
     setIsOpen(false);
   };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 border-gray-200 backdrop-blur-sm border-b shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-10">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 z-10">
             <motion.div
@@ -74,21 +86,11 @@ export default function Navbar() {
             ) : isAuthenticated && user ? (
               <div className="relative z-10">
                 <button className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors">
-                  {user.image ? (
-                    <Image
-                      src={user.image}
-                      alt={user.name}
-                      width={32}
-                      height={32}
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold">
-                      {getInitials(user.name)}
-                    </div>
-                  )}
+                  <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold">
+                    {getInitials(user.displayName || user.phoneNumber || "U")}
+                  </div>
                   <span className="text-sm font-medium text-gray-900">
-                    {user.name}
+                    {user.displayName || user.phoneNumber || "Utilisateur"}
                   </span>
                 </button>
               </div>
@@ -151,21 +153,13 @@ export default function Navbar() {
                 ) : isAuthenticated && user ? (
                   <div className="border-t border-gray-200 pt-3 mt-3">
                     <div className="flex items-center space-x-2 px-3 py-2">
-                      {user.image ? (
-                        <Image
-                          src={user.image}
-                          alt={user.name}
-                          width={32}
-                          height={32}
-                          className="h-8 w-8 rounded-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold">
-                          {getInitials(user.name)}
-                        </div>
-                      )}
+                      <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold">
+                        {getInitials(
+                          user.displayName || user.phoneNumber || "U"
+                        )}
+                      </div>
                       <span className="font-medium text-gray-900">
-                        {user.name}
+                        {user.displayName || user.phoneNumber || "Utilisateur"}
                       </span>
                     </div>
                     <button
