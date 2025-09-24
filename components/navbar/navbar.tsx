@@ -25,7 +25,6 @@ const navItems = [
   { name: "Accueil", href: "/" },
   { name: "Acheter", href: "/achat" },
   { name: "Vendre", href: "/vendre" },
-  { name: "À propos", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -89,7 +88,11 @@ export function Navbar() {
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-1 h-24">
               {navItems
-                .concat([{ name: "Favoris", href: "/favoris" }])
+                .concat([
+                  { name: "Favoris", href: "/favoris" },
+                  { name: "Abonnement", href: "/abonnement" },
+                  { name: "Mon abonnement", href: "/mon-abonnement" },
+                ])
                 .map((item) => (
                   <Link
                     key={item.name}
@@ -173,26 +176,32 @@ export function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
-                    isActive(item.href)
-                      ? "bg-red-600 text-white"
-                      : "text-white hover:bg-white/10"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                  {/* Underline animation */}
-                  <span
-                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
-                      isActive(item.href) ? "w-full" : "group-hover:w-full"
+              {navItems
+                .concat([
+                  { name: "Favoris", href: "/favoris" },
+                  { name: "Abonnement", href: "/abonnement" },
+                  { name: "Mon abonnement", href: "/mon-abonnement" },
+                ])
+                .map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                      isActive(item.href)
+                        ? "bg-red-600 text-white"
+                        : "text-white hover:bg-white/10"
                     }`}
-                  />
-                </Link>
-              ))}
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                    {/* Underline animation */}
+                    <span
+                      className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                        isActive(item.href) ? "w-full" : "group-hover:w-full"
+                      }`}
+                    />
+                  </Link>
+                ))}
               <div className="pt-4 border-t border-white/20">
                 {user ? (
                   <div className="flex items-center justify-between gap-3">
