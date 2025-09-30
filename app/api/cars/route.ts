@@ -1,5 +1,11 @@
 import { getUser } from "@/lib/auth-server";
 import { uploadImage } from "@/lib/cloudinary";
+import type {
+  BodyType,
+  ConditionType,
+  FuelType,
+  TransmissionType,
+} from "@/lib/generated/prisma";
 import prisma from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
@@ -111,10 +117,10 @@ export async function POST(req: NextRequest) {
         location,
         images: uploadedUrls,
         whatsappNumber,
-        fuel: fuel as any,
-        transmission: transmission as any,
-        bodyType: bodyType as any,
-        condition: condition as any,
+        fuel: (fuel ?? null) as FuelType | null,
+        transmission: (transmission ?? null) as TransmissionType | null,
+        bodyType: (bodyType ?? null) as BodyType | null,
+        condition: (condition ?? null) as ConditionType | null,
       },
     });
 
@@ -135,13 +141,28 @@ export async function GET(req: NextRequest) {
     const year = searchParams.get("year");
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
+    const minMileage = searchParams.get("minMileage");
+    const maxMileage = searchParams.get("maxMileage");
     const location = searchParams.get("location");
     const fuel = searchParams.get("fuel");
     const transmission = searchParams.get("transmission");
     const bodyType = searchParams.get("bodyType");
     const condition = searchParams.get("condition");
+    const search = searchParams.get("search");
 
     const where: Record<string, unknown> = { status: "ACTIVE" };
+
+    // General search across multiple fields
+    if (search) {
+      where.OR = [
+        { brand: { contains: search, mode: "insensitive" } },
+        { model: { contains: search, mode: "insensitive" } },
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+        { location: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
     if (brand) where.brand = { contains: brand, mode: "insensitive" };
     if (model) where.model = { contains: model, mode: "insensitive" };
     if (location) where.location = { contains: location, mode: "insensitive" };
@@ -150,6 +171,10 @@ export async function GET(req: NextRequest) {
       where.price = { ...(where.price || {}), gte: Number(minPrice) };
     if (maxPrice)
       where.price = { ...(where.price || {}), lte: Number(maxPrice) };
+    if (minMileage)
+      where.mileage = { ...(where.mileage || {}), gte: Number(minMileage) };
+    if (maxMileage)
+      where.mileage = { ...(where.mileage || {}), lte: Number(maxMileage) };
     if (fuel) where.fuel = normalizeEnum(fuel);
     if (transmission) where.transmission = mapTransmission(transmission);
     if (bodyType) where.bodyType = normalizeEnum(bodyType);
@@ -162,7 +187,6 @@ export async function GET(req: NextRequest) {
     else if (sortBy === "oldest") orderBy = { createdAt: "asc" };
 
     const cars = await prisma.car.findMany({ where, orderBy });
-    console.log("carss::::", cars);
 
     return new Response(JSON.stringify(cars), { status: 200 });
   } catch (error) {

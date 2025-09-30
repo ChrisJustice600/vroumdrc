@@ -23,7 +23,7 @@ export async function POST(
 
     const updated = await prisma.car.update({
       where: { id },
-      data: { status: "CANCELLED", isActive: false },
+      data: { status: "CANCELLED" },
     });
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {

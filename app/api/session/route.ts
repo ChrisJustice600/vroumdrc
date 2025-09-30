@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
     }
     const user = await prisma.user.findUnique({ where: { id: uid } });
     return NextResponse.json(user, { status: 200 });
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 60 * 24 * 30, // 30 jours
     });
     return res;
-  } catch (e) {
+  } catch {
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
   }
 }

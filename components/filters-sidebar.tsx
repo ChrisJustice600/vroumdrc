@@ -27,6 +27,12 @@ const mockData = {
     "Ford",
     "Peugeot",
     "Renault",
+    "Kia",
+    "Hyundai",
+    "Mazda",
+    "Opel",
+    "Citroën",
+    "Jeep",
   ],
   models: [
     "Série 3",
@@ -39,21 +45,29 @@ const mockData = {
     "Focus",
     "308",
     "Clio",
+    "Sportage",
+    "Tucson",
+    "CX-5",
+    "Astra",
+    "C3",
+    "Compass",
   ],
-  years: Array.from({ length: 10 }, (_, i) => 2024 - i),
+  years: Array.from({ length: 15 }, (_, i) => 2024 - i),
   fuelTypes: ["Essence", "Diesel", "Hybride", "Électrique", "GPL"],
   transmissions: ["Manuelle", "Automatique", "Semi-automatique"],
   bodyTypes: [
-    "Cabriolet",
-    "Coupé",
     "Berline",
-    "Hybride",
-    "Sedan",
     "SUV",
     "Break",
+    "Coupé",
+    "Cabriolet",
     "Monospace",
+    "Pick-up",
+    "Utilitaire",
+    "Convertible",
+    "Sedan",
   ],
-  conditions: ["Occasion", "Sans plaque", "Reconditionné"],
+  conditions: ["Occasion", "Sans plaque", "Reconditionné", "Neuf"],
   mileageRanges: [
     { label: "Moins de 10 000 km", value: [0, 10000] },
     { label: "10 000 - 50 000 km", value: [10000, 50000] },
@@ -110,7 +124,7 @@ export function FiltersSidebar({
     setSelectedTransmission("");
     setSelectedCondition("");
     setSelectedMileageRange("");
-    onPriceRangeChange([10000, 100000]);
+    onPriceRangeChange([0, 1000000]);
     onBodyTypeChange("", false);
   };
 
@@ -125,7 +139,7 @@ export function FiltersSidebar({
     if (selectedTransmission) count++;
     if (selectedCondition) count++;
     if (selectedMileageRange) count++;
-    if (priceRange[0] !== 10000 || priceRange[1] !== 100000) count++;
+    if (priceRange[0] !== 0 || priceRange[1] !== 1000000) count++;
     if (selectedBodyTypes.length > 0) count++;
     return count;
   };
@@ -228,14 +242,22 @@ export function FiltersSidebar({
               <Slider
                 value={priceRange}
                 onValueChange={onPriceRangeChange}
-                max={100000}
-                min={1000}
+                max={1000000}
+                min={0}
                 step={1000}
                 className="mb-4"
               />
               <div className="flex justify-between text-sm text-gray-600">
-                <span>{priceRange[0].toLocaleString()} $</span>
-                <span>{priceRange[1].toLocaleString()} $</span>
+                <span>
+                  {priceRange[0] === 0
+                    ? "0 $"
+                    : priceRange[0].toLocaleString() + " $"}
+                </span>
+                <span>
+                  {priceRange[1] >= 1000000
+                    ? "Max $"
+                    : priceRange[1].toLocaleString() + " $"}
+                </span>
               </div>
             </div>
           </div>

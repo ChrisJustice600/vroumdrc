@@ -24,7 +24,7 @@ export async function POST(
 
     const updated = await prisma.car.update({
       where: { id },
-      data: { status: "SOLD", isActive: false },
+      data: { status: "SOLD" },
     });
     return new Response(JSON.stringify(updated), { status: 200 });
   } catch (error) {

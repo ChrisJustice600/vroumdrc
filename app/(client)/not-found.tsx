@@ -47,19 +47,7 @@ export default function NotFound() {
           <p className="text-sm text-gray-500 mb-4">Pages disponibles :</p>
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <Link
-              href="/auth/signin"
-              className="text-blue-600 hover:text-blue-800 transition-colors"
-            >
-              Connexion
-            </Link>
-            <Link
-              href="/auth/signup"
-              className="text-blue-600 hover:text-blue-800 transition-colors"
-            >
-              Inscription
-            </Link>
-            <Link
-              href="/(client)/achat"
+              href="/achat"
               className="text-blue-600 hover:text-blue-800 transition-colors"
             >
               Acheter

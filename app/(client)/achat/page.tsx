@@ -32,7 +32,7 @@ type DbCar = {
 };
 
 export default function Achat() {
-  const [priceRange, setPriceRange] = useState<[number, number]>([500, 100000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [sortBy, setSortBy] = useState("newest");
@@ -59,7 +59,7 @@ export default function Achat() {
     transmission: "",
     condition: "",
     mileageRange: "",
-    priceRange: [10000, 100000],
+    priceRange: [0, 1000000],
     bodyTypes: [],
   });
 
@@ -70,6 +70,7 @@ export default function Achat() {
       try {
         setLoading(true);
         const params = new URLSearchParams();
+        if (filters.searchQuery) params.set("search", filters.searchQuery);
         if (filters.brand) params.set("brand", filters.brand);
         if (filters.model) params.set("model", filters.model);
         if (filters.year) params.set("year", filters.year);
@@ -77,10 +78,15 @@ export default function Achat() {
         if (filters.transmission)
           params.set("transmission", filters.transmission);
         if (filters.condition) params.set("condition", filters.condition);
-        if (filters.priceRange?.[0])
+        if (filters.priceRange?.[0] && filters.priceRange[0] > 0)
           params.set("minPrice", String(filters.priceRange[0]));
-        if (filters.priceRange?.[1])
+        if (filters.priceRange?.[1] && filters.priceRange[1] < 1000000)
           params.set("maxPrice", String(filters.priceRange[1]));
+        if (filters.mileageRange) {
+          const [min, max] = filters.mileageRange.split("-").map(Number);
+          if (min !== undefined) params.set("minMileage", String(min));
+          if (max !== undefined) params.set("maxMileage", String(max));
+        }
         // bodyTypes pourrait mapper sur bodyType unique côté API
         if (selectedBodyTypes[0]) params.set("bodyType", selectedBodyTypes[0]);
         if (sortBy) params.set("sortBy", sortBy);

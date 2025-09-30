@@ -1,4 +1,4 @@
-import { MultipayWebhookEvent, verifyMultipaySignature } from "@/lib/multipay";
+import { verifyMultipaySignature } from "@/lib/multipay";
 import prisma from "@/lib/prisma";
 import { NextRequest } from "next/server";
 
@@ -14,7 +14,16 @@ export async function POST(req: NextRequest) {
       return new Response("Signature invalide", { status: 400 });
     }
 
-    const payload = JSON.parse(rawBody) as MultipayWebhookEvent | any;
+    const payload = JSON.parse(rawBody) as {
+      event?: string;
+      type?: string;
+      data?: {
+        id?: string | number;
+        responseCode?: string;
+        status?: string;
+        merchantReference?: string | number;
+      };
+    };
     // La doc Interswitch utilise 'event' et 'data'
     const type: string = payload.type || payload.event || "";
     const data = payload.data;
@@ -29,9 +38,9 @@ export async function POST(req: NextRequest) {
     let existing = await prisma.subscription.findUnique({
       where: { paymentId: String(data.id) },
     });
-    if (!existing && (data as any)?.merchantReference) {
+    if (!existing && data?.merchantReference) {
       existing = await prisma.subscription.findUnique({
-        where: { paymentId: String((data as any).merchantReference) },
+        where: { paymentId: String(data.merchantReference) },
       });
     }
 
@@ -51,7 +60,7 @@ export async function POST(req: NextRequest) {
       const end = new Date(start.getTime() + 30 * 24 * 60 * 60 * 1000);
 
       await prisma.subscription.update({
-        where: { paymentId: data.id },
+        where: { paymentId: String(data.id) },
         data: {
           isActive: true,
           startDate: start,
@@ -71,7 +80,7 @@ export async function POST(req: NextRequest) {
       data.status === "failed"
     ) {
       await prisma.subscription.update({
-        where: { paymentId: data.id },
+        where: { paymentId: String(data.id) },
         data: { isActive: false },
       });
       console.log("[webhook] paiement échoué, abonnement désactivé");

@@ -8,11 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
+import { InputOTP } from "@/components/ui/input-otp";
 import { ArrowLeft, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
@@ -108,16 +104,7 @@ export function SimpleOTPModal({
               maxLength={6}
               value={otp}
               onChange={(value) => setOtp(value)}
-            >
-              <InputOTPGroup>
-                <InputOTPSlot index={0} className="w-12 h-12 text-lg" />
-                <InputOTPSlot index={1} className="w-12 h-12 text-lg" />
-                <InputOTPSlot index={2} className="w-12 h-12 text-lg" />
-                <InputOTPSlot index={3} className="w-12 h-12 text-lg" />
-                <InputOTPSlot index={4} className="w-12 h-12 text-lg" />
-                <InputOTPSlot index={5} className="w-12 h-12 text-lg" />
-              </InputOTPGroup>
-            </InputOTP>
+            />
           </div>
 
           <Button
