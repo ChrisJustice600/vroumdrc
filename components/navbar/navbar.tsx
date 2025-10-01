@@ -14,6 +14,7 @@ import {
 import { auth } from "@/lib/firebase";
 import { clearSessionCookie } from "@/lib/sessionClient";
 import { useFavoritesStore } from "@/lib/stores/favoritesStore";
+import { useRecentlyViewedStore } from "@/lib/stores/recentlyViewedStore";
 import { useSessionUser } from "@/lib/useSessionUser";
 import { signOut } from "firebase/auth";
 import { Menu, X } from "lucide-react";
@@ -35,6 +36,7 @@ export function Navbar() {
   const pathname = usePathname();
   const { user } = useSessionUser();
   const favoritesCount = useFavoritesStore((s) => s.items.length);
+  const recentlyViewedCount = useRecentlyViewedStore((s) => s.items.length);
 
   const isActive = (href: string) => {
     if (href === "/") {
@@ -89,29 +91,56 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-1 h-24">
-              {navItems
-                .concat([{ name: "Favoris", href: "/favoris" }])
-                .map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
-                      isActive(item.href)
-                        ? "bg-red-600 text-white"
-                        : "text-white hover:bg-white/10"
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                    isActive(item.href)
+                      ? "bg-red-600 text-white"
+                      : "text-white hover:bg-white/10"
+                  }`}
+                >
+                  {item.name}
+                  {/* Underline animation */}
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                      isActive(item.href) ? "w-full" : "group-hover:w-full"
                     }`}
-                  >
-                    {item.name === "Favoris"
-                      ? `Favoris (${favoritesCount})`
-                      : item.name}
-                    {/* Underline animation */}
-                    <span
-                      className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
-                        isActive(item.href) ? "w-full" : "group-hover:w-full"
-                      }`}
-                    />
-                  </Link>
-                ))}
+                  />
+                </Link>
+              ))}
+
+              {/* Lists Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group text-white hover:bg-white/10">
+                    Mes listes
+                    <span className="ml-1">▼</span>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link href="/favoris" className="flex justify-between">
+                      Favoris
+                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                        {favoritesCount}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href="/recently-viewed"
+                      className="flex justify-between"
+                    >
+                      Récemment vues
+                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                        {recentlyViewedCount}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -182,30 +211,61 @@ export function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 bg-black/80 backdrop-blur-sm">
-              {navItems
-                .concat([{ name: "Favoris", href: "/favoris" }])
-                .map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
-                      isActive(item.href)
-                        ? "bg-red-600 text-white"
-                        : "text-white hover:bg-white/10"
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                    isActive(item.href)
+                      ? "bg-red-600 text-white"
+                      : "text-white hover:bg-white/10"
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name}
+                  {/* Underline animation */}
+                  <span
+                    className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                      isActive(item.href) ? "w-full" : "group-hover:w-full"
                     }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name === "Favoris"
-                      ? `Favoris (${favoritesCount})`
-                      : item.name}
-                    {/* Underline animation */}
-                    <span
-                      className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
-                        isActive(item.href) ? "w-full" : "group-hover:w-full"
-                      }`}
-                    />
-                  </Link>
-                ))}
+                  />
+                </Link>
+              ))}
+              <Link
+                href="/favoris"
+                className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                  isActive("/favoris")
+                    ? "bg-red-600 text-white"
+                    : "text-white hover:bg-white/10"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Favoris ({favoritesCount}){/* Underline animation */}
+                <span
+                  className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                    isActive("/favoris") ? "w-full" : "group-hover:w-full"
+                  }`}
+                />
+              </Link>
+              <Link
+                href="/recently-viewed"
+                className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
+                  isActive("/recently-viewed")
+                    ? "bg-red-600 text-white"
+                    : "text-white hover:bg-white/10"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Récemment vues ({recentlyViewedCount})
+                {/* Underline animation */}
+                <span
+                  className={`absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 ease-in-out ${
+                    isActive("/recently-viewed")
+                      ? "w-full"
+                      : "group-hover:w-full"
+                  }`}
+                />
+              </Link>
               <div className="pt-4 border-t border-white/20">
                 {user ? (
                   <div className="flex items-center justify-between gap-3">

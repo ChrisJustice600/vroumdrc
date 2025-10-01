@@ -103,6 +103,7 @@ model Car {
 
   // Statut de l'annonce
   status    CarStatus @default(ACTIVE)
+  views     Int       @default(0)
   createdAt DateTime  @default(now())
 
   @@index([brand])

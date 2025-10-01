@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar/navbar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useFavoritesStore } from "@/lib/stores/favoritesStore";
+import { useRecentlyViewedStore } from "@/lib/stores/recentlyViewedStore";
 import {
   Calendar,
   ChevronLeft,
@@ -72,6 +73,7 @@ export default function CarSinglePage() {
   const params = useParams<{ id: string }>();
   const [selectedImage, setSelectedImage] = useState(0);
   const { has, toggle } = useFavoritesStore();
+  const { add } = useRecentlyViewedStore();
   const thumbnailRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [carData, setCarData] = useState<CarData>(fallbackCar);
@@ -93,6 +95,21 @@ export default function CarSinglePage() {
             data.images && data.images.length > 0
               ? data.images
               : ["/car-service.png"],
+        });
+
+        // Increment views
+        fetch(`/api/cars/${params.id}/view`, { method: "POST" }).catch(
+          console.error
+        );
+
+        // Add to recently viewed
+        add({
+          id: data.id,
+          brand: data.brand,
+          model: data.model,
+          year: data.year,
+          price: data.price,
+          image: data.images?.[0] || "/car-service.png",
         });
       } catch {
         // garder fallback

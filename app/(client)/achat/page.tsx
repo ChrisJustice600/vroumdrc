@@ -29,6 +29,7 @@ type DbCar = {
   images: string[];
   condition: string | null;
   createdAt: string;
+  views: number;
 };
 
 export default function Achat() {
@@ -301,6 +302,7 @@ export default function Achat() {
                             ? "occasion"
                             : "sans-plaque") as "occasion" | "sans-plaque",
                           addedDate: car.createdAt,
+                          views: car.views,
                         }}
                         formatPrice={formatPrice}
                         formatMileage={formatMileage}
@@ -324,6 +326,7 @@ export default function Achat() {
                             ? "occasion"
                             : "sans-plaque") as "occasion" | "sans-plaque",
                           addedDate: car.createdAt,
+                          views: car.views,
                         }}
                         formatPrice={formatPrice}
                         formatMileage={formatMileage}

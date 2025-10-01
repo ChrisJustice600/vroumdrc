@@ -3,6 +3,7 @@
 import { useFavoritesStore } from "@/lib/stores/favoritesStore";
 import {
   ArrowRight,
+  Eye,
   Fuel,
   Gauge,
   Heart,
@@ -25,6 +26,7 @@ interface Car {
   category: string;
   condition: "occasion" | "sans-plaque";
   addedDate: string;
+  views?: number;
 }
 
 interface CarListCardProps {
@@ -62,10 +64,16 @@ export function CarListCard({
           </span>
         </div>
         {/* Date Badge */}
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 flex flex-col gap-1">
           <span className="bg-black/50 text-white text-xs px-2 py-1 rounded-sm">
             Ajouté {getDaysAgo(car.addedDate)}
           </span>
+          {car.views !== undefined && (
+            <span className="bg-black/50 text-white text-xs px-2 py-1 rounded-sm flex items-center gap-1">
+              <Eye className="w-3 h-3" />
+              {car.views}
+            </span>
+          )}
         </div>
         {/* Action Icons */}
         <div className="absolute bottom-3 right-3 flex gap-2">
