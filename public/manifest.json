@@ -1,0 +1,54 @@
+{
+  "name": " VroumDRC - Vente de voitures au Congo Kinshasa",
+  "short_name": " VroumDRC",
+  "description": "Plateforme de référence pour l'achat et la vente de voitures neuves et d'occasion au Congo Kinshasa",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#dc2626",
+  "orientation": "portrait-primary",
+  "categories": ["automotive", "shopping", "business"],
+  "lang": "fr-CD",
+  "dir": "ltr",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/favicon_ Vroum/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon_ Vroum/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Acheter une voiture",
+      "short_name": "Acheter",
+      "description": "Parcourir les voitures disponibles",
+      "url": "/achat",
+      "icons": [
+        {
+          "src": "/favicon_ Vroum/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Vendre ma voiture",
+      "short_name": "Vendre",
+      "description": "Mettre en vente ma voiture",
+      "url": "/vendre",
+      "icons": [
+        {
+          "src": "/favicon_ Vroum/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ]
+}

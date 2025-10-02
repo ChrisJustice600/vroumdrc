@@ -8,9 +8,9 @@ import { getAuth } from "firebase/auth";
 // Configuration fournie par l'utilisateur
 const firebaseConfig = {
   apiKey: "AIzaSyAZfqaLLPHXLUlNou-Tk-ByGQT9LWqtg8o",
-  authDomain: "vroomkin-60cb6.firebaseapp.com",
-  projectId: "vroomkin-60cb6",
-  storageBucket: "vroomkin-60cb6.firebasestorage.app",
+  authDomain: " Vroumkin-60cb6.firebaseapp.com",
+  projectId: " Vroumkin-60cb6",
+  storageBucket: " Vroumkin-60cb6.firebasestorage.app",
   messagingSenderId: "318229921797",
   appId: "1:318229921797:web:8e944f88e6c4813e325c6c",
   measurementId: "G-9Y9ZRX1Y6R",

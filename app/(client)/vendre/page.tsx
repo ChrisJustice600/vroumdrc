@@ -62,7 +62,7 @@ export default function VendrePage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Pourquoi choisir <span className="text-red-500">VroomKin</span>{" "}
+                Pourquoi choisir <span className="text-red-500"> VroumKin</span>{" "}
                 ?
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -229,7 +229,7 @@ export default function VendrePage() {
                   <blockquote className="text-gray-700 leading-relaxed italic">
                     "J'ai vendu ma voiture en seulement 3 jours ! Le processus
                     est incroyablement simple et les acheteurs sont vraiment
-                    sérieux. Je recommande vivement KVroom."
+                    sérieux. Je recommande vivement K Vroum."
                   </blockquote>
                 </CardContent>
               </Card>

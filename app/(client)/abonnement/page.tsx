@@ -126,7 +126,7 @@ export default function AbonnementPage() {
             <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Boostez vos ventes avec des outils professionnels, une visibilité
               maximale et un support dédié. Rejoignez les vendeurs qui
-              réussissent sur VroomKin.
+              réussissent sur VroumKin.
             </p>
 
             <div className="flex items-center justify-center gap-4 mb-12">

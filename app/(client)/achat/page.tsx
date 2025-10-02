@@ -297,6 +297,42 @@ export default function Achat() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Acheter une voiture au Congo Kinshasa",
+            description:
+              "Collection de voitures neuves et d'occasion disponibles à l'achat au Congo Kinshasa",
+            url: "https:// Vroumdrc.com/achat",
+            mainEntity: {
+              "@type": "ItemList",
+              name: "Voitures disponibles",
+              numberOfItems: cars.length,
+              itemListElement: cars.map((car, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "Car",
+                  name: `${car.brand} ${car.model} ${car.year}`,
+                  brand: car.brand,
+                  model: car.model,
+                  vehicleModelDate: car.year,
+                  offers: {
+                    "@type": "Offer",
+                    price: car.price,
+                    priceCurrency: "USD",
+                  },
+                  url: `https:// Vroumdrc.com/car/${car.id}`,
+                },
+              })),
+            },
+          }),
+        }}
+      />
       <Navbar />
       <HeroAchat />
 

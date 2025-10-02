@@ -22,8 +22,8 @@ export default function Footer() {
           <div className="col-span-1 lg:col-span-2">
             <div className="flex items-center space-x-3 mb-8">
               <Image
-                src="/logo-kvroom.png"
-                alt="KVroom Logo"
+                src="/logo-k Vroum.png"
+                alt="K Vroum Logo"
                 width={120}
                 height={60}
                 className="h-16 w-auto"
@@ -32,8 +32,8 @@ export default function Footer() {
             </div>
             <p className="text-gray-300 mb-8 max-w-lg leading-relaxed text-lg">
               Trouvez votre voiture idéale ou vendez la vôtre en toute
-              simplicité. KVroom connecte acheteurs et vendeurs de voitures avec
-              une plateforme transparente et sécurisée.
+              simplicité. K Vroum connecte acheteurs et vendeurs de voitures
+              avec une plateforme transparente et sécurisée.
             </p>
             <div className="flex space-x-6">
               <a
@@ -124,7 +124,7 @@ export default function Footer() {
                   <Mail className="h-5 w-5 text-red-400" />
                 </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors">
-                  support@kvroom.com
+                  support@k Vroum.com
                 </span>
               </div>
               <div className="flex items-center space-x-4 group">
@@ -151,7 +151,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
               <p className="text-gray-400 text-sm">
-                © 2024 KVroom. Tous droits réservés.
+                © 2024 K Vroum. Tous droits réservés.
               </p>
               <Heart className="h-4 w-4 text-red-500" />
             </div>

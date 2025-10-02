@@ -17,7 +17,7 @@ type FavoritesState = {
   clear: () => void;
 };
 
-const STORAGE_KEY = "kvroom:favorites";
+const STORAGE_KEY = "k Vroum:favorites";
 
 function load(): FavoriteItem[] {
   if (typeof window === "undefined") return [];

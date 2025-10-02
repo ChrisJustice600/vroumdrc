@@ -17,7 +17,7 @@ type RecentlyViewedState = {
   clear: () => void;
 };
 
-const STORAGE_KEY = "kvroom:recentlyViewed";
+const STORAGE_KEY = "k Vroum:recentlyViewed";
 const MAX_ITEMS = 10;
 
 function load(): RecentlyViewedItem[] {

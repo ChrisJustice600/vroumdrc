@@ -79,8 +79,8 @@ export function Navbar() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Image
-              src="/logo-kvroom.png"
-              alt="KVroom Logo"
+              src="/logo-k Vroum.png"
+              alt="K Vroum Logo"
               width={120}
               height={60}
               className="h-16 w-auto"
