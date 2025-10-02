@@ -14,7 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Grid3X3, List } from "lucide-react";
+import { Grid3X3, List, Loader2, X } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type DbCar = {
@@ -33,6 +34,7 @@ type DbCar = {
 };
 
 export default function Achat() {
+  const searchParams = useSearchParams();
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -40,6 +42,8 @@ export default function Achat() {
   const [loading, setLoading] = useState(false);
   const [cars, setCars] = useState<DbCar[]>([]);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [filters, setFilters] = useState<{
     searchQuery: string;
     brand: string;
@@ -64,12 +68,73 @@ export default function Achat() {
     bodyTypes: [],
   });
 
+  // Appliquer les filtres de l'URL au chargement
+  useEffect(() => {
+    if (searchParams) {
+      const urlFilters = {
+        searchQuery: searchParams.get("search") || "",
+        brand: searchParams.get("brand") || "",
+        model: searchParams.get("model") || "",
+        year: searchParams.get("year") || "",
+        fuel: searchParams.get("fuel") || "",
+        transmission: searchParams.get("transmission") || "",
+        condition: searchParams.get("condition") || "",
+        mileageRange: "",
+        priceRange: [0, 1000000] as [number, number],
+        bodyTypes: [],
+      };
+
+      // Appliquer les filtres de prix de l'URL
+      const minPrice = searchParams.get("minPrice");
+      const maxPrice = searchParams.get("maxPrice");
+      if (minPrice || maxPrice) {
+        urlFilters.priceRange = [
+          minPrice ? Number(minPrice) : 0,
+          maxPrice ? Number(maxPrice) : 1000000,
+        ];
+        setPriceRange(urlFilters.priceRange);
+      }
+
+      // Appliquer le filtre de type de carrosserie
+      const bodyType = searchParams.get("bodyType");
+      if (bodyType) {
+        setSelectedBodyTypes([bodyType]);
+      }
+
+      setFilters(urlFilters);
+
+      // Afficher le message de bienvenue si des filtres sont appliqués
+      if (
+        urlFilters.searchQuery ||
+        urlFilters.brand ||
+        urlFilters.model ||
+        urlFilters.condition
+      ) {
+        setShowWelcome(true);
+        setTimeout(() => setShowWelcome(false), 3000);
+      }
+    }
+  }, [searchParams]);
+
   // Charger les voitures selon les filtres/tri
   useEffect(() => {
     const controller = new AbortController();
     const fetchCars = async () => {
       try {
         setLoading(true);
+        setLoadingProgress(0);
+
+        // Animation de progression
+        const progressInterval = setInterval(() => {
+          setLoadingProgress((prev) => {
+            if (prev >= 80) {
+              clearInterval(progressInterval);
+              return 80;
+            }
+            return prev + Math.random() * 20;
+          });
+        }, 100);
+
         const params = new URLSearchParams();
         if (filters.searchQuery) params.set("search", filters.searchQuery);
         if (filters.brand) params.set("brand", filters.brand);
@@ -98,12 +163,22 @@ export default function Achat() {
         });
         if (!res.ok) throw new Error("Échec chargement voitures");
         const data = (await res.json()) as DbCar[];
-        setCars(data);
+
+        clearInterval(progressInterval);
+        setLoadingProgress(100);
+
+        // Délai pour l'effet visuel
+        setTimeout(() => {
+          setCars(data);
+          setLoading(false);
+          setInitialLoad(false);
+          setLoadingProgress(0);
+        }, 300);
       } catch (e) {
         if (e instanceof Error && e.name !== "AbortError") console.error(e);
-      } finally {
         setLoading(false);
         setInitialLoad(false);
+        setLoadingProgress(0);
       }
     };
     fetchCars();
@@ -140,10 +215,122 @@ export default function Achat() {
     return diffDays === 1 ? "Hier" : `Il y a ${diffDays} jours`;
   };
 
+  // Fonction pour supprimer un filtre
+  const removeFilter = (filterType: string) => {
+    switch (filterType) {
+      case "search":
+        setFilters((prev) => ({ ...prev, searchQuery: "" }));
+        break;
+      case "brand":
+        setFilters((prev) => ({ ...prev, brand: "" }));
+        break;
+      case "model":
+        setFilters((prev) => ({ ...prev, model: "" }));
+        break;
+      case "condition":
+        setFilters((prev) => ({ ...prev, condition: "" }));
+        break;
+      case "price":
+        setPriceRange([0, 1000000]);
+        setFilters((prev) => ({ ...prev, priceRange: [0, 1000000] }));
+        break;
+      case "bodyType":
+        setSelectedBodyTypes([]);
+        break;
+    }
+  };
+
+  // Fonction pour obtenir les filtres actifs
+  const getActiveFilters = () => {
+    const activeFilters = [];
+
+    if (filters.searchQuery) {
+      activeFilters.push({
+        type: "search",
+        label: `Recherche: "${filters.searchQuery}"`,
+        value: filters.searchQuery,
+      });
+    }
+
+    if (filters.brand) {
+      activeFilters.push({
+        type: "brand",
+        label: `Marque: ${filters.brand}`,
+        value: filters.brand,
+      });
+    }
+
+    if (filters.model) {
+      activeFilters.push({
+        type: "model",
+        label: `Modèle: ${filters.model}`,
+        value: filters.model,
+      });
+    }
+
+    if (filters.condition) {
+      activeFilters.push({
+        type: "condition",
+        label: `Condition: ${filters.condition}`,
+        value: filters.condition,
+      });
+    }
+
+    if (priceRange[0] > 0 || priceRange[1] < 1000000) {
+      activeFilters.push({
+        type: "price",
+        label: `Prix: ${formatPrice(priceRange[0])} - ${formatPrice(priceRange[1])}`,
+        value: `${priceRange[0]}-${priceRange[1]}`,
+      });
+    }
+
+    if (selectedBodyTypes.length > 0) {
+      activeFilters.push({
+        type: "bodyType",
+        label: `Type: ${selectedBodyTypes.join(", ")}`,
+        value: selectedBodyTypes.join(","),
+      });
+    }
+
+    return activeFilters;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       <HeroAchat />
+
+      {/* Message de bienvenue avec filtres */}
+      {showWelcome && (
+        <div className="bg-green-50 border border-green-200 rounded-lg mx-4 md:mx-8 lg:mx-16 p-4 mb-6 animate-in slide-in-from-top-2 duration-500">
+          <div className="flex items-center gap-3">
+            <div className="bg-green-100 rounded-full p-2">
+              <svg
+                className="w-5 h-5 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-green-800 font-semibold">
+                Recherche appliquée avec succès !
+              </h3>
+              <p className="text-green-600 text-sm">
+                Vos filtres ont été appliqués et les résultats sont affichés
+                ci-dessous.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="pt-8">
         <div className="container mx-auto px-4 py-8">
@@ -159,18 +346,86 @@ export default function Achat() {
 
             {/* Main Content */}
             <div className="flex-1">
-              {/* Header */}
+              {/* Active Filters */}
+              {getActiveFilters().length > 0 && (
+                <div className="mb-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Filtres appliqués
+                    </h3>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => {
+                        setFilters({
+                          searchQuery: "",
+                          brand: "",
+                          model: "",
+                          year: "",
+                          fuel: "",
+                          transmission: "",
+                          condition: "",
+                          mileageRange: "",
+                          priceRange: [0, 1000000],
+                          bodyTypes: [],
+                        });
+                        setPriceRange([0, 1000000]);
+                        setSelectedBodyTypes([]);
+                      }}
+                      className="text-red-600 border-red-200 hover:bg-red-50"
+                    >
+                      Effacer tout
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {getActiveFilters().map((filter, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center gap-2 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium animate-in fade-in-0 slide-in-from-top-2 duration-300"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        {filter.label}
+                        <button
+                          onClick={() => removeFilter(filter.type)}
+                          className="hover:bg-red-200 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Header avec loader */}
               <div className="flex items-center justify-between mb-6">
-                <p className="text-gray-600">
-                  {loading
-                    ? "Chargement..."
-                    : `Affichage de 1 - ${cars.length} sur ${cars.length} résultats`}
-                  {Object.keys(filters).length > 0 && (
-                    <span className="ml-2 text-red-600 font-medium">
-                      (Filtrés)
-                    </span>
+                <div className="flex items-center gap-3">
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin text-red-600" />
+                      <span className="text-gray-600">
+                        Recherche en cours...
+                      </span>
+                      {loadingProgress > 0 && (
+                        <div className="w-32 bg-gray-200 rounded-full h-2 ml-4">
+                          <div
+                            className="bg-red-600 h-2 rounded-full transition-all duration-300 ease-out"
+                            style={{ width: `${loadingProgress}%` }}
+                          />
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <p className="text-gray-600">
+                      Affichage de 1 - {cars.length} sur {cars.length} résultats
+                      {getActiveFilters().length > 0 && (
+                        <span className="ml-2 text-red-600 font-medium">
+                          (Filtrés)
+                        </span>
+                      )}
+                    </p>
                   )}
-                </p>
+                </div>
 
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
@@ -233,16 +488,41 @@ export default function Achat() {
                   {Array.from({ length: 6 }).map((_, i) => (
                     <div
                       key={i}
-                      className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden"
+                      className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden animate-pulse"
                     >
-                      <Skeleton className="h-64 w-full" />
+                      <div className="relative">
+                        <Skeleton className="h-64 w-full" />
+                        <div className="absolute top-4 right-4">
+                          <Skeleton className="h-6 w-12 rounded-full" />
+                        </div>
+                      </div>
                       <div className="p-4 space-y-3">
-                        <Skeleton className="h-6 w-32" />
+                        <div className="flex items-center justify-between">
+                          <Skeleton className="h-6 w-32" />
+                          <Skeleton className="h-5 w-16" />
+                        </div>
                         <Skeleton className="h-4 w-24" />
-                        <div className="grid grid-cols-3 gap-4">
-                          <Skeleton className="h-10 w-full" />
-                          <Skeleton className="h-10 w-full" />
-                          <Skeleton className="h-10 w-full" />
+                        <div className="flex items-center gap-2">
+                          <Skeleton className="h-4 w-20" />
+                          <Skeleton className="h-4 w-16" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-4 mt-4">
+                          <div className="text-center">
+                            <Skeleton className="h-8 w-full mb-1" />
+                            <Skeleton className="h-3 w-full" />
+                          </div>
+                          <div className="text-center">
+                            <Skeleton className="h-8 w-full mb-1" />
+                            <Skeleton className="h-3 w-full" />
+                          </div>
+                          <div className="text-center">
+                            <Skeleton className="h-8 w-full mb-1" />
+                            <Skeleton className="h-3 w-full" />
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-4">
+                          <Skeleton className="h-4 w-24" />
+                          <Skeleton className="h-4 w-20" />
                         </div>
                       </div>
                     </div>
@@ -260,12 +540,42 @@ export default function Achat() {
                     (_, i) => (
                       <div
                         key={i}
-                        className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden"
+                        className="bg-white rounded-sm shadow-lg border border-gray-100 overflow-hidden animate-pulse"
                       >
-                        <Skeleton className="h-64 w-full" />
+                        <div className="relative">
+                          <Skeleton className="h-64 w-full" />
+                          <div className="absolute top-4 right-4">
+                            <Skeleton className="h-6 w-12 rounded-full" />
+                          </div>
+                        </div>
                         <div className="p-4 space-y-3">
-                          <Skeleton className="h-6 w-28" />
+                          <div className="flex items-center justify-between">
+                            <Skeleton className="h-6 w-28" />
+                            <Skeleton className="h-5 w-16" />
+                          </div>
                           <Skeleton className="h-4 w-20" />
+                          <div className="flex items-center gap-2">
+                            <Skeleton className="h-4 w-16" />
+                            <Skeleton className="h-4 w-12" />
+                          </div>
+                          <div className="grid grid-cols-3 gap-4 mt-4">
+                            <div className="text-center">
+                              <Skeleton className="h-8 w-full mb-1" />
+                              <Skeleton className="h-3 w-full" />
+                            </div>
+                            <div className="text-center">
+                              <Skeleton className="h-8 w-full mb-1" />
+                              <Skeleton className="h-3 w-full" />
+                            </div>
+                            <div className="text-center">
+                              <Skeleton className="h-8 w-full mb-1" />
+                              <Skeleton className="h-3 w-full" />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-between mt-4">
+                            <Skeleton className="h-4 w-20" />
+                            <Skeleton className="h-4 w-16" />
+                          </div>
                         </div>
                       </div>
                     )
@@ -283,55 +593,65 @@ export default function Achat() {
                       : "space-y-4"
                   }
                 >
-                  {cars.map((car) =>
+                  {cars.map((car, index) =>
                     viewMode === "grid" ? (
-                      <CarGridCard
+                      <div
                         key={car.id}
-                        car={{
-                          id: car.id,
-                          brand: car.brand,
-                          model: car.model,
-                          year: car.year,
-                          price: car.price,
-                          mileage: car.mileage,
-                          fuel: car.fuel || "-",
-                          transmission: car.transmission || "-",
-                          image: car.images?.[0] || "/car-service.png",
-                          category: "",
-                          condition: (car.condition === "OCCASION"
-                            ? "occasion"
-                            : "sans-plaque") as "occasion" | "sans-plaque",
-                          addedDate: car.createdAt,
-                          views: car.views,
-                        }}
-                        formatPrice={formatPrice}
-                        formatMileage={formatMileage}
-                        getDaysAgo={getDaysAgo}
-                      />
+                        className="animate-in fade-in-0 slide-in-from-bottom-4 duration-500"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <CarGridCard
+                          car={{
+                            id: car.id,
+                            brand: car.brand,
+                            model: car.model,
+                            year: car.year,
+                            price: car.price,
+                            mileage: car.mileage,
+                            fuel: car.fuel || "-",
+                            transmission: car.transmission || "-",
+                            image: car.images?.[0] || "/car-service.png",
+                            category: "",
+                            condition: (car.condition === "OCCASION"
+                              ? "occasion"
+                              : "sans-plaque") as "occasion" | "sans-plaque",
+                            addedDate: car.createdAt,
+                            views: car.views,
+                          }}
+                          formatPrice={formatPrice}
+                          formatMileage={formatMileage}
+                          getDaysAgo={getDaysAgo}
+                        />
+                      </div>
                     ) : (
-                      <CarListCard
+                      <div
                         key={car.id}
-                        car={{
-                          id: car.id,
-                          brand: car.brand,
-                          model: car.model,
-                          year: car.year,
-                          price: car.price,
-                          mileage: car.mileage,
-                          fuel: car.fuel || "-",
-                          transmission: car.transmission || "-",
-                          image: car.images?.[0] || "/car-service.png",
-                          category: "",
-                          condition: (car.condition === "OCCASION"
-                            ? "occasion"
-                            : "sans-plaque") as "occasion" | "sans-plaque",
-                          addedDate: car.createdAt,
-                          views: car.views,
-                        }}
-                        formatPrice={formatPrice}
-                        formatMileage={formatMileage}
-                        getDaysAgo={getDaysAgo}
-                      />
+                        className="animate-in fade-in-0 slide-in-from-left-4 duration-500"
+                        style={{ animationDelay: `${index * 100}ms` }}
+                      >
+                        <CarListCard
+                          car={{
+                            id: car.id,
+                            brand: car.brand,
+                            model: car.model,
+                            year: car.year,
+                            price: car.price,
+                            mileage: car.mileage,
+                            fuel: car.fuel || "-",
+                            transmission: car.transmission || "-",
+                            image: car.images?.[0] || "/car-service.png",
+                            category: "",
+                            condition: (car.condition === "OCCASION"
+                              ? "occasion"
+                              : "sans-plaque") as "occasion" | "sans-plaque",
+                            addedDate: car.createdAt,
+                            views: car.views,
+                          }}
+                          formatPrice={formatPrice}
+                          formatMileage={formatMileage}
+                          getDaysAgo={getDaysAgo}
+                        />
+                      </div>
                     )
                   )}
                 </div>

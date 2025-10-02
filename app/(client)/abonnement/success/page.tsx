@@ -17,6 +17,9 @@ type MeSubscription = {
 export default function AbonnementSuccessPage() {
   const params = useSearchParams();
   const ref = params.get("ref") || "";
+
+  console.log("ref:::", ref);
+
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<MeSubscription | null>(null);
   const [tries, setTries] = useState(0);
