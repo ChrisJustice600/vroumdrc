@@ -59,7 +59,7 @@ export default function Navbar() {
             >
               <Car className="h-6 w-6 text-white" />
             </motion.div>
-            <span className="text-2xl font-bold text-gray-900">AutoDirect</span>
+            {/* <span className="text-2xl font-bold: text-gray-900">AutoDirect</span> */}
           </Link>
 
           {/* Desktop Navigation */}

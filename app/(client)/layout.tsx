@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https:// Vroumdrc.com"),
+  metadataBase: new URL("https://vroumdrc.com"),
   alternates: {
     canonical: "/",
     languages: {
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_CD",
-    url: "https:// Vroumdrc.com",
+    url: "https://vroumdrc.com",
     siteName: " VroumDRC",
     title:
       " VroumDRC - Vente de voitures neuves et d'occasion au Congo Kinshasa",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     description:
       "Trouvez votre véhicule idéal parmi des milliers d'annonces vérifiées de voitures neuves et d'occasion au Congo Kinshasa.",
     images: ["/banner.png"],
-    creator: "@ Vroumdrc",
+    creator: "@vroumdrc",
   },
   robots: {
     index: true,
@@ -96,30 +96,30 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon_ Vroum/favicon-16x16.png",
+        url: "/favicon_vroumdrc/favicon-16x16.png",
         sizes: "16x16",
         type: "image/png",
       },
       {
-        url: "/favicon_ Vroum/favicon-32x32.png",
+        url: "/favicon_vroumdrc/favicon-32x32.png",
         sizes: "32x32",
         type: "image/png",
       },
       {
-        url: "/favicon_ Vroum/favicon.ico",
+        url: "/favicon_vroumdrc/favicon.ico",
         sizes: "any",
         type: "image/x-icon",
       },
     ],
     apple: [
       {
-        url: "/favicon_ Vroum/apple-touch-icon.png",
+        url: "/favicon_vroumdrc/apple-touch-icon.png",
         sizes: "180x180",
         type: "image/png",
       },
     ],
   },
-  manifest: "/favicon_ Vroum/site.webmanifest",
+  manifest: "/favicon_vroumdrc/site.webmanifest",
   verification: {
     google: "your-google-verification-code",
     yandex: "your-yandex-verification-code",

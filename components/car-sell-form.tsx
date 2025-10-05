@@ -212,7 +212,7 @@ export function CarSellForm() {
       const car = await res.json();
       toast.success("Annonce publiée avec succès");
       window.location.href = `/car/${car.id}`;
-    } catch (error) {
+    } catch {
       toast.error("Erreur réseau, réessayez.");
     } finally {
       setSubmitting(false);

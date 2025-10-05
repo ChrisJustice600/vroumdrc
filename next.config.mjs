@@ -1,6 +1,4 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+const nextConfig = {
   /* config options here */
   images: {
     domains: ["res.cloudinary.com"],
@@ -52,7 +50,7 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        source: "/(.*\\.(jpg|jpeg|png|gif|webp|avif|ico|svg))",
+        source: "/(.*)",
         headers: [
           {
             key: "Cache-Control",

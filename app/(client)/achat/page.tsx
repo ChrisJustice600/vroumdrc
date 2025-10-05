@@ -279,7 +279,9 @@ export default function Achat() {
     if (priceRange[0] > 0 || priceRange[1] < 1000000) {
       activeFilters.push({
         type: "price",
-        label: `Prix: ${formatPrice(priceRange[0])} - ${formatPrice(priceRange[1])}`,
+        label: `Prix: ${formatPrice(priceRange[0])} - ${formatPrice(
+          priceRange[1]
+        )}`,
         value: `${priceRange[0]}-${priceRange[1]}`,
       });
     }
@@ -307,7 +309,7 @@ export default function Achat() {
             name: "Acheter une voiture au Congo Kinshasa",
             description:
               "Collection de voitures neuves et d'occasion disponibles à l'achat au Congo Kinshasa",
-            url: "https:// Vroumdrc.com/achat",
+            url: "https://vroumdrc.com/achat",
             mainEntity: {
               "@type": "ItemList",
               name: "Voitures disponibles",
@@ -326,7 +328,7 @@ export default function Achat() {
                     price: car.price,
                     priceCurrency: "USD",
                   },
-                  url: `https:// Vroumdrc.com/car/${car.id}`,
+                  url: `https://vroumdrc.com/car/${car.id}`,
                 },
               })),
             },

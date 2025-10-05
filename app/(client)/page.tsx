@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       " VroumDRC - Vente de voitures neuves et d'occasion au Congo Kinshasa",
     description:
       "Trouvez votre véhicule idéal parmi des milliers d'annonces vérifiées de voitures neuves et d'occasion au Congo Kinshasa.",
-    url: "https:// Vroumdrc.com",
+    url: "https://vroumdrc.com",
     images: [
       {
         url: "/banner.png",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https:// Vroumdrc.com",
+    canonical: "https://vroumdrc.com",
   },
 };
 
@@ -58,8 +58,8 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: " VroumDRC",
-            url: "https:// Vroumdrc.com",
-            logo: "https:// Vroumdrc.com/logo-k Vroum.png",
+            url: "https://vroumdrc.com",
+            logo: "https://vroumdrc.com/logo-k Vroum.png",
             description:
               "Plateforme de référence pour l'achat et la vente de voitures neuves et d'occasion au Congo Kinshasa",
             foundingDate: "2024",
@@ -91,7 +91,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: " VroumDRC",
-            url: "https:// Vroumdrc.com",
+            url: "https://vroumdrc.com",
             description:
               "Plateforme de vente de voitures neuves et d'occasion au Congo Kinshasa",
             potentialAction: {
@@ -99,7 +99,7 @@ export default function Home() {
               target: {
                 "@type": "EntryPoint",
                 urlTemplate:
-                  "https:// Vroumdrc.com/achat?search={search_term_string}",
+                  "https://vroumdrc.com/achat?search={search_term_string}",
               },
               "query-input": "required name=search_term_string",
             },

@@ -19,7 +19,11 @@ export function CarSEO({ car }: CarSEOProps) {
   const carName = `${car.brand} ${car.model} ${car.year}`;
   const carDescription =
     car.description ||
-    `${carName} - ${car.fuel || "Essence"} - ${car.transmission || "Manuelle"} - ${car.mileage.toLocaleString()} km - ${car.price.toLocaleString("fr-CD")}$`;
+    `${carName} - ${car.fuel || "Essence"} - ${
+      car.transmission || "Manuelle"
+    } - ${car.mileage.toLocaleString()} km - ${car.price.toLocaleString(
+      "fr-CD"
+    )}$`;
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -51,12 +55,12 @@ export function CarSEO({ car }: CarSEOProps) {
       seller: {
         "@type": "Organization",
         name: " VroumDRC",
-        url: "https:// Vroumdrc.com",
+        url: "https://vroumdrc.com",
       },
-      url: `https:// Vroumdrc.com/car/${car.id}`,
+      url: `https://vroumdrc.com/car/${car.id}`,
     },
     image: car.images?.[0] || "/car-service.png",
-    url: `https:// Vroumdrc.com/car/${car.id}`,
+    url: `https://vroumdrc.com/car/${car.id}`,
     datePosted: new Date().toISOString(),
     locationCreated: car.location
       ? {
@@ -70,37 +74,69 @@ export function CarSEO({ car }: CarSEOProps) {
   return (
     <>
       {/* Meta tags */}
-      <title>{carName} - VroumDRC</title>
-      <meta name="description" content={carDescription} />
+      <title key="title">{carName} - VroumDRC</title>
+      <meta key="description" name="description" content={carDescription} />
       <meta
+        key="keywords"
         name="keywords"
         content={`${car.brand}, ${car.model}, ${car.year}, voiture occasion, automobile Congo Kinshasa,  VroumDRC`}
       />
-      <link rel="canonical" href={`https:// Vroumdrc.com/car/${car.id}`} />
+      <link
+        key="canonical"
+        rel="canonical"
+        href={`https://vroumdrc.com/car/${car.id}`}
+      />
 
       {/* Open Graph */}
-      <meta property="og:title" content={carName} />
-      <meta property="og:description" content={carDescription} />
-      <meta property="og:url" content={`https:// Vroumdrc.com/car/${car.id}`} />
-      <meta property="og:type" content="product" />
+      <meta key="og:title" property="og:title" content={carName} />
       <meta
+        key="og:description"
+        property="og:description"
+        content={carDescription}
+      />
+      <meta
+        key="og:url"
+        property="og:url"
+        content={`https://vroumdrc.com/car/${car.id}`}
+      />
+      <meta key="og:type" property="og:type" content="product" />
+      <meta
+        key="og:image"
         property="og:image"
         content={car.images?.[0] || "/car-service.png"}
       />
-      <meta property="product:price:amount" content={car.price.toString()} />
-      <meta property="product:price:currency" content="USD" />
+      <meta
+        key="product:price:amount"
+        property="product:price:amount"
+        content={car.price.toString()}
+      />
+      <meta
+        key="product:price:currency"
+        property="product:price:currency"
+        content="USD"
+      />
 
       {/* Twitter Card */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={carName} />
-      <meta name="twitter:description" content={carDescription} />
       <meta
+        key="twitter:card"
+        name="twitter:card"
+        content="summary_large_image"
+      />
+      <meta key="twitter:title" name="twitter:title" content={carName} />
+      <meta
+        key="twitter:description"
+        name="twitter:description"
+        content={carDescription}
+      />
+      <meta
+        key="twitter:image"
         name="twitter:image"
         content={car.images?.[0] || "/car-service.png"}
       />
 
       {/* Structured Data */}
       <script
+        key="structured-data"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData),

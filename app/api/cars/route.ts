@@ -1,4 +1,4 @@
-import { getUser } from "@/lib/auth-server";
+// Removed Better Auth import - using Firebase OTP instead
 import { uploadImage } from "@/lib/cloudinary";
 import type {
   BodyType,
@@ -33,9 +33,9 @@ function mapTransmission(value: string | null): string | undefined {
 
 export async function POST(req: NextRequest) {
   try {
-    const sessionUser = await getUser();
+    // Using Firebase session instead of Better Auth
     const cookieUid = req.cookies.get("session_uid")?.value;
-    if (!sessionUser?.id && !cookieUid) {
+    if (!cookieUid) {
       return new Response(
         JSON.stringify({ error: "Non authentifié. Veuillez vous connecter." }),
         { status: 401 }
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
 
     const car = await prisma.car.create({
       data: {
-        sellerId: (sessionUser?.id as string) ?? (cookieUid as string),
+        sellerId: cookieUid as string,
         title,
         description,
         brand,
