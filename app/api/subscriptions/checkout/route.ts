@@ -17,7 +17,11 @@ export async function POST(req: NextRequest) {
     console.log("[checkout] upsert user", uid);
     await prisma.user.upsert({
       where: { id: uid },
-      create: { id: uid, phoneNumber: uid },
+      create: {
+        id: uid,
+        phoneNumber: uid,
+        displayName: "",
+      },
       update: {},
     });
 

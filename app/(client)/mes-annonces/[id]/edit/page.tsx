@@ -193,7 +193,7 @@ export default function EditCarPage() {
                     <Button
                       onClick={save}
                       disabled={saving}
-                      className="bg-red-500 hover:bg-red-600 text-white"
+                      className="bg-[#a99df1] hover:bg-red-600 text-white"
                     >
                       {saving ? "Enregistrement..." : "Enregistrer"}
                     </Button>

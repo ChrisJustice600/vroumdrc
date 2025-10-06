@@ -97,7 +97,7 @@ export function Navbar() {
                   href={item.href}
                   className={`px-6 h-full flex items-center text-sm font-medium transition-all duration-300 ease-in-out relative group ${
                     isActive(item.href)
-                      ? "bg-red-600 text-white"
+                      ? "bg-[#3a3367] text-white"
                       : "text-white hover:bg-white/10"
                   }`}
                 >
@@ -123,7 +123,7 @@ export function Navbar() {
                   <DropdownMenuItem asChild>
                     <Link href="/favoris" className="flex justify-between">
                       Favoris
-                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="bg-[#3a3367] text-white text-xs px-2 py-1 rounded-full">
                         {favoritesCount}
                       </span>
                     </Link>
@@ -134,7 +134,7 @@ export function Navbar() {
                       className="flex justify-between"
                     >
                       Récemment vues
-                      <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                      <span className="bg-[#3a3367] text-white text-xs px-2 py-1 rounded-full">
                         {recentlyViewedCount}
                       </span>
                     </Link>
@@ -172,7 +172,7 @@ export function Navbar() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={handleLogout}
-                      className="text-red-600 focus:text-red-700"
+                      className="text-[#3a3367] focus:text-[#a99df1]"
                     >
                       Se déconnecter
                     </DropdownMenuItem>
@@ -217,7 +217,7 @@ export function Navbar() {
                   href={item.href}
                   className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
                     isActive(item.href)
-                      ? "bg-red-600 text-white"
+                      ? "bg-[#a99df1] text-white"
                       : "text-white hover:bg-white/10"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -235,7 +235,7 @@ export function Navbar() {
                 href="/favoris"
                 className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
                   isActive("/favoris")
-                    ? "bg-red-600 text-white"
+                    ? "bg-[#a99df1] text-white"
                     : "text-white hover:bg-white/10"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
@@ -251,7 +251,7 @@ export function Navbar() {
                 href="/recently-viewed"
                 className={`block px-3 py-2 text-sm font-medium transition-all duration-300 ease-in-out relative group ${
                   isActive("/recently-viewed")
-                    ? "bg-red-600 text-white"
+                    ? "bg-[#a99df1] text-white"
                     : "text-white hover:bg-white/10"
                 }`}
                 onClick={() => setIsMenuOpen(false)}
@@ -307,7 +307,7 @@ export function Navbar() {
                         setIsMenuOpen(false);
                         handleLogout();
                       }}
-                      className="bg-red-600 hover:bg-red-700 text-white rounded-sm"
+                      className="bg-[#a99df1] hover:bg-[#3a3367] text-white rounded-sm"
                     >
                       Se déconnecter
                     </Button>

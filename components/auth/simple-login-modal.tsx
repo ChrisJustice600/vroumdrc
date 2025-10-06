@@ -43,7 +43,10 @@ export function SimpleLoginModal({
     if (c.length === 0) return "";
     if (c.length <= 3) return `+${c}`;
     if (c.length <= 6) return `+${c.slice(0, 3)} ${c.slice(3)}`;
-    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(9, 12)}`;
+    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(
+      9,
+      12
+    )}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -104,7 +107,7 @@ export function SimpleLoginModal({
             id={submitButtonId}
             disabled={loading || cleanPhone(phone).length < 10}
             aria-busy={loading}
-            className="w-full bg-red-500 hover:bg-red-600 text-white"
+            className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
           >
             {loading ? "Envoi en cours..." : "Se connecter"}
           </Button>
@@ -116,7 +119,7 @@ export function SimpleLoginModal({
             <button
               type="button"
               onClick={onSwitchToSignup}
-              className="text-red-500 hover:text-red-600 font-medium"
+              className="text-[#a99df1] hover:text-red-600 font-medium"
             >
               S'inscrire
             </button>

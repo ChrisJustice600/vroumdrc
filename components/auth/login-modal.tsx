@@ -37,7 +37,10 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
     if (c.length === 0) return "";
     if (c.length <= 3) return `+${c}`;
     if (c.length <= 6) return `+${c.slice(0, 3)} ${c.slice(3)}`;
-    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(9, 12)}`;
+    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(
+      9,
+      12
+    )}`;
   };
 
   const handleSendCode = async () => {
@@ -118,7 +121,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <Button
               onClick={handleSaveName}
               disabled={loading || !fullName.trim()}
-              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
             >
               {loading ? <Loader2 className="animate-spin" /> : "Commencer"}
             </Button>
@@ -178,7 +181,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </div>
 
             {error && (
-              <div className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+              <div className="text-sm text-[#a99df1] bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -186,7 +189,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             <Button
               onClick={handleSendCode}
               disabled={loading || cleanPhone(phone).length < 10}
-              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin" />
@@ -233,7 +236,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
             </div>
 
             {error && (
-              <div className="text-sm text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+              <div className="text-sm text-[#a99df1] bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
                 {error}
               </div>
             )}
@@ -243,7 +246,7 @@ export function LoginModal({ isOpen, onClose }: LoginModalProps) {
               disabled={
                 loading || cleanPhone(phone).length < 10 || !fullName.trim()
               }
-              className="w-full bg-red-500 hover:bg-red-600 text-white"
+              className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin" />

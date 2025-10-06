@@ -186,8 +186,8 @@ export function CarSearch() {
                 onClick={() => handleTabChange(tab.id)}
                 className={`px-6 py-4 font-semibold text-sm rounded-tl-sm transition-all duration-300 flex items-center gap-2 ${
                   activeTab === tab.id
-                    ? "bg-red-600 text-white shadow-lg"
-                    : "bg-white text-gray-700 hover:bg-red-50 hover:text-red-600"
+                    ? "bg-[#3a3367] text-white shadow-lg"
+                    : "bg-white text-gray-700 hover:bg-[#a99df1]/10 hover:text-[#3a3367]"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -199,14 +199,14 @@ export function CarSearch() {
       </div>
 
       {/* Search Section */}
-      <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-b-sm px-8 py-6 shadow-2xl">
+      <div className="bg-gradient-to-r from-[#3a3367] to-[#a99df1] rounded-b-sm px-8 py-6 shadow-2xl">
         {/* Search Bar */}
         <div className="mb-4">
           <Input
             placeholder="Rechercher par marque, modèle, ville..."
             value={searchFilters.searchQuery}
             onChange={(e) => handleFilterChange("searchQuery", e.target.value)}
-            className="w-full h-12 text-lg bg-white border-2 border-gray-200 focus:border-red-500 rounded-lg px-4"
+            className="w-full h-12 text-lg bg-white border-2 border-gray-200 focus:border-[#3a3367] rounded-lg px-4"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleSearch();
@@ -222,12 +222,12 @@ export function CarSearch() {
             <DialogTrigger asChild>
               <button className="w-full bg-white rounded-sm px-4 py-4 text-left text-gray-700 font-medium flex items-center justify-between hover:bg-gray-50 transition-all duration-300 shadow-md hover:shadow-lg group-hover:scale-105">
                 <div className="flex items-center gap-3">
-                  <Filter className="h-4 w-4 text-red-600" />
+                  <Filter className="h-4 w-4 text-[#3a3367]" />
                   <span className="text-sm">
                     {searchFilters.brand || "Choisir la marque"}
                   </span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-red-600 transition-colors" />
+                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-[#3a3367] transition-colors" />
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
@@ -238,7 +238,7 @@ export function CarSearch() {
                 <button
                   onClick={() => handleFilterChange("brand", "")}
                   className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
-                    !searchFilters.brand ? "bg-red-50 text-red-600" : ""
+                    !searchFilters.brand ? "bg-[#3a3367]/10 text-[#3a3367]" : ""
                   }`}
                 >
                   Toutes les marques
@@ -249,7 +249,7 @@ export function CarSearch() {
                     onClick={() => handleFilterChange("brand", brand)}
                     className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
                       searchFilters.brand === brand
-                        ? "bg-red-50 text-red-600"
+                        ? "bg-[#3a3367]/10 text-[#3a3367]"
                         : ""
                     }`}
                   >
@@ -265,12 +265,12 @@ export function CarSearch() {
             <DialogTrigger asChild>
               <button className="w-full bg-white rounded-sm px-4 py-4 text-left text-gray-700 font-medium flex items-center justify-between hover:bg-gray-50 transition-all duration-300 shadow-md hover:shadow-lg group-hover:scale-105">
                 <div className="flex items-center gap-3">
-                  <Filter className="h-4 w-4 text-red-600" />
+                  <Filter className="h-4 w-4 text-[#3a3367]" />
                   <span className="text-sm">
                     {searchFilters.model || "Choisir le modèle"}
                   </span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-red-600 transition-colors" />
+                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-[#3a3367] transition-colors" />
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
@@ -281,7 +281,7 @@ export function CarSearch() {
                 <button
                   onClick={() => handleFilterChange("model", "")}
                   className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
-                    !searchFilters.model ? "bg-red-50 text-red-600" : ""
+                    !searchFilters.model ? "bg-[#3a3367]/10 text-[#3a3367]" : ""
                   }`}
                 >
                   Tous les modèles
@@ -292,7 +292,7 @@ export function CarSearch() {
                     onClick={() => handleFilterChange("model", model)}
                     className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
                       searchFilters.model === model
-                        ? "bg-red-50 text-red-600"
+                        ? "bg-[#3a3367]/10 text-[#3a3367]"
                         : ""
                     }`}
                   >
@@ -313,7 +313,7 @@ export function CarSearch() {
                     {searchFilters.priceRange || "Prix"}
                   </span>
                 </div>
-                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-red-600 transition-colors" />
+                <ChevronDown className="h-4 w-4 text-gray-400 group-hover:text-[#3a3367] transition-colors" />
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
@@ -324,7 +324,9 @@ export function CarSearch() {
                 <button
                   onClick={() => handleFilterChange("priceRange", "")}
                   className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
-                    !searchFilters.priceRange ? "bg-red-50 text-red-600" : ""
+                    !searchFilters.priceRange
+                      ? "bg-[#3a3367]/10 text-[#3a3367]"
+                      : ""
                   }`}
                 >
                   Tous les prix
@@ -337,7 +339,7 @@ export function CarSearch() {
                     }
                     className={`w-full text-left p-2 rounded hover:bg-gray-100 ${
                       searchFilters.priceRange === range.label
-                        ? "bg-red-50 text-red-600"
+                        ? "bg-[#3a3367]/10 text-[#3a3367]"
                         : ""
                     }`}
                   >
@@ -354,7 +356,7 @@ export function CarSearch() {
               <Button
                 onClick={handleSearch}
                 disabled={isSearching}
-                className="w-full bg-white hover:bg-gray-100 text-red-600 font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-3 h-14 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                className="w-full bg-white hover:bg-gray-100 text-[#3a3367] font-bold py-4 px-6 rounded-sm flex items-center justify-center gap-3 h-14 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 border-2 border-white disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
               >
                 {isSearching ? (
                   <>
@@ -371,7 +373,7 @@ export function CarSearch() {
                 {/* Barre de progression */}
                 {isSearching && (
                   <div
-                    className="absolute bottom-0 left-0 h-1 bg-red-600 transition-all duration-300 ease-out"
+                    className="absolute bottom-0 left-0 h-1 bg-[#3a3367] transition-all duration-300 ease-out"
                     style={{ width: `${searchProgress}%` }}
                   />
                 )}
@@ -381,7 +383,7 @@ export function CarSearch() {
               {isSearching && (
                 <div className="absolute inset-0 bg-white/20 backdrop-blur-sm rounded-sm flex items-center justify-center">
                   <div className="bg-white rounded-full p-2 shadow-lg">
-                    <Loader2 className="h-6 w-6 animate-spin text-red-600" />
+                    <Loader2 className="h-6 w-6 animate-spin text-[#3a3367]" />
                   </div>
                 </div>
               )}
@@ -397,22 +399,22 @@ export function CarSearch() {
           <div className="mt-4 flex flex-wrap gap-2">
             <span className="text-white text-sm">Filtres actifs:</span>
             {activeTab !== "all" && (
-              <span className="bg-white text-red-600 px-2 py-1 rounded text-xs">
+              <span className="bg-white text-[#3a3367] px-2 py-1 rounded text-xs">
                 {tabs.find((t) => t.id === activeTab)?.label}
               </span>
             )}
             {searchFilters.brand && (
-              <span className="bg-white text-red-600 px-2 py-1 rounded text-xs">
+              <span className="bg-white text-[#3a3367] px-2 py-1 rounded text-xs">
                 Marque: {searchFilters.brand}
               </span>
             )}
             {searchFilters.model && (
-              <span className="bg-white text-red-600 px-2 py-1 rounded text-xs">
+              <span className="bg-white text-[#3a3367] px-2 py-1 rounded text-xs">
                 Modèle: {searchFilters.model}
               </span>
             )}
             {searchFilters.priceRange && (
-              <span className="bg-white text-red-600 px-2 py-1 rounded text-xs">
+              <span className="bg-white text-[#3a3367] px-2 py-1 rounded text-xs">
                 {searchFilters.priceRange}
               </span>
             )}

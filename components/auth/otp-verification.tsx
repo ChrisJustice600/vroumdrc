@@ -173,7 +173,7 @@ export function OTPVerification({
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-lg flex items-center gap-2">
-              <Phone className="h-5 w-5 text-red-500" />
+              <Phone className="h-5 w-5 text-[#a99df1]" />
               Code de vérification
             </CardTitle>
             <CardDescription>
@@ -224,8 +224,8 @@ export function OTPVerification({
                   status === "success"
                     ? "text-green-700 bg-green-50 border border-green-200"
                     : status === "error"
-                      ? "text-red-700 bg-red-50 border border-red-200"
-                      : "text-blue-700 bg-blue-50 border border-blue-200"
+                    ? "text-[#3a3367] bg-red-50 border border-red-200"
+                    : "text-blue-700 bg-blue-50 border border-blue-200"
                 }`}
               >
                 {status === "success" && <CheckCircle className="h-4 w-4" />}
@@ -240,7 +240,7 @@ export function OTPVerification({
                 <button
                   onClick={handleResend}
                   disabled={isResending}
-                  className="text-red-500 hover:text-red-600 text-sm font-medium disabled:opacity-50"
+                  className="text-[#a99df1] hover:text-red-600 text-sm font-medium disabled:opacity-50"
                 >
                   {isResending ? (
                     <>

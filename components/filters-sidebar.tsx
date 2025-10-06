@@ -181,7 +181,7 @@ export function FiltersSidebar({
         <h2 className="text-lg font-semibold text-gray-900">
           Filtres
           {activeFiltersCount > 0 && (
-            <span className="ml-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+            <span className="ml-2 bg-[#a99df1] text-white text-xs px-2 py-1 rounded-full">
               {activeFiltersCount}
             </span>
           )}
@@ -418,7 +418,7 @@ export function FiltersSidebar({
                     onCheckedChange={(checked) =>
                       onBodyTypeChange(bodyType, checked as boolean)
                     }
-                    className="data-[state=checked]:bg-red-500 data-[state=checked]:border-red-500"
+                    className="data-[state=checked]:bg-[#a99df1] data-[state=checked]:border-[#a99df1]"
                   />
                   <label
                     htmlFor={bodyType}

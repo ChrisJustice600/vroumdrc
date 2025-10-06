@@ -36,7 +36,7 @@ export function ServicesSection() {
               nos rapports détaillés.
             </p>
             {/* Orange underline accent */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-red-500 rounded-t"></div>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-[#a99df1] rounded-t"></div>
           </div>
 
           {/* Mise en relation sécurisée */}

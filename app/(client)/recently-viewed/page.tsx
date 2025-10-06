@@ -70,7 +70,7 @@ export default function RecentlyViewedPage() {
                     size="sm"
                     onClick={() => setViewMode("grid")}
                     className={
-                      viewMode === "grid" ? "bg-red-500 hover:bg-red-600" : ""
+                      viewMode === "grid" ? "bg-[#a99df1] hover:bg-red-600" : ""
                     }
                   >
                     <Grid3X3 className="h-4 w-4" />
@@ -80,7 +80,7 @@ export default function RecentlyViewedPage() {
                     size="sm"
                     onClick={() => setViewMode("list")}
                     className={
-                      viewMode === "list" ? "bg-red-500 hover:bg-red-600" : ""
+                      viewMode === "list" ? "bg-[#a99df1] hover:bg-red-600" : ""
                     }
                   >
                     <List className="h-4 w-4" />

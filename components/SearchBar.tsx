@@ -9,9 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { carBrands } from "@/lib/mockData";
 import { DollarSign, MapPin, Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SearchBarProps {
   onSearch: (filters: {
@@ -31,6 +30,27 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
     minPrice: "",
     maxPrice: "",
   });
+
+  const [carBrands, setCarBrands] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await fetch("/api/cars/brands");
+        if (response.ok) {
+          const brands = await response.json();
+          setCarBrands(brands);
+        }
+      } catch (error) {
+        console.error("Erreur lors du chargement des marques:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBrands();
+  }, []);
 
   const handleSearch = () => {
     onSearch(filters);
@@ -58,11 +78,17 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               <SelectValue placeholder="Toutes marques" />
             </SelectTrigger>
             <SelectContent>
-              {carBrands.map((brand) => (
-                <SelectItem key={brand} value={brand}>
-                  {brand}
+              {loading ? (
+                <SelectItem value="" disabled>
+                  Chargement des marques...
                 </SelectItem>
-              ))}
+              ) : (
+                carBrands.map((brand) => (
+                  <SelectItem key={brand} value={brand}>
+                    {brand}
+                  </SelectItem>
+                ))
+              )}
             </SelectContent>
           </Select>
         </div>
@@ -127,7 +153,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           </label>
           <Button
             onClick={handleSearch}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white flex items-center justify-center space-x-2"
+            className="w-full bg-[#3a3367] hover:bg-[#2a2547] text-white flex items-center justify-center space-x-2"
           >
             <Search className="h-4 w-4" />
             <span>Rechercher des voitures</span>

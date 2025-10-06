@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { Navbar } from "@/components/navbar/navbar";
 import {
   AlertDialog,
@@ -196,15 +198,15 @@ export default function MesAnnoncesPage() {
                           car.status === "ACTIVE"
                             ? "bg-green-600"
                             : car.status === "SOLD"
-                              ? "bg-red-600"
-                              : "bg-yellow-600"
+                            ? "bg-red-600"
+                            : "bg-yellow-600"
                         }`}
                       >
                         {car.status === "ACTIVE"
                           ? "Activé"
                           : car.status === "SOLD"
-                            ? "Vendu"
-                            : "Suspendu"}
+                          ? "Vendu"
+                          : "Suspendu"}
                       </span>
                     </div>
                   </Link>
@@ -357,7 +359,7 @@ export default function MesAnnoncesPage() {
                   Annuler
                 </Button>
                 <Button
-                  className="bg-red-500 hover:bg-red-600 text-white"
+                  className="bg-[#a99df1] hover:bg-red-600 text-white"
                   onClick={saveEdit}
                   disabled={saving}
                 >
@@ -391,7 +393,7 @@ export default function MesAnnoncesPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>Annuler</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-[#3a3367]"
               onClick={doDelete}
             >
               Supprimer

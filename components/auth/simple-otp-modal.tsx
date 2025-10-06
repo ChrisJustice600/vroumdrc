@@ -111,13 +111,13 @@ export function SimpleOTPModal({
             onClick={handleVerify}
             disabled={loading || otp.length !== 6}
             aria-busy={loading}
-            className="w-full bg-red-500 hover:bg-red-600 text-white"
+            className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
           >
             {loading
               ? "Vérification..."
               : isSignup
-                ? "Créer le compte"
-                : "Se connecter"}
+              ? "Créer le compte"
+              : "Se connecter"}
           </Button>
 
           <div className="text-center">
@@ -128,7 +128,7 @@ export function SimpleOTPModal({
               variant="ghost"
               onClick={handleResend}
               disabled={isResending}
-              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+              className="text-[#a99df1] hover:text-red-600 hover:bg-red-50"
             >
               {isResending ? (
                 <>

@@ -109,7 +109,11 @@ export function RecentCarsSection() {
                 item: {
                   "@type": "Car",
                   name: `${car.brand} ${car.model} ${car.year}`,
-                  description: `Voiture ${car.brand} ${car.model} ${car.year} - ${car.fuel || "Essence"} - ${car.transmission || "Manuelle"}`,
+                  description: `Voiture ${car.brand} ${car.model} ${
+                    car.year
+                  } - ${car.fuel || "Essence"} - ${
+                    car.transmission || "Manuelle"
+                  }`,
                   brand: {
                     "@type": "Brand",
                     name: car.brand,
@@ -200,7 +204,7 @@ export function RecentCarsSection() {
           ) : error ? (
             // Message d'erreur
             <div className="col-span-full text-center py-12">
-              <div className="text-red-500 mb-4">
+              <div className="text-[#3a3367] mb-4">
                 <Loader2 className="h-12 w-12 mx-auto animate-spin" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -209,7 +213,7 @@ export function RecentCarsSection() {
               <p className="text-gray-600">{error}</p>
               <Button
                 onClick={() => window.location.reload()}
-                className="mt-4 bg-red-500 hover:bg-red-600"
+                className="mt-4 bg-[#3a3367] hover:bg-[#2a2547]"
               >
                 Réessayer
               </Button>
@@ -241,7 +245,7 @@ export function RecentCarsSection() {
                   />
                   {/* Category Badge */}
                   <div className="absolute top-3 left-3">
-                    <span className="bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-sm">
+                    <span className="bg-[#3a3367] text-white text-xs font-medium px-3 py-1 rounded-sm">
                       {car.condition === "OCCASION"
                         ? "Occasion"
                         : "Sans plaque"}
@@ -249,11 +253,11 @@ export function RecentCarsSection() {
                   </div>
                   {/* Action Icons */}
                   <div className="absolute top-3 right-3 flex gap-2">
-                    <button className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors">
-                      <Heart className="w-4 h-4 text-red-500" />
+                    <button className="w-8 h-8 bg-[#a99df1]/20 rounded-full flex items-center justify-center hover:bg-[#a99df1]/30 transition-colors">
+                      <Heart className="w-4 h-4 text-[#3a3367]" />
                     </button>
-                    <button className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors">
-                      <RotateCcw className="w-4 h-4 text-red-500" />
+                    <button className="w-8 h-8 bg-[#a99df1]/20 rounded-full flex items-center justify-center hover:bg-[#a99df1]/30 transition-colors">
+                      <RotateCcw className="w-4 h-4 text-[#3a3367]" />
                     </button>
                   </div>
                 </div>
@@ -261,7 +265,7 @@ export function RecentCarsSection() {
                 {/* Content Section */}
                 <div className="p-4 flex flex-col flex-grow">
                   {/* Price */}
-                  <div className="text-2xl font-bold text-red-500 mb-2">
+                  <div className="text-2xl font-bold text-[#3a3367] mb-2">
                     {formatPrice(car.price)}
                   </div>
 
@@ -303,7 +307,7 @@ export function RecentCarsSection() {
                 {/* View Details Button - Full width, touching bottom */}
                 <div className="mt-auto">
                   <Button
-                    className="w-full bg-gray-100 hover:bg-red-600 hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center"
+                    className="w-full bg-gray-100 hover:bg-[#3a3367] hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center"
                     onClick={() => (window.location.href = `/car/${car.id}`)}
                   >
                     VOIR LES DETAILS
@@ -319,7 +323,7 @@ export function RecentCarsSection() {
         <div className="text-center">
           <Button
             size="lg"
-            className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105"
+            className="bg-[#3a3367] hover:bg-[#2a2547] text-white px-8 py-3 text-lg font-semibold transition-all duration-300 hover:scale-105"
             onClick={handleViewMoreCars}
           >
             Voir plus des voitures

@@ -59,7 +59,7 @@ export function CarGridCard({
         />
         {/* Category Badge */}
         <div className="absolute top-3 left-3">
-          <span className="bg-red-500 text-white text-xs font-medium px-3 py-1 rounded-sm">
+          <span className="bg-[#a99df1] text-white text-xs font-medium px-3 py-1 rounded-sm">
             {car.condition === "occasion" ? "Occasion" : "Sans plaque"}
           </span>
         </div>
@@ -78,7 +78,9 @@ export function CarGridCard({
         {/* Action Icons */}
         <div className="absolute bottom-3 right-3 flex gap-2">
           <button
-            className={`w-8 h-8 ${isFav ? "bg-red-500" : "bg-red-100"} rounded-full flex items-center justify-center hover:bg-red-200 transition-colors`}
+            className={`w-8 h-8 ${
+              isFav ? "bg-[#a99df1]" : "bg-[#a99df1]/20"
+            } rounded-full flex items-center justify-center hover:bg-[#a99df1]/30 transition-colors`}
             onClick={(e) => {
               e.stopPropagation();
               toggle({
@@ -94,14 +96,14 @@ export function CarGridCard({
             title={isFav ? "Retirer des favoris" : "Ajouter aux favoris"}
           >
             <Heart
-              className={`w-4 h-4 ${isFav ? "text-white" : "text-red-500"}`}
+              className={`w-4 h-4 ${isFav ? "text-white" : "text-[#a99df1]"}`}
             />
           </button>
           <button
-            className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center hover:bg-red-200 transition-colors"
+            className="w-8 h-8 bg-[#a99df1]/20 rounded-full flex items-center justify-center hover:bg-[#a99df1]/30 transition-colors"
             onClick={(e) => e.stopPropagation()}
           >
-            <RotateCcw className="w-4 h-4 text-red-500" />
+            <RotateCcw className="w-4 h-4 text-[#a99df1]" />
           </button>
         </div>
       </div>
@@ -109,7 +111,7 @@ export function CarGridCard({
       {/* Content Section */}
       <div className="p-4 flex flex-col flex-grow">
         {/* Price */}
-        <div className="text-2xl font-bold text-red-500 mb-2">
+        <div className="text-2xl font-bold text-[#a99df1] mb-2">
           {formatPrice(car.price)}
         </div>
 
@@ -149,7 +151,7 @@ export function CarGridCard({
       {/* View Details Button - Full width, touching edges */}
       <div className="mt-auto">
         <Button
-          className="w-full bg-gray-100 hover:bg-red-600 hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center"
+          className="w-full bg-gray-100 hover:bg-[#3a3367] hover:text-white text-gray-900 py-3 rounded-none font-medium flex items-center justify-center"
           onClick={() => (window.location.href = `/car/${car.id}`)}
         >
           VOIR LES DETAILS

@@ -110,7 +110,7 @@ export default function AbonnementPage() {
             <div className="flex justify-center mb-6">
               <div className="relative">
                 <Crown className="w-16 h-16 text-yellow-500" />
-                <div className="absolute -top-1 -right-1 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-6 h-6 bg-[#a99df1] rounded-full flex items-center justify-center">
                   <Star className="w-3 h-3 text-white fill-current" />
                 </div>
               </div>
@@ -118,7 +118,7 @@ export default function AbonnementPage() {
 
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
               Devenez un{" "}
-              <span className="bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-red-600 to-[#a99df1] bg-clip-text text-transparent">
                 Vendeur Premium
               </span>
             </h1>
@@ -159,7 +159,7 @@ export default function AbonnementPage() {
           {/* Plan Unique */}
           <Card className="relative border-red-200 shadow-2xl">
             <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-              <Badge className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-8 py-3 text-base font-semibold">
+              <Badge className="bg-gradient-to-r from-[#a99df1] to-red-600 hover:from-red-600 hover:to-[#3a3367] px-8 py-3 text-base font-semibold">
                 <Crown className="w-5 h-5 mr-2" />
                 Plan Vendeur Pro
               </Badge>
@@ -238,7 +238,7 @@ export default function AbonnementPage() {
 
               <div className="pt-8">
                 <Button
-                  className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-xl py-8 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="w-full bg-gradient-to-r from-[#a99df1] to-red-600 hover:from-red-600 hover:to-[#3a3367] text-white text-xl py-8 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={async () => {
                     if (!user && !loading) {
                       toast.error("Connectez-vous pour vous abonner");
@@ -397,7 +397,7 @@ export default function AbonnementPage() {
                     "{testimonial.content}"
                   </p>
                   <div className="flex items-center">
-                    <div className="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                    <div className="w-10 h-10 bg-[#a99df1] rounded-full flex items-center justify-center text-white font-bold mr-3">
                       {testimonial.name.charAt(0)}
                     </div>
                     <div>
@@ -417,7 +417,7 @@ export default function AbonnementPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="py-16 bg-gradient-to-r from-red-600 to-red-500">
+      <div className="py-16 bg-gradient-to-r from-red-600 to-[#a99df1]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Prêt à booster vos ventes ?

@@ -20,7 +20,7 @@ CREATE TYPE "CarStatus" AS ENUM ('ACTIVE', 'SOLD', 'CANCELLED');
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
-    "displayName" VARCHAR(255),
+    "displayName" TEXT NOT NULL,
     "email" TEXT,
     "whatsapp" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT false,
@@ -50,7 +50,9 @@ CREATE TABLE "Car" (
     "bodyType" "BodyType",
     "condition" "ConditionType",
     "status" "CarStatus" NOT NULL DEFAULT 'ACTIVE',
+    "views" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Car_pkey" PRIMARY KEY ("id")
 );

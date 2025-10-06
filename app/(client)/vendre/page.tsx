@@ -15,7 +15,7 @@ export default function VendrePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Statistiques Premium */}
           <div className="mb-20">
-            <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-sm p-8 md:p-12 text-white relative overflow-hidden">
+            <div className="bg-gradient-to-r from-[#a99df1] to-red-600 rounded-sm p-8 md:p-12 text-white relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10"></div>
               <div className="relative z-10">
                 <div className="text-center mb-8">
@@ -62,8 +62,8 @@ export default function VendrePage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Pourquoi choisir <span className="text-red-500"> VroumKin</span>{" "}
-                ?
+                Pourquoi choisir{" "}
+                <span className="text-[#a99df1]"> VroumKin</span> ?
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Découvrez les avantages qui font de notre plateforme le choix
@@ -74,7 +74,7 @@ export default function VendrePage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <Card className="text-center hover:shadow-xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Shield className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -89,7 +89,7 @@ export default function VendrePage() {
 
               <Card className="text-center hover:shadow-xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Clock className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -104,7 +104,7 @@ export default function VendrePage() {
 
               <Card className="text-center hover:shadow-xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <Users className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -119,7 +119,7 @@ export default function VendrePage() {
 
               <Card className="text-center hover:shadow-xl transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
-                  <div className="w-20 h-20 bg-gradient-to-br from-red-500 to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-sm flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <CheckCircle className="w-10 h-10 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">
@@ -138,7 +138,8 @@ export default function VendrePage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Vendre en <span className="text-red-500">3 étapes simples</span>
+                Vendre en{" "}
+                <span className="text-[#a99df1]">3 étapes simples</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Un processus simplifié pour vendre votre voiture rapidement et
@@ -148,7 +149,7 @@ export default function VendrePage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center relative">
-                <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-3xl font-bold text-white">1</span>
                 </div>
                 <div className="absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-red-200 to-transparent hidden md:block"></div>
@@ -162,7 +163,7 @@ export default function VendrePage() {
               </div>
 
               <div className="text-center relative">
-                <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center mx-auto mb-6 relative z-10">
                   <span className="text-3xl font-bold text-white">2</span>
                 </div>
                 <div className="absolute top-12 left-1/2 w-full h-0.5 bg-gradient-to-r from-red-200 to-transparent hidden md:block"></div>
@@ -176,7 +177,7 @@ export default function VendrePage() {
               </div>
 
               <div className="text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <div className="w-24 h-24 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-3xl font-bold text-white">3</span>
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -194,7 +195,7 @@ export default function VendrePage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Ils nous font <span className="text-red-500">confiance</span>
+                Ils nous font <span className="text-[#a99df1]">confiance</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Découvrez les témoignages de nos vendeurs qui ont fait le choix
@@ -206,7 +207,7 @@ export default function VendrePage() {
               <Card className="hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
                       M
                     </div>
                     <div>
@@ -237,7 +238,7 @@ export default function VendrePage() {
               <Card className="hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
                       P
                     </div>
                     <div>
@@ -268,7 +269,7 @@ export default function VendrePage() {
               <Card className="hover:shadow-2xl transition-all duration-500 border-0 bg-white/90 backdrop-blur-sm group hover:scale-105">
                 <CardContent className="p-8">
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                    <div className="w-16 h-16 bg-gradient-to-br from-[#a99df1] to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
                       S
                     </div>
                     <div>
@@ -303,7 +304,7 @@ export default function VendrePage() {
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
                 Prêt à vendre votre{" "}
-                <span className="text-red-500">voiture</span> ?
+                <span className="text-[#a99df1]">voiture</span> ?
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Créez votre annonce en quelques minutes et connectez-vous avec
@@ -312,7 +313,7 @@ export default function VendrePage() {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 to-red-600/5 rounded-sm"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#a99df1]/5 to-red-600/5 rounded-sm"></div>
               <div className="relative z-10">
                 <CarSellForm />
               </div>
@@ -323,7 +324,7 @@ export default function VendrePage() {
           <div className="mb-20">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-                Questions <span className="text-red-500">fréquentes</span>
+                Questions <span className="text-[#a99df1]">fréquentes</span>
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                 Trouvez les réponses aux questions les plus courantes sur la
@@ -383,7 +384,7 @@ export default function VendrePage() {
           </div>
 
           {/* Support et contact Premium */}
-          <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-sm p-12 text-white text-center relative overflow-hidden">
+          <div className="bg-gradient-to-r from-[#a99df1] to-red-600 rounded-sm p-12 text-white text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-black/10"></div>
             <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-bold mb-6">
@@ -397,7 +398,7 @@ export default function VendrePage() {
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Button
                   variant="outline"
-                  className="bg-white text-red-500 hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-white text-[#a99df1] hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <svg
                     className="w-5 h-5 mr-3"
@@ -410,7 +411,7 @@ export default function VendrePage() {
                 </Button>
                 <Button
                   variant="outline"
-                  className="bg-white text-red-500 hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="bg-white text-[#a99df1] hover:bg-gray-100 border-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <Phone className="w-5 h-5 mr-3" />
                   +243 810 98 09 44

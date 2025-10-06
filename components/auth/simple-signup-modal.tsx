@@ -44,7 +44,10 @@ export function SimpleSignupModal({
     if (c.length === 0) return "";
     if (c.length <= 3) return `+${c}`;
     if (c.length <= 6) return `+${c.slice(0, 3)} ${c.slice(3)}`;
-    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(9, 12)}`;
+    return `+${c.slice(0, 3)} ${c.slice(3, 6)} ${c.slice(6, 9)} ${c.slice(
+      9,
+      12
+    )}`;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -122,7 +125,7 @@ export function SimpleSignupModal({
               loading || !fullName.trim() || cleanPhone(phone).length < 10
             }
             aria-busy={loading}
-            className="w-full bg-red-500 hover:bg-red-600 text-white"
+            className="w-full bg-[#a99df1] hover:bg-red-600 text-white"
           >
             {loading ? "Envoi en cours..." : "Créer le compte"}
           </Button>
@@ -134,7 +137,7 @@ export function SimpleSignupModal({
             <button
               type="button"
               onClick={onSwitchToLogin}
-              className="text-red-500 hover:text-red-600 font-medium"
+              className="text-[#a99df1] hover:text-red-600 font-medium"
             >
               Se connecter
             </button>

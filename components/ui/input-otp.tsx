@@ -101,16 +101,16 @@ const InputOTPSlot = React.forwardRef<
     className={cn(
       "relative h-12 w-12 text-center text-xl font-bold transition-all duration-200",
       "border-2 border-gray-300 rounded-sm",
-      "focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-500/20",
+      "focus-within:border-[#a99df1] focus-within:ring-2 focus-within:ring-[#a99df1]/20",
       "hover:border-gray-400",
-      value && "border-red-500 bg-red-50",
+      value && "border-[#a99df1] bg-red-50",
       disabled && "opacity-50 cursor-not-allowed",
       className
     )}
     {...props}
   >
     <div className="flex items-center justify-center h-full">{value}</div>
-    <div className="absolute inset-0 rounded-sm ring-1 ring-transparent focus-within:ring-red-500/20" />
+    <div className="absolute inset-0 rounded-sm ring-1 ring-transparent focus-within:ring-[#a99df1]/20" />
   </div>
 ));
 InputOTPSlot.displayName = "InputOTPSlot";

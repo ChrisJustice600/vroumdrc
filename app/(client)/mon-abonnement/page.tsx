@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { Navbar } from "@/components/navbar/navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -70,7 +72,7 @@ export default function MonAbonnementPage() {
                 </div>
               ) : !data.hasSubscription ? (
                 <div className="flex items-center gap-3 text-gray-700">
-                  <XCircle className="w-5 h-5 text-red-500" />
+                  <XCircle className="w-5 h-5 text-[#a99df1]" />
                   <span>Vous n'avez pas encore d'abonnement.</span>
                 </div>
               ) : (
@@ -119,7 +121,7 @@ export default function MonAbonnementPage() {
               <div className="pt-4">
                 <Button
                   asChild
-                  className="bg-red-500 hover:bg-red-600 text-white"
+                  className="bg-[#a99df1] hover:bg-red-600 text-white"
                 >
                   <a href="/abonnement">Gérer mon abonnement</a>
                 </Button>
@@ -131,4 +133,3 @@ export default function MonAbonnementPage() {
     </div>
   );
 }
-

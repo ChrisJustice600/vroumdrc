@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Car } from "@/lib/mockData";
+import { Car } from "@/lib/generated/prisma";
 import { Calendar, Gauge, Heart, MapPin, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -38,24 +38,24 @@ export default function CarCard({ car }: CarCardProps) {
       <div className="relative">
         <div className="relative h-48 w-full">
           <Image
-            src={car.images[0]}
+            src={car.images[0] || "/car-service.png"}
             alt={car.title}
             fill
             className="object-cover hover:scale-105 transition-transform duration-300"
           />
         </div>
         <button className="absolute top-3 right-3 p-2 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition-colors">
-          <Heart className="h-5 w-5 text-gray-600 hover:text-red-500" />
+          <Heart className="h-5 w-5 text-gray-600 hover:text-[#3a3367]" />
         </button>
       </div>
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+        <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-[#3a3367] transition-colors">
           {car.title}
         </h3>
 
-        <p className="text-3xl font-bold text-blue-600 mb-4">
+        <p className="text-3xl font-bold text-[#3a3367] mb-4">
           {car.price.toLocaleString()}$
         </p>
 
@@ -79,9 +79,7 @@ export default function CarCard({ car }: CarCardProps) {
         </p>
 
         <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-500">
-            Vendeur : {car.sellerName}
-          </div>
+          <div className="text-sm text-gray-500">Vendeur : {car.sellerId}</div>
 
           <Button
             onClick={handleWhatsAppContact}

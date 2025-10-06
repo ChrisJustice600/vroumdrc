@@ -127,23 +127,25 @@ export function HeroSection() {
 
     const colorClasses = {
       orange: isPrimary
-        ? "bg-red-600 hover:bg-red-700"
-        : "bg-white hover:bg-gray-100 text-red-600 border border-red-600",
+        ? "bg-[#3a3367] hover:bg-[#2a2547]"
+        : "bg-white hover:bg-gray-100 text-[#3a3367] border border-[#3a3367]",
       blue: isPrimary
-        ? "bg-red-600 hover:bg-red-700"
-        : "bg-white hover:bg-gray-100 text-red-600 border border-red-600",
+        ? "bg-[#a99df1] hover:bg-[#8a7ce8]"
+        : "bg-white hover:bg-gray-100 text-[#a99df1] border border-[#a99df1]",
       green: isPrimary
-        ? "bg-red-600 hover:bg-red-700"
-        : "bg-white hover:bg-gray-100 text-red-600 border border-red-600",
+        ? "bg-[#3a3367] hover:bg-[#2a2547]"
+        : "bg-white hover:bg-gray-100 text-[#3a3367] border border-[#3a3367]",
       purple: isPrimary
-        ? "bg-red-600 hover:bg-red-700"
-        : "bg-white hover:bg-gray-100 text-red-600 border border-red-600",
+        ? "bg-[#a99df1] hover:bg-[#8a7ce8]"
+        : "bg-white hover:bg-gray-100 text-[#a99df1] border border-[#a99df1]",
       gray: isPrimary
-        ? "bg-red-600 hover:bg-red-700"
-        : "bg-white hover:bg-gray-100 text-red-600 border border-red-600",
+        ? "bg-[#3a3367] hover:bg-[#2a2547]"
+        : "bg-white hover:bg-gray-100 text-[#3a3367] border border-[#3a3367]",
     };
 
-    return `${baseClasses} ${colorClasses[color as keyof typeof colorClasses] || colorClasses.blue} ${isPrimary ? "text-white" : ""}`;
+    return `${baseClasses} ${
+      colorClasses[color as keyof typeof colorClasses] || colorClasses.blue
+    } ${isPrimary ? "text-white" : ""}`;
   };
 
   return (
@@ -186,7 +188,7 @@ export function HeroSection() {
           >
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
               {slides[currentSlide].title}
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-purple-400 animate-pulse">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#a99df1] to-[#3a3367] animate-pulse">
                 {slides[currentSlide].subtitle}
               </span>
             </h1>

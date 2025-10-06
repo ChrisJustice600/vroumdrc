@@ -225,7 +225,7 @@ export function CarSellForm() {
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Car className="w-5 h-5 mr-2 text-red-500" />
+              <Car className="w-5 h-5 mr-2 text-[#a99df1]" />
               Informations générales
             </h3>
 
@@ -326,7 +326,7 @@ export function CarSellForm() {
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Settings className="w-5 h-5 mr-2 text-red-500" />
+              <Settings className="w-5 h-5 mr-2 text-[#a99df1]" />
               Caractéristiques techniques
             </h3>
 
@@ -461,7 +461,7 @@ export function CarSellForm() {
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <MapPin className="w-5 h-5 mr-2 text-red-500" />
+              <MapPin className="w-5 h-5 mr-2 text-[#a99df1]" />
               Localisation et contact
             </h3>
 
@@ -542,7 +542,7 @@ export function CarSellForm() {
         return (
           <div className="space-y-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-              <Camera className="w-5 h-5 mr-2 text-red-500" />
+              <Camera className="w-5 h-5 mr-2 text-[#a99df1]" />
               Photos du véhicule
             </h3>
 
@@ -588,7 +588,7 @@ export function CarSellForm() {
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
-                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-[#a99df1] text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -609,7 +609,7 @@ export function CarSellForm() {
     <div className="max-w-4xl mx-auto">
       <AuthModalManager isOpen={authOpen} onClose={() => setAuthOpen(false)} />
       <Card className="shadow-lg">
-        <CardHeader className="bg-red-500 text-white rounded-t-lg">
+        <CardHeader className="bg-[#a99df1] text-white rounded-t-lg">
           <CardTitle className="text-2xl font-bold text-center">
             Mettre en vente votre véhicule
           </CardTitle>
@@ -620,7 +620,7 @@ export function CarSellForm() {
                   key={i}
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
                     i + 1 <= currentStep
-                      ? "bg-white text-red-500"
+                      ? "bg-white text-[#a99df1]"
                       : "bg-white/30 text-white"
                   }`}
                 >
@@ -650,7 +650,7 @@ export function CarSellForm() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className="bg-red-500 hover:bg-red-600 text-white"
+                  className="bg-[#a99df1] hover:bg-red-600 text-white"
                   disabled={submitting}
                 >
                   Suivant
@@ -658,7 +658,7 @@ export function CarSellForm() {
               ) : user ? (
                 <Button
                   type="submit"
-                  className="bg-red-500 hover:bg-red-600 text-white px-8"
+                  className="bg-[#a99df1] hover:bg-red-600 text-white px-8"
                   disabled={submitting}
                 >
                   {submitting ? (
@@ -678,7 +678,7 @@ export function CarSellForm() {
                   <Button
                     type="button"
                     onClick={() => setAuthOpen(true)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-8"
+                    className="bg-[#a99df1] hover:bg-red-600 text-white px-8"
                   >
                     Se connecter pour publier
                   </Button>

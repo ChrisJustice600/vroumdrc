@@ -38,19 +38,19 @@ export default function Footer() {
             <div className="flex space-x-6">
               <a
                 href="#"
-                className="text-gray-400 hover:text-red-500 transition-all duration-300 transform hover:scale-110"
+                className="text-gray-400 hover:text-[#a99df1] transition-all duration-300 transform hover:scale-110"
               >
                 <Facebook className="h-6 w-6" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-red-500 transition-all duration-300 transform hover:scale-110"
+                className="text-gray-400 hover:text-[#a99df1] transition-all duration-300 transform hover:scale-110"
               >
                 <Twitter className="h-6 w-6" />
               </a>
               <a
                 href="#"
-                className="text-gray-400 hover:text-red-500 transition-all duration-300 transform hover:scale-110"
+                className="text-gray-400 hover:text-[#a99df1] transition-all duration-300 transform hover:scale-110"
               >
                 <Instagram className="h-6 w-6" />
               </a>
@@ -61,51 +61,51 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-6 text-white relative">
               Liens rapides
-              <div className="absolute -bottom-2 left-0 w-12 h-1 bg-red-500 rounded-full"></div>
+              <div className="absolute -bottom-2 left-0 w-12 h-1 bg-[#a99df1] rounded-full"></div>
             </h3>
             <ul className="space-y-4">
               <li>
                 <Link
                   href="/"
-                  className="text-gray-300 hover:text-red-500 transition-all duration-300 flex items-center group"
+                  className="text-gray-300 hover:text-[#a99df1] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span className="w-2 h-2 bg-[#a99df1] rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Accueil
                 </Link>
               </li>
               <li>
                 <Link
                   href="/achat"
-                  className="text-gray-300 hover:text-red-500 transition-all duration-300 flex items-center group"
+                  className="text-gray-300 hover:text-[#a99df1] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span className="w-2 h-2 bg-[#a99df1] rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Acheter une voiture
                 </Link>
               </li>
               <li>
                 <Link
                   href="/vente"
-                  className="text-gray-300 hover:text-red-500 transition-all duration-300 flex items-center group"
+                  className="text-gray-300 hover:text-[#a99df1] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span className="w-2 h-2 bg-[#a99df1] rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Vendre sa voiture
                 </Link>
               </li>
               <li>
                 <Link
                   href="/abonnement"
-                  className="text-gray-300 hover:text-red-500 transition-all duration-300 flex items-center group"
+                  className="text-gray-300 hover:text-[#a99df1] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span className="w-2 h-2 bg-[#a99df1] rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Abonnement
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="text-gray-300 hover:text-red-500 transition-all duration-300 flex items-center group"
+                  className="text-gray-300 hover:text-[#a99df1] transition-all duration-300 flex items-center group"
                 >
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  <span className="w-2 h-2 bg-[#a99df1] rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Contact
                 </Link>
               </li>
@@ -116,28 +116,28 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-6 text-white relative">
               Contact
-              <div className="absolute -bottom-2 left-0 w-12 h-1 bg-red-500 rounded-full"></div>
+              <div className="absolute -bottom-2 left-0 w-12 h-1 bg-[#a99df1] rounded-full"></div>
             </h3>
             <div className="space-y-6">
               <div className="flex items-center space-x-4 group">
-                <div className="p-2 bg-red-500/20 rounded-lg group-hover:bg-red-500/30 transition-colors">
-                  <Mail className="h-5 w-5 text-red-400" />
+                <div className="p-2 bg-[#a99df1]/80 rounded-lg group-hover:bg-[#a99df1]/70 transition-colors">
+                  <Mail className="h-5 w-5 text-[#3a3367]/80" />
                 </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors">
                   support@k Vroum.com
                 </span>
               </div>
               <div className="flex items-center space-x-4 group">
-                <div className="p-2 bg-red-500/20 rounded-lg group-hover:bg-red-500/30 transition-colors">
-                  <Phone className="h-5 w-5 text-red-400" />
+                <div className="p-2 bg-[#a99df1]/80 rounded-lg group-hover:bg-[#a99df1]/70 transition-colors">
+                  <Phone className="h-5 w-5 text-[#3a3367]/80" />
                 </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors">
                   +33 1 23 45 67 89
                 </span>
               </div>
               <div className="flex items-center space-x-4 group">
-                <div className="p-2 bg-red-500/20 rounded-lg group-hover:bg-red-500/30 transition-colors">
-                  <MapPin className="h-5 w-5 text-red-400" />
+                <div className="p-2 bg-[#a99df1]/80 rounded-lg group-hover:bg-[#a99df1]/70 transition-colors">
+                  <MapPin className="h-5 w-5 text-[#3a3367]/80" />
                 </div>
                 <span className="text-gray-300 group-hover:text-white transition-colors">
                   123 Avenue des Voitures, 75001 Paris
@@ -153,24 +153,24 @@ export default function Footer() {
               <p className="text-gray-400 text-sm">
                 © 2024 K Vroum. Tous droits réservés.
               </p>
-              <Heart className="h-4 w-4 text-red-500" />
+              <Heart className="h-4 w-4 text-[#a99df1]" />
             </div>
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 gap-y-2">
               <Link
                 href="/privacy"
-                className="text-gray-400 hover:text-red-500 text-sm transition-all duration-300 hover:underline"
+                className="text-gray-400 hover:text-[#a99df1] text-sm transition-all duration-300 hover:underline"
               >
                 Politique de confidentialité
               </Link>
               <Link
                 href="/terms"
-                className="text-gray-400 hover:text-red-500 text-sm transition-all duration-300 hover:underline"
+                className="text-gray-400 hover:text-[#a99df1] text-sm transition-all duration-300 hover:underline"
               >
                 Conditions d'utilisation
               </Link>
               <Link
                 href="/legal"
-                className="text-gray-400 hover:text-red-500 text-sm transition-all duration-300 hover:underline"
+                className="text-gray-400 hover:text-[#a99df1] text-sm transition-all duration-300 hover:underline"
               >
                 Mentions légales
               </Link>

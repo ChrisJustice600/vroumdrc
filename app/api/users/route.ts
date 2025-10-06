@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
 
     const user = await prisma.user.upsert({
       where: { id },
-      update: { phoneNumber, displayName: displayName ?? undefined },
-      create: { id, phoneNumber, displayName: displayName ?? undefined },
+      update: { phoneNumber, displayName: displayName ?? "" },
+      create: { id, phoneNumber, displayName: displayName ?? "" },
     });
     return new Response(JSON.stringify(user), { status: 200 });
   } catch {

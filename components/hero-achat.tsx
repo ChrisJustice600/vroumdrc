@@ -16,7 +16,7 @@ export function HeroAchat() {
           sizes="100vw"
         />
         {/* Red overlay */}
-        <div className="absolute inset-0 bg-red-600/80"></div>
+        <div className="absolute inset-0 bg-[#3a3367]/80"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

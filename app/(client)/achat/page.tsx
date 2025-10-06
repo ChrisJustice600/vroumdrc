@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { CarGridCard } from "@/components/car-grid-card";
 import { CarListCard } from "@/components/car-list-card";
 import { FiltersSidebar } from "@/components/filters-sidebar";
@@ -340,11 +342,11 @@ export default function Achat() {
 
       {/* Message de bienvenue avec filtres */}
       {showWelcome && (
-        <div className="bg-green-50 border border-green-200 rounded-lg mx-4 md:mx-8 lg:mx-16 p-4 mb-6 animate-in slide-in-from-top-2 duration-500">
+        <div className="bg-[#a99df1]/10 border border-[#3a3367]/20 rounded-lg mx-4 md:mx-8 lg:mx-16 p-4 mb-6 animate-in slide-in-from-top-2 duration-500">
           <div className="flex items-center gap-3">
-            <div className="bg-green-100 rounded-full p-2">
+            <div className="bg-[#3a3367]/20 rounded-full p-2">
               <svg
-                className="w-5 h-5 text-green-600"
+                className="w-5 h-5 text-[#3a3367]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -358,10 +360,10 @@ export default function Achat() {
               </svg>
             </div>
             <div>
-              <h3 className="text-green-800 font-semibold">
+              <h3 className="text-[#3a3367] font-semibold">
                 Recherche appliquée avec succès !
               </h3>
-              <p className="text-green-600 text-sm">
+              <p className="text-[#a99df1] text-sm">
                 Vos filtres ont été appliqués et les résultats sont affichés
                 ci-dessous.
               </p>
@@ -410,7 +412,7 @@ export default function Achat() {
                         setPriceRange([0, 1000000]);
                         setSelectedBodyTypes([]);
                       }}
-                      className="text-red-600 border-red-200 hover:bg-red-50"
+                      className="text-[#3a3367] border-[#3a3367]/20 hover:bg-[#a99df1]/10"
                     >
                       Effacer tout
                     </Button>
@@ -419,13 +421,13 @@ export default function Achat() {
                     {getActiveFilters().map((filter, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-2 bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium animate-in fade-in-0 slide-in-from-top-2 duration-300"
+                        className="inline-flex items-center gap-2 bg-[#3a3367]/10 text-[#3a3367] px-3 py-1 rounded-full text-sm font-medium animate-in fade-in-0 slide-in-from-top-2 duration-300"
                         style={{ animationDelay: `${index * 100}ms` }}
                       >
                         {filter.label}
                         <button
                           onClick={() => removeFilter(filter.type)}
-                          className="hover:bg-red-200 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                          className="hover:bg-[#3a3367]/20 rounded-full p-1 transition-all duration-200 hover:scale-110"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -440,14 +442,14 @@ export default function Achat() {
                 <div className="flex items-center gap-3">
                   {loading ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin text-red-600" />
+                      <Loader2 className="h-5 w-5 animate-spin text-[#3a3367]" />
                       <span className="text-gray-600">
                         Recherche en cours...
                       </span>
                       {loadingProgress > 0 && (
                         <div className="w-32 bg-gray-200 rounded-full h-2 ml-4">
                           <div
-                            className="bg-red-600 h-2 rounded-full transition-all duration-300 ease-out"
+                            className="bg-[#3a3367] h-2 rounded-full transition-all duration-300 ease-out"
                             style={{ width: `${loadingProgress}%` }}
                           />
                         </div>
@@ -457,7 +459,7 @@ export default function Achat() {
                     <p className="text-gray-600">
                       Affichage de 1 - {cars.length} sur {cars.length} résultats
                       {getActiveFilters().length > 0 && (
-                        <span className="ml-2 text-red-600 font-medium">
+                        <span className="ml-2 text-[#3a3367] font-medium">
                           (Filtrés)
                         </span>
                       )}
@@ -467,7 +469,7 @@ export default function Achat() {
 
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-600">Trier par :</span>
+                    <span className="text-gray-600 ">Trier par :</span>
                     <Select value={sortBy} onValueChange={setSortBy}>
                       <SelectTrigger className="w-48">
                         <SelectValue />
@@ -495,7 +497,9 @@ export default function Achat() {
                       size="sm"
                       onClick={() => setViewMode("grid")}
                       className={
-                        viewMode === "grid" ? "bg-red-500 hover:bg-red-600" : ""
+                        viewMode === "grid"
+                          ? "bg-[#a99df1] hover:bg-[#2a2547]"
+                          : ""
                       }
                     >
                       <Grid3X3 className="h-4 w-4" />
@@ -505,7 +509,9 @@ export default function Achat() {
                       size="sm"
                       onClick={() => setViewMode("list")}
                       className={
-                        viewMode === "list" ? "bg-red-500 hover:bg-red-600" : ""
+                        viewMode === "list"
+                          ? "bg-[#3a3367] hover:bg-[#2a2547]"
+                          : ""
                       }
                     >
                       <List className="h-4 w-4" />

@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = "force-dynamic";
+
 import { Navbar } from "@/components/navbar/navbar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -262,7 +264,9 @@ export default function CarSinglePage() {
                 <div className="relative h-[28rem] w-full">
                   <Image
                     src={carData.images[selectedImage]}
-                    alt={`${carData.brand} ${carData.model} - Image ${selectedImage + 1}`}
+                    alt={`${carData.brand} ${carData.model} - Image ${
+                      selectedImage + 1
+                    }`}
                     fill
                     className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                   />
@@ -316,18 +320,20 @@ export default function CarSinglePage() {
                         onClick={() => setSelectedImage(index)}
                         className={`snap-start flex-shrink-0 relative w-24 h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                           selectedImage === index
-                            ? "border-red-500 ring-2 ring-red-300"
-                            : "border-neutral-200 hover:border-red-400"
+                            ? "border-[#a99df1] ring-2 ring-red-300"
+                            : "border-neutral-200 hover:border-[#3a3367]"
                         }`}
                       >
                         <Image
                           src={image}
-                          alt={`Miniature ${index + 1} - ${carData.brand} ${carData.model}`}
+                          alt={`Miniature ${index + 1} - ${carData.brand} ${
+                            carData.model
+                          }`}
                           fill
                           className="object-cover"
                         />
                         {selectedImage === index && (
-                          <div className="absolute inset-0 bg-red-500/20" />
+                          <div className="absolute inset-0 bg-[#a99df1]/20" />
                         )}
                       </button>
                     ))}
@@ -340,7 +346,7 @@ export default function CarSinglePage() {
             <div className="lg:col-span-1">
               <div className="space-y-6">
                 {/* Price and Offer Section */}
-                <div className="bg-red-500 rounded-lg p-6 text-white">
+                <div className="bg-[#a99df1] rounded-lg p-6 text-white">
                   <div className="flex items-center justify-between mb-4">
                     <span className="bg-black text-white text-xs font-medium px-3 py-1 rounded-full">
                       {carData.category}
@@ -393,7 +399,7 @@ export default function CarSinglePage() {
                         }
                         className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
                           has(carData.id)
-                            ? "bg-white text-red-500"
+                            ? "bg-white text-[#a99df1]"
                             : "bg-white/20 hover:bg-white/30"
                         }`}
                         aria-label={
@@ -425,7 +431,7 @@ export default function CarSinglePage() {
                     Détails du vendeur :
                   </h3>
                   <div className="flex items-center space-x-4 mb-4">
-                    <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    <div className="w-12 h-12 bg-[#a99df1] rounded-full flex items-center justify-center text-white font-bold text-lg">
                       {carData.brand.charAt(0)}
                     </div>
                     <div>
@@ -446,7 +452,7 @@ export default function CarSinglePage() {
                   {/* Localisation exacte de la voiture */}
                   <div className="mb-4 p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center space-x-2 text-sm text-gray-700">
-                      <MapPin className="w-4 h-4 text-red-500" />
+                      <MapPin className="w-4 h-4 text-[#a99df1]" />
                       <span className="font-medium">
                         Localisation du véhicule :
                       </span>
@@ -496,7 +502,7 @@ export default function CarSinglePage() {
                     </Button>
                     <Link
                       href="#"
-                      className="block text-center text-sm text-gray-500 underline hover:text-red-500"
+                      className="block text-center text-sm text-gray-500 underline hover:text-[#a99df1]"
                     >
                       Voir tout le stock de ce vendeur
                     </Link>
@@ -504,7 +510,7 @@ export default function CarSinglePage() {
                 </div>
 
                 {/* Safety Tips Section */}
-                <div className="bg-red-500 rounded-lg p-6 text-white">
+                <div className="bg-[#a99df1] rounded-lg p-6 text-white">
                   <h3 className="text-lg font-bold mb-4">
                     Conseils de sécurité
                   </h3>{" "}
@@ -529,7 +535,7 @@ export default function CarSinglePage() {
           <div className="lg:col-span-2">
             <div className="mt-8 bg-white rounded-lg shadow-lg p-6 w-full lg:w-[65%]">
               <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-                <div className="w-1 h-8 bg-red-500 mr-3 rounded-full"></div>|
+                <div className="w-1 h-8 bg-[#a99df1] mr-3 rounded-full"></div>|
                 Aperçu du véhicule :
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
@@ -537,7 +543,7 @@ export default function CarSinglePage() {
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -550,7 +556,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Star className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Star className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -563,7 +569,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Gauge className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Gauge className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -576,7 +582,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -589,7 +595,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Fuel className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Fuel className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -606,7 +612,7 @@ export default function CarSinglePage() {
                 <div className="space-y-3 sm:space-y-4">
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -619,7 +625,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -632,7 +638,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -645,7 +651,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
@@ -658,7 +664,7 @@ export default function CarSinglePage() {
                   </div>
                   <div className="flex items-center space-x-2 sm:space-x-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 sm:w-8 sm:h-8 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
+                      <Settings className="w-3 h-3 sm:w-4 sm:h-4 text-[#a99df1]" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <span className="text-xs sm:text-sm text-gray-500">
