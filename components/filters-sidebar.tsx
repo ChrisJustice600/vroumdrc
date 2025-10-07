@@ -175,10 +175,10 @@ export function FiltersSidebar({
   ]);
 
   return (
-    <div className="w-80 bg-white rounded-lg p-6 h-fit sticky top-24">
+    <div className="w-full lg:w-80 bg-white rounded-lg p-4 sm:p-6 h-fit lg:sticky lg:top-24">
       {/* Header with toggle and reset */}
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-base sm:text-lg font-semibold text-gray-900">
           Filtres
           {activeFiltersCount > 0 && (
             <span className="ml-2 bg-[#a99df1] text-white text-xs px-2 py-1 rounded-full">
@@ -192,16 +192,16 @@ export function FiltersSidebar({
               variant="outline"
               size="sm"
               onClick={resetFilters}
-              className="text-red-600 border-red-200 hover:bg-red-50"
+              className="text-red-600 border-red-200 hover:bg-red-50 h-8 w-8 p-0"
             >
-              <RotateCcw className="h-4 w-4" />
+              <RotateCcw className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </Button>
           )}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-gray-500"
+            className="text-gray-500 text-xs sm:text-sm h-8 px-2 sm:px-3"
           >
             {isExpanded ? "Masquer" : "Afficher"}
           </Button>
@@ -209,10 +209,10 @@ export function FiltersSidebar({
       </div>
 
       {isExpanded && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Search */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Recherche
             </label>
             <div className="relative">
@@ -220,14 +220,14 @@ export function FiltersSidebar({
                 placeholder="Marque, modèle, ville..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pr-10 h-10"
+                className="pr-10 h-9 sm:h-10 text-sm"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
                   className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                 </button>
               )}
             </div>
@@ -235,7 +235,7 @@ export function FiltersSidebar({
 
           {/* Price Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Prix ($)
             </label>
             <div className="px-2">
@@ -245,9 +245,9 @@ export function FiltersSidebar({
                 max={1000000}
                 min={0}
                 step={1000}
-                className="mb-4"
+                className="mb-3 sm:mb-4"
               />
-              <div className="flex justify-between text-sm text-gray-600">
+              <div className="flex justify-between text-xs sm:text-sm text-gray-600">
                 <span>
                   {priceRange[0] === 0
                     ? "0 $"
@@ -264,11 +264,11 @@ export function FiltersSidebar({
 
           {/* Brand Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Marque
             </label>
             <Select value={selectedBrand} onValueChange={setSelectedBrand}>
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Toutes les marques" />
               </SelectTrigger>
               <SelectContent>
@@ -283,11 +283,11 @@ export function FiltersSidebar({
 
           {/* Model Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Modèle
             </label>
             <Select value={selectedModel} onValueChange={setSelectedModel}>
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Tous les modèles" />
               </SelectTrigger>
               <SelectContent>
@@ -302,11 +302,11 @@ export function FiltersSidebar({
 
           {/* Year Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Année
             </label>
             <Select value={selectedYear} onValueChange={setSelectedYear}>
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Toutes les années" />
               </SelectTrigger>
               <SelectContent>
@@ -321,11 +321,11 @@ export function FiltersSidebar({
 
           {/* Fuel Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Carburant
             </label>
             <Select value={selectedFuel} onValueChange={setSelectedFuel}>
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Tous les carburants" />
               </SelectTrigger>
               <SelectContent>
@@ -340,14 +340,14 @@ export function FiltersSidebar({
 
           {/* Transmission Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Transmission
             </label>
             <Select
               value={selectedTransmission}
               onValueChange={setSelectedTransmission}
             >
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Toutes les transmissions" />
               </SelectTrigger>
               <SelectContent>
@@ -362,14 +362,14 @@ export function FiltersSidebar({
 
           {/* Condition Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               État
             </label>
             <Select
               value={selectedCondition}
               onValueChange={setSelectedCondition}
             >
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Tous les états" />
               </SelectTrigger>
               <SelectContent>
@@ -384,14 +384,14 @@ export function FiltersSidebar({
 
           {/* Mileage Range Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
               Kilométrage
             </label>
             <Select
               value={selectedMileageRange}
               onValueChange={setSelectedMileageRange}
             >
-              <SelectTrigger className="h-10">
+              <SelectTrigger className="h-9 sm:h-10 text-sm">
                 <SelectValue placeholder="Tous les kilométrages" />
               </SelectTrigger>
               <SelectContent>
@@ -406,10 +406,10 @@ export function FiltersSidebar({
 
           {/* Body Type Filter */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-3">
               Carrosserie
             </label>
-            <div className="space-y-2 max-h-32 overflow-y-auto">
+            <div className="space-y-2 max-h-48 sm:max-h-32 overflow-y-auto">
               {mockData.bodyTypes.map((bodyType) => (
                 <div key={bodyType} className="flex items-center space-x-2">
                   <Checkbox
@@ -422,7 +422,7 @@ export function FiltersSidebar({
                   />
                   <label
                     htmlFor={bodyType}
-                    className="text-sm text-gray-700 cursor-pointer flex-1"
+                    className="text-xs sm:text-sm text-gray-700 cursor-pointer flex-1"
                   >
                     {bodyType}
                   </label>

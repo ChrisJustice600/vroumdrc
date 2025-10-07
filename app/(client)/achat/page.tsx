@@ -15,8 +15,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Grid3X3, List, Loader2, X } from "lucide-react";
+import { Filter, Grid3X3, List, Loader2, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
@@ -46,6 +54,7 @@ function AchatContent() {
   const [initialLoad, setInitialLoad] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [showWelcome, setShowWelcome] = useState(false);
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
   const [filters, setFilters] = useState<{
     searchQuery: string;
     brand: string;
@@ -69,6 +78,22 @@ function AchatContent() {
     priceRange: [0, 1000000],
     bodyTypes: [],
   });
+
+  // Forcer le mode grille sur mobile
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setViewMode("grid");
+      }
+    };
+
+    // Vérifier au chargement
+    handleResize();
+
+    // Écouter les changements de taille
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Appliquer les filtres de l'URL au chargement
   useEffect(() => {
@@ -342,11 +367,11 @@ function AchatContent() {
 
       {/* Message de bienvenue avec filtres */}
       {showWelcome && (
-        <div className="bg-[#a99df1]/10 border border-[#3a3367]/20 rounded-lg mx-4 md:mx-8 lg:mx-16 p-4 mb-6 animate-in slide-in-from-top-2 duration-500">
-          <div className="flex items-center gap-3">
-            <div className="bg-[#3a3367]/20 rounded-full p-2">
+        <div className="bg-[#a99df1]/10 border border-[#3a3367]/20 rounded-lg mx-2 sm:mx-4 md:mx-8 lg:mx-16 p-3 sm:p-4 mb-4 md:mb-6 animate-in slide-in-from-top-2 duration-500">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="bg-[#3a3367]/20 rounded-full p-1.5 sm:p-2 flex-shrink-0">
               <svg
-                className="w-5 h-5 text-[#3a3367]"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-[#3a3367]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -360,10 +385,10 @@ function AchatContent() {
               </svg>
             </div>
             <div>
-              <h3 className="text-[#3a3367] font-semibold">
+              <h3 className="text-[#3a3367] font-semibold text-sm sm:text-base">
                 Recherche appliquée avec succès !
               </h3>
-              <p className="text-[#a99df1] text-sm">
+              <p className="text-[#a99df1] text-xs sm:text-sm">
                 Vos filtres ont été appliqués et les résultats sont affichés
                 ci-dessous.
               </p>
@@ -372,25 +397,73 @@ function AchatContent() {
         </div>
       )}
 
-      <div className="pt-8">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex gap-8">
-            {/* Sidebar Filters */}
-            <FiltersSidebar
-              priceRange={priceRange}
-              onPriceRangeChange={setPriceRange}
-              selectedBodyTypes={selectedBodyTypes}
-              onBodyTypeChange={handleBodyTypeChange}
-              onFiltersChange={setFilters}
-            />
+      <div className="pt-4 md:pt-8">
+        <div className="container mx-auto px-2 sm:px-4 py-4 md:py-8">
+          {/* Mobile Filters Button */}
+          <div className="lg:hidden mb-4">
+            <Sheet
+              open={isMobileFiltersOpen}
+              onOpenChange={setIsMobileFiltersOpen}
+            >
+              <SheetTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="w-full border-[#3a3367]/20 text-[#3a3367] hover:bg-[#a99df1]/10"
+                >
+                  <Filter className="h-4 w-4 mr-2" />
+                  Filtres
+                  {(filters.searchQuery ||
+                    filters.brand ||
+                    filters.condition ||
+                    selectedBodyTypes.length > 0) && (
+                    <span className="ml-2 bg-[#a99df1] text-white text-xs px-2 py-0.5 rounded-full">
+                      {getActiveFilters().length}
+                    </span>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="left"
+                className="w-full sm:w-96 overflow-y-auto p-0"
+              >
+                <SheetHeader className="p-6 pb-4">
+                  <SheetTitle>Filtres de recherche</SheetTitle>
+                  <SheetDescription>
+                    Affinez votre recherche de voiture
+                  </SheetDescription>
+                </SheetHeader>
+                <div className="px-6 pb-6">
+                  <FiltersSidebar
+                    priceRange={priceRange}
+                    onPriceRangeChange={setPriceRange}
+                    selectedBodyTypes={selectedBodyTypes}
+                    onBodyTypeChange={handleBodyTypeChange}
+                    onFiltersChange={setFilters}
+                  />
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          <div className="flex gap-4 lg:gap-8">
+            {/* Desktop Sidebar Filters - Hidden on mobile */}
+            <div className="hidden lg:block">
+              <FiltersSidebar
+                priceRange={priceRange}
+                onPriceRangeChange={setPriceRange}
+                selectedBodyTypes={selectedBodyTypes}
+                onBodyTypeChange={handleBodyTypeChange}
+                onFiltersChange={setFilters}
+              />
+            </div>
 
             {/* Main Content */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               {/* Active Filters */}
               {getActiveFilters().length > 0 && (
-                <div className="mb-6">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-lg font-semibold text-gray-900">
+                <div className="mb-4 md:mb-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                    <h3 className="text-base md:text-lg font-semibold text-gray-900">
                       Filtres appliqués
                     </h3>
                     <Button
@@ -412,7 +485,7 @@ function AchatContent() {
                         setPriceRange([0, 1000000]);
                         setSelectedBodyTypes([]);
                       }}
-                      className="text-[#3a3367] border-[#3a3367]/20 hover:bg-[#a99df1]/10"
+                      className="text-[#3a3367] border-[#3a3367]/20 hover:bg-[#a99df1]/10 w-full sm:w-auto"
                     >
                       Effacer tout
                     </Button>
@@ -421,13 +494,15 @@ function AchatContent() {
                     {getActiveFilters().map((filter, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center gap-2 bg-[#3a3367]/10 text-[#3a3367] px-3 py-1 rounded-full text-sm font-medium animate-in fade-in-0 slide-in-from-top-2 duration-300"
+                        className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#3a3367]/10 text-[#3a3367] px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium animate-in fade-in-0 slide-in-from-top-2 duration-300"
                         style={{ animationDelay: `${index * 100}ms` }}
                       >
-                        {filter.label}
+                        <span className="truncate max-w-[150px] sm:max-w-none">
+                          {filter.label}
+                        </span>
                         <button
                           onClick={() => removeFilter(filter.type)}
-                          className="hover:bg-[#3a3367]/20 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                          className="hover:bg-[#3a3367]/20 rounded-full p-0.5 sm:p-1 transition-all duration-200 hover:scale-110 flex-shrink-0"
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -438,16 +513,16 @@ function AchatContent() {
               )}
 
               {/* Header avec loader */}
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4 md:mb-6">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {loading ? (
                     <>
-                      <Loader2 className="h-5 w-5 animate-spin text-[#3a3367]" />
-                      <span className="text-gray-600">
+                      <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin text-[#3a3367]" />
+                      <span className="text-sm sm:text-base text-gray-600">
                         Recherche en cours...
                       </span>
                       {loadingProgress > 0 && (
-                        <div className="w-32 bg-gray-200 rounded-full h-2 ml-4">
+                        <div className="w-24 sm:w-32 bg-gray-200 rounded-full h-2">
                           <div
                             className="bg-[#3a3367] h-2 rounded-full transition-all duration-300 ease-out"
                             style={{ width: `${loadingProgress}%` }}
@@ -456,10 +531,10 @@ function AchatContent() {
                       )}
                     </>
                   ) : (
-                    <p className="text-gray-600">
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600">
                       Affichage de 1 - {cars.length} sur {cars.length} résultats
                       {getActiveFilters().length > 0 && (
-                        <span className="ml-2 text-[#3a3367] font-medium">
+                        <span className="ml-1 sm:ml-2 text-[#3a3367] font-medium">
                           (Filtrés)
                         </span>
                       )}
@@ -467,11 +542,13 @@ function AchatContent() {
                   )}
                 </div>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-600 ">Trier par :</span>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
+                  <div className="flex items-center gap-2 flex-1 sm:flex-initial">
+                    <span className="text-xs sm:text-sm text-gray-600 whitespace-nowrap">
+                      Trier par :
+                    </span>
                     <Select value={sortBy} onValueChange={setSortBy}>
-                      <SelectTrigger className="w-48">
+                      <SelectTrigger className="w-full sm:w-48 h-9 text-xs sm:text-sm">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -491,7 +568,8 @@ function AchatContent() {
                     </Select>
                   </div>
 
-                  <div className="flex border rounded-lg overflow-hidden">
+                  {/* View Mode Toggle - Hidden on mobile (< 640px) */}
+                  <div className="hidden sm:flex border rounded-lg overflow-hidden">
                     <Button
                       variant={viewMode === "grid" ? "default" : "ghost"}
                       size="sm"
@@ -525,8 +603,8 @@ function AchatContent() {
                 <div
                   className={
                     viewMode === "grid"
-                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
-                      : "space-y-4"
+                      ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
+                      : "space-y-3 sm:space-y-4"
                   }
                 >
                   {Array.from({ length: 6 }).map((_, i) => (
@@ -576,8 +654,8 @@ function AchatContent() {
                 <div
                   className={
                     viewMode === "grid"
-                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
-                      : "space-y-4"
+                      ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
+                      : "space-y-3 sm:space-y-4"
                   }
                 >
                   {Array.from({ length: Math.max(cars.length, 3) }).map(
@@ -626,15 +704,17 @@ function AchatContent() {
                   )}
                 </div>
               ) : cars.length === 0 ? (
-                <div className="text-center py-16 text-gray-600">
-                  Aucun résultat pour ces filtres.
+                <div className="text-center py-12 md:py-16 px-4 text-gray-600">
+                  <p className="text-sm md:text-base">
+                    Aucun résultat pour ces filtres.
+                  </p>
                 </div>
               ) : (
                 <div
                   className={
                     viewMode === "grid"
-                      ? "grid grid-cols-1 md:grid-cols-2 gap-6"
-                      : "space-y-4"
+                      ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 md:gap-6"
+                      : "space-y-3 sm:space-y-4"
                   }
                 >
                   {cars.map((car, index) =>
