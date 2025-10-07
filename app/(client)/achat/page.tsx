@@ -18,7 +18,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Grid3X3, List, Loader2, X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 type DbCar = {
   id: string;
@@ -35,7 +35,7 @@ type DbCar = {
   views: number;
 };
 
-export default function Achat() {
+function AchatContent() {
   const searchParams = useSearchParams();
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
   const [selectedBodyTypes, setSelectedBodyTypes] = useState<string[]>([]);
@@ -705,5 +705,13 @@ export default function Achat() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Achat() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <AchatContent />
+    </Suspense>
   );
 }

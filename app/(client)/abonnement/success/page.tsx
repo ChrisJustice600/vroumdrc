@@ -6,7 +6,7 @@ import { Navbar } from "@/components/navbar/navbar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Clock } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 
 type MeSubscription = {
   hasSubscription: boolean;
@@ -16,7 +16,7 @@ type MeSubscription = {
   paymentId?: string;
 };
 
-export default function AbonnementSuccessPage() {
+function AbonnementSuccessContent() {
   const params = useSearchParams();
   const ref = params.get("ref") || "";
 
@@ -90,5 +90,13 @@ export default function AbonnementSuccessPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AbonnementSuccessPage() {
+  return (
+    <Suspense fallback={<div>Chargement...</div>}>
+      <AbonnementSuccessContent />
+    </Suspense>
   );
 }
